@@ -1,14 +1,14 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = the_snake.cpp
+OBJS = the_snake.cpp snake_game.cpp
 
 #CC specifies which compiler we're using
-CC = gcc
+CC = g++
 
 #COMPILER_FLAGS specifies the additional compilation options we're using
 COMPILER_FLAGS = -Wall
 
 #LINKER_FLAGS specifies the libraries we're linking against
-LINKER_FLAGS = -lSDL2
+LINKER_FLAGS = -lSDL2 -lSDL2_image #-lSDL2_ttf -lSDL2_mixer
 
 #OBJ_NAME specifies the name of our exectuable
 OBJ_NAME = the_snake

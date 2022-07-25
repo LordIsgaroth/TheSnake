@@ -2,7 +2,11 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <string> 
+#include <string>
+
+#include "game_window.hpp"
+#include "renderer.hpp"
+#include "sprite.hpp"
 
 class SnakeGame
 {
@@ -14,12 +18,11 @@ private:
     const int SCREEN_WIDTH = 1024;
     const int SCREEN_HEIGHT = 768;
 
-    SDL_Window *mainWindow = nullptr;
-    //SDL_Surface *screenSurface = nullptr;
+    GameWindow *mainWindow = nullptr;
+    Renderer* renderer = nullptr;
 
     bool Init();
     void MainLoop();
     void Close();
 
-    //SDL_Surface* loadSurface(std::string path);
 };

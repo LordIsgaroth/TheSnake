@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon Jul  4 11:26:23 2022
+# Make data base, printed on Mon Jul 25 10:21:52 2022
 
 # Variables
 
@@ -26,8 +26,6 @@ XDG_SESSION_CLASS = user
 SNAP_COMMON = /var/snap/code/common
 # environment
 XDG_SESSION_TYPE = x11
-# environment
-VSCODE_LOG_NATIVE = false
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
@@ -45,11 +43,11 @@ CURDIR := /home/jared_kane/Projects/Source/C++/TheSnake
 # makefile
 SHELL = /bin/sh
 # environment
-SNAP_DATA = /var/snap/code/99
+SNAP_DATA = /var/snap/code/102
 # environment
-VSCODE_NLS_CONFIG = {"locale":"ru","availableLanguages":{"*":"ru"},"_languagePackId":"4165c719fdf7a78444ed970b4565033b.ru","_translationsConfigFile":"/home/jared_kane/.config/Code/clp/4165c719fdf7a78444ed970b4565033b.ru/tcf.json","_cacheRoot":"/home/jared_kane/.config/Code/clp/4165c719fdf7a78444ed970b4565033b.ru","_resolvedLanguagePackCoreLocation":"/home/jared_kane/.config/Code/clp/4165c719fdf7a78444ed970b4565033b.ru/30d9c6cd9483b2cc586687151bcbcd635f373630","_corruptedFile":"/home/jared_kane/.config/Code/clp/4165c719fdf7a78444ed970b4565033b.ru/corrupted.info","_languagePackSupport":true}
+VSCODE_NLS_CONFIG = {"locale":"ru","availableLanguages":{"*":"ru"},"_languagePackId":"4165c719fdf7a78444ed970b4565033b.ru","_translationsConfigFile":"/home/jared_kane/.config/Code/clp/4165c719fdf7a78444ed970b4565033b.ru/tcf.json","_cacheRoot":"/home/jared_kane/.config/Code/clp/4165c719fdf7a78444ed970b4565033b.ru","_resolvedLanguagePackCoreLocation":"/home/jared_kane/.config/Code/clp/4165c719fdf7a78444ed970b4565033b.ru/3b889b090b5ad5793f524b5d1d39fda662b96a2a","_corruptedFile":"/home/jared_kane/.config/Code/clp/4165c719fdf7a78444ed970b4565033b.ru/corrupted.info","_languagePackSupport":true}
 # environment
-JOURNAL_STREAM = 8:44851
+JOURNAL_STREAM = 8:47716
 # environment
 XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
 # environment
@@ -69,19 +67,17 @@ XDG_DATA_DIRS = /usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/d
 # environment
 DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
 # environment
-VSCODE_VERBOSE_LOGGING = true
-# environment
-_ = /snap/code/99/usr/share/code/code
+_ = /snap/code/102/usr/share/code/code
 # makefile (from 'Makefile', line 2)
-OBJS = the_snake.cpp snake_game.cpp
+OBJS = game_window.cpp renderer.cpp sprite.cpp the_snake.cpp snake_game.cpp 
 # environment
-MANAGERPID = 1480
+MANAGERPID = 1682
 # environment
 LESSOPEN = | /usr/bin/lesspipe %s
 # environment
 VSCODE_CWD = /home/jared_kane
 # environment
-GSETTINGS_SCHEMA_DIR = /snap/code/99/usr/share/glib-2.0/schemas
+GSETTINGS_SCHEMA_DIR = /snap/code/102/usr/share/glib-2.0/schemas
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
@@ -89,27 +85,25 @@ PATH = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/
 # environment
 GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
-SESSION_MANAGER = local/node-transferable:@/tmp/.ICE-unix/1697,unix/node-transferable:/tmp/.ICE-unix/1697
+SESSION_MANAGER = local/node-transferable:@/tmp/.ICE-unix/1896,unix/node-transferable:/tmp/.ICE-unix/1896
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
 GDK_PIXBUF_MODULE_FILE = /home/jared_kane/snap/code/common/.cache/gdk-pixbuf-loaders.cache
 # environment
-SNAP = /snap/code/99
+SNAP = /snap/code/102
 # environment
-SNAP_VERSION = 30d9c6cd
+SNAP_VERSION = 3b889b09
 # environment
 XDG_MENU_PREFIX = gnome-
-# environment
-VSCODE_LOG_STACK = false
 # environment
 DISABLE_WAYLAND = 1
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-INVOCATION_ID = 669ca049688b4bfb84b268db2ce7c89d
+INVOCATION_ID = 38b291d6c0fa4582b25773cd526d1211
 # environment
-GDK_PIXBUF_MODULEDIR = /snap/code/99/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders
+GDK_PIXBUF_MODULEDIR = /snap/code/102/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -119,13 +113,11 @@ XDG_SESSION_DESKTOP = ubuntu
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 2171
+GIO_LAUNCHED_DESKTOP_FILE_PID = 5356
 # automatic
 %F = $(notdir $%)
 # environment
 DISPLAY = :0
-# environment
-VSCODE_PIPE_LOGGING = true
 # environment
 SNAP_INSTANCE_KEY = 
 # environment
@@ -133,7 +125,7 @@ PWD = /home/jared_kane/Projects/Source/C++/TheSnake
 # default
 .LOADED := 
 # environment
-SSH_AGENT_PID = 1658
+SSH_AGENT_PID = 1858
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
 # makefile (from 'Makefile', line 11)
@@ -149,11 +141,11 @@ LESSCLOSE = /usr/bin/lesspipe %s %s
 # environment
 VSCODE_CLI = 1
 # environment
-VSCODE_CODE_CACHE_PATH = /home/jared_kane/.config/Code/CachedData/30d9c6cd9483b2cc586687151bcbcd635f373630
+VSCODE_CODE_CACHE_PATH = /home/jared_kane/.config/Code/CachedData/3b889b090b5ad5793f524b5d1d39fda662b96a2a
 # environment
 LOGNAME = jared_kane
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
 SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd/void
 # environment
@@ -181,21 +173,19 @@ COMPILER_FLAGS = -Wall
 # environment
 QT_IM_MODULE = ibus
 # environment
-SNAP_USER_DATA = /home/jared_kane/snap/code/99
+SNAP_USER_DATA = /home/jared_kane/snap/code/102
 # environment
 SHLVL = 0
 # makefile (from 'Makefile', line 5)
 CC = g++
 # environment
 GNOME_SHELL_SESSION_MODE = ubuntu
-# environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-654b2707-c645-4aba-80a4-325d24168266.sock
 # default
 MAKE_VERSION := 4.2.1
 # environment
 USER = jared_kane
 # environment
-SNAP_REVISION = 99
+SNAP_REVISION = 102
 # makefile
 .DEFAULT_GOAL := all
 # environment
@@ -209,7 +199,7 @@ MAKE_COMMAND := make
 # automatic
 *F = $(notdir $*)
 # environment
-VSCODE_IPC_HOOK = /run/user/1000/vscode-99458934-1.68.1-main.sock
+VSCODE_IPC_HOOK = /run/user/1000/vscode-99458934-1.69.2-main.sock
 # environment
 BAMF_DESKTOP_FILE_HINT = /var/lib/snapd/desktop/applications/code_code.desktop
 # makefile
@@ -259,9 +249,9 @@ OBJ_NAME = the_snake
 # environment
 LANG = C
 # environment
-VSCODE_PID = 2220
+VSCODE_PID = 5407
 # variable set hash-table stats:
-# Load=125/1024=12%, Rehash=0, Collisions=21/159=13%
+# Load=120/1024=12%, Rehash=0, Collisions=20/154=13%
 
 # Pattern-specific Variable Values
 
@@ -269,9 +259,9 @@ VSCODE_PID = 2220
 
 # Directories
 
-# . (device 66306, inode 656117): 12 files, no impossibilities.
+# . (device 66306, inode 656117): 18 files, no impossibilities.
 
-# 12 files, no impossibilities in 1 directories.
+# 18 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -279,7 +269,7 @@ VSCODE_PID = 2220
 
 # Files
 
-all: the_snake.cpp snake_game.cpp
+all: game_window.cpp renderer.cpp sprite.cpp the_snake.cpp snake_game.cpp
 #  Command line target.
 #  Implicit rule search has not been done.
 #  Implicit/static pattern stem: ''
@@ -293,17 +283,17 @@ all: the_snake.cpp snake_game.cpp
 # automatic
 # * := 
 # automatic
-# + := the_snake.cpp snake_game.cpp
+# + := game_window.cpp renderer.cpp sprite.cpp the_snake.cpp snake_game.cpp
 # automatic
 # | := 
 # automatic
-# < := the_snake.cpp
+# < := game_window.cpp
 # automatic
-# ^ := the_snake.cpp snake_game.cpp
+# ^ := game_window.cpp renderer.cpp sprite.cpp the_snake.cpp snake_game.cpp
 # automatic
- 
-# ? := the_snake.cpp snake_game.cpp
+# ? := game_window.cpp renderer.cpp sprite.cpp the_snake.cpp snake_game.cpp
 # variable set hash-table stats:
+ 
 # Load=8/32=25%, Rehash=0, Collisions=2/16=12%
 #  recipe to execute (from 'Makefile', line 18):
 	$(CC) $(OBJS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
@@ -311,7 +301,14 @@ all: the_snake.cpp snake_game.cpp
 # Not a target:
 the_snake.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-04 09:40:34.014585222
+#  Last modified 2022-07-07 16:30:04.140948472
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+game_window.cpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-07 16:01:29.155786289
 #  File has been updated.
 #  Successfully updated.
 
@@ -324,7 +321,21 @@ the_snake.cpp:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-04 11:06:32.004395814
+#  Last modified 2022-07-07 12:36:17.210604358
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+renderer.cpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-07 17:30:37.940004735
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+sprite.cpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-07 17:26:31.229847949
 #  File has been updated.
 #  Successfully updated.
 
@@ -337,24 +348,24 @@ Makefile:
 # Not a target:
 snake_game.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-04 10:45:05.822644999
+#  Last modified 2022-07-07 17:38:48.831497493
 #  File has been updated.
 #  Successfully updated.
 
 # files hash-table stats:
-# Load=6/1024=1%, Rehash=0, Collisions=0/20=0%
+# Load=9/1024=1%, Rehash=0, Collisions=0/26=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 17 / storage = 166 B / avg = 9 B
-# current buf: size = 8162 B / used = 166 B / count = 17 / avg = 9 B
+# strcache buffers: 1 (0) / strings = 23 / storage = 246 B / avg = 10 B
+# current buf: size = 8162 B / used = 246 B / count = 23 / avg = 10 B
 
-# strcache performance: lookups = 26 / hit rate = 34%
+# strcache performance: lookups = 35 / hit rate = 34%
 # hash-table stats:
-# Load=17/8192=0%, Rehash=0, Collisions=1/26=4%
-# Finished Make data base on Mon Jul  4 11:26:23 2022
+# Load=23/8192=0%, Rehash=0, Collisions=1/35=3%
+# Finished Make data base on Mon Jul 25 10:21:52 2022
 
  

@@ -4,8 +4,15 @@
 
 int main()
 {
-    SnakeGame game;
-    game.Start();
+    try
+    {
+        SnakeGame game;
+        game.Start();
+    }
+    catch(const char* e)
+    {
+        printf("%s\n", e);
+    }
 
     return 0;
 }

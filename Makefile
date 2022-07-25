@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = the_snake.cpp snake_game.cpp
+OBJS = game_window.cpp renderer.cpp sprite.cpp the_snake.cpp snake_game.cpp 
 
 #CC specifies which compiler we're using
 CC = g++

@@ -4,42 +4,69 @@ SnakeGame::SnakeGame() {}
 
 void SnakeGame::Start()
 {
-    if(!Init()) throw "Init failed!";
+    mainWindow = new GameWindow("The Snake", SCREEN_WIDTH, SCREEN_HEIGHT);
+    //GameWindow _secondWindow("The Snake - main menu", SCREEN_WIDTH, SCREEN_HEIGHT);
+    
+    renderer = new Renderer(mainWindow);
+
+    Sprite* headSp = renderer->CreateSprite("Graphics/head_up.png");
+
+    int posX = (SCREEN_WIDTH - headSp->Width()) / 2;
+    int posY = (SCREEN_HEIGHT - headSp->Height()) / 2;
+
+    renderer->DrawSprite(headSp, posX, posY);
+
+    //if(!Init()) throw "Init failed!";
+
+    
 
     //SDL_FillRects(screenSurface, NULL, 1, SDL_MapRGB(screenSurface->format, 0x00, 0x00, 0x00));
     //SDL_UpdateWindowSurface(mainWindow);
 
-    SDL_Surface *head = IMG_Load("Graphics/head_up.png"); 
+    // SDL_Surface *head = IMG_Load("Graphics/head_up.png"); 
 
-    SDL_Renderer *renderer = SDL_CreateRenderer(mainWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    // SDL_Renderer *renderer = SDL_CreateRenderer(mainWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    //  SDL_Surface *head = IMG_Load("Graphics/head_up.png"); 
 
-    if(renderer == nullptr )
-    {
-        printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );    
-    }
+    // if(renderer == nullptr )
+    // {
+    //     printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );    
+    // }
 
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-
-    SDL_Texture *headTx = SDL_CreateTextureFromSurface(renderer, head);    
-
-    if(headTx == nullptr)
-    {
-        printf( "Unable to create texture! SDL Error: %s\n", SDL_GetError() );
-    }
+    // SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 
 
-    //SDL_Texture *headTx = IMG_LoadTexture(renderer, "Graphics/head_up.png");
+    // //SDL_Texture *headTx = IMG_LoadTexture(renderer, "Graphics/head_up.png");
 
-    SDL_Rect rectHead;
-    rectHead.h = head->h;
-    rectHead.w = head->w;
-    rectHead.x = (SCREEN_WIDTH - head->w) / 2;
-    rectHead.y  = (SCREEN_HEIGHT - head->h) / 2;
+    
+    
+    // if(renderer == nullptr )
+    // {
+    //     printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );    
+    // }
 
-    SDL_RenderClear(renderer); //Очистка рендера
-    //SDL_RenderCopy(renderer,background,NULL,&background_RECT); //Копируем в рендер фон
-    SDL_RenderCopy(renderer, headTx, NULL, &rectHead); //Копируем в рендер персонажа
-    SDL_RenderPresent(renderer);
+    // SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+
+    // SDL_Texture *headTx = SDL_CreateTextureFromSurface(renderer, head); 
+
+    // if(headTx == nullptr)
+    // {
+    //     printf( "Unable to create texture! SDL Error: %s\n", SDL_GetError() );
+    // }
+
+
+    // //SDL_Texture *headTx = IMG_LoadTexture(renderer, "Graphics/head_up.png");
+
+    // SDL_Rect rectHead;
+    // rectHead.h = head->h;
+    // rectHead.w = head->w;
+    // rectHead.x = (SCREEN_WIDTH - head->w) / 2;
+    // rectHead.y  = (SCREEN_HEIGHT - head->h) / 2;
+
+    // SDL_RenderClear(renderer); //Очистка рендера
+    // //SDL_RenderCopy(renderer,background,NULL,&background_RECT); //Копируем в рендер фон
+    // SDL_RenderCopy(renderer, headTx, NULL, &rectHead); //Копируем в рендер персонажа
+    // SDL_RenderPresent(renderer);
 
     //SDL_BlitSurface(head, NULL, screenSurface, &rectHead);
     //SDL_UpdateWindowSurface(mainWindow);
@@ -51,35 +78,35 @@ bool SnakeGame::Init()
 {
     bool success = true;
 
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
-    {
-        printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
-        success = false;
-    }
-    else
-    {
-        mainWindow = SDL_CreateWindow("The Snake", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+    // if (SDL_Init(SDL_INIT_VIDEO) < 0)
+    // {
+    //     printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
+    //     success = false;
+    // }
+    // else
+    // {
+    //     mainWindow = SDL_CreateWindow("The Snake", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 
-        if (mainWindow == nullptr)
-        {
-            printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-            success = false;
-        }
-        else
-        {
-            //Initialize PNG loading
-            int imgFlags = IMG_INIT_PNG;
-            if(!(IMG_Init(imgFlags) & imgFlags))
-            {
-                 printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
-                 success = false;
-            }
-            else
-            {
-                //screenSurface = SDL_GetWindowSurface(mainWindow);
-            }
-        }        
-    }
+    //     if (mainWindow == nullptr)
+    //     {
+    //         printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+    //         success = false;
+    //     }
+    //     else
+    //     {
+    //         //Initialize PNG loading
+    //         int imgFlags = IMG_INIT_PNG;
+    //         if(!(IMG_Init(imgFlags) & imgFlags))
+    //         {
+    //              printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
+    //              success = false;
+    //         }
+    //         else
+    //         {
+    //             //screenSurface = SDL_GetWindowSurface(mainWindow);
+    //         }
+    //     }        
+    // }
 
     return success;
 }
@@ -144,7 +171,7 @@ void SnakeGame::MainLoop()
 
 void SnakeGame::Close()
 {
-    SDL_DestroyWindow(mainWindow);
+    free(mainWindow);
     mainWindow = nullptr;
 
     SDL_Quit();

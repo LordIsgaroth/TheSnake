@@ -1,5 +1,5 @@
-make --dry-run --always-make --keep-going --print-directory
+make --dry-run --keep-going --print-directory
 make: Entering directory '/home/jared_kane/Projects/Source/C++/TheSnake'
-g++ game_window.cpp renderer.cpp sprite.cpp the_snake.cpp snake_game.cpp  -Wall -lSDL2 -lSDL2_image  -o the_snake
+g++ ./sprite.cpp ./snake_game.cpp ./event_handler.cpp ./the_snake.cpp ./renderer.cpp ./game_window.cpp -Wall -g -lSDL2 -lSDL2_image -o the_snake
 make: Leaving directory '/home/jared_kane/Projects/Source/C++/TheSnake'
  

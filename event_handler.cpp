@@ -4,11 +4,18 @@ EventHandler::EventHandler()
 {
     quitEventNotifier = new EventSubject<bool>();
     quitEventNotifier->SetMessage(true);
+
+    keyboardEventNotifier = new EventSubject<std::shared_ptr<KeyboardEvent>>();
 }
 
 void EventHandler::AddQuitEventListener(IObserver<bool> *listener)
 {
     quitEventNotifier->Attach(listener);
+}
+
+void EventHandler::AddKeyboardEventListener(KeyboardListener *listener)
+{
+    keyboardEventNotifier->Attach(listener);
 }
 
 void EventHandler::CheckEvents()
@@ -20,6 +27,15 @@ void EventHandler::CheckEvents()
         if(event.type == SDL_QUIT)
         {
             quitEventNotifier->Notify();
+        }
+        else if (event.type == SDL_KEYDOWN)
+        {
+            std::shared_ptr<KeyboardEvent> keyboardEvent = std::make_shared<KeyboardEvent>();
+            keyboardEvent->eventType = KeyboardEventType::pressed;
+            keyboardEvent->key = event.key.keysym.sym;
+
+            keyboardEventNotifier->SetMessage(keyboardEvent);
+            keyboardEventNotifier->Notify();
         }
     }
 }

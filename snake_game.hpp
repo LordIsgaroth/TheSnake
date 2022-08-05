@@ -1,11 +1,12 @@
 #pragma once
 
-//#include <SDL2/SDL.h>
 #include <string>
 
 #include "game_window.hpp"
 #include "renderer.hpp"
 #include "event_handler.hpp"
+#include "keyboard_listener.hpp"
+#include "keyboard_event.hpp"
 #include "sprite.hpp"
 #include "IObserver.hpp"
 
@@ -21,7 +22,8 @@ private:
 
     GameWindow *mainWindow = nullptr;
     Renderer* renderer = nullptr;
-    EventHandler* eventHandler; 
+    EventHandler* eventHandler;
+    KeyboardListener* keyboardListener; 
 
     bool quit = false;
 
@@ -29,7 +31,6 @@ private:
 
     bool Init();
     void MainLoop();
-    void EventListener();
     void Quit();
     void Close();
 };

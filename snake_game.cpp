@@ -2,8 +2,6 @@
 
 SnakeGame::SnakeGame() {}
 
-typedef void (*callback)();
-
 void SnakeGame::Start()
 {
     mainWindow = new GameWindow("The Snake", SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -11,22 +9,12 @@ void SnakeGame::Start()
     
     renderer = new Renderer(mainWindow);
     eventHandler = new EventHandler();
+    keyboardListener = new KeyboardListener();
 
     eventHandler->AddQuitEventListener(this);
-
-    Sprite* headSp = renderer->CreateSprite("Graphics/head_up.png");
-
-    int posX = (SCREEN_WIDTH - headSp->Width()) / 2;
-    int posY = (SCREEN_HEIGHT - headSp->Height()) / 2;
-
-    renderer->DrawSprite(headSp, posX, posY);
+    eventHandler->AddKeyboardEventListener(keyboardListener);
 
     MainLoop();
-}
-
-void SnakeGame::EventListener()
-{
-    printf("Event!\n");
 }
 
 bool SnakeGame::Init()
@@ -70,14 +58,57 @@ void SnakeGame::MainLoop()
 {
     quit = false;
 
+    Sprite* headSp = renderer->CreateSprite("Graphics/head_up.png");
+
+    int posX = (SCREEN_WIDTH - headSp->Width()) / 2;
+    int posY = (SCREEN_HEIGHT - headSp->Height()) / 2;
+
+    std::shared_ptr<KeyboardEvent> currEvent;
+
     while(!quit)
     {
         eventHandler->CheckEvents();
+
+        currEvent = keyboardListener->GetEvent();
+
+        if(currEvent)
+        {
+            if(currEvent->eventType == KeyboardEventType::pressed)
+            {
+                switch (currEvent->key)
+                {
+                case SDLK_UP:
+                {
+                    posY -= headSp->Height();
+                    break;
+                }
+                case SDLK_DOWN:
+                {
+                    posY += headSp->Height();
+                    break;
+                }
+                case SDLK_LEFT:
+                {
+                    posX -= headSp->Width();
+                    break;
+                }
+                case SDLK_RIGHT:
+                {
+                    posX += headSp->Width();
+                    break;
+                }
+                
+                default:
+                    break;
+                }
+            }
+        }
+
+        renderer->DrawSprite(headSp, posX, posY);
     }
 
     Close();
 }
-
 
 void SnakeGame::Update(bool message)
 {
@@ -95,5 +126,4 @@ void SnakeGame::Close()
     mainWindow = nullptr;
     free(renderer);
     free(eventHandler);
-
 }

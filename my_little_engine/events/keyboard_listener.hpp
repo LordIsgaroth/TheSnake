@@ -3,7 +3,7 @@
 #include <queue>
 #include <memory>
 
-#include "IObserver.hpp"
+#include "../common/IObserver.hpp"
 #include "keyboard_event.hpp"
 
 class KeyboardListener : public IObserver<std::shared_ptr<KeyboardEvent>> 

@@ -8,7 +8,6 @@
 #include "event_subject.hpp"
 #include "keyboard_event.hpp"
 #include "keyboard_listener.hpp"
-#include "IObserver.hpp"
 
 class EventHandler
 {

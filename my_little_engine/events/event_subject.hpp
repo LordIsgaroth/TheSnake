@@ -2,8 +2,8 @@
 
 #include <unordered_set>
 
-#include "ISubject.hpp"
-#include "IObserver.hpp"
+#include "../common/ISubject.hpp"
+#include "../common/IObserver.hpp"
 
 template<typename T>
 class EventSubject : public ISubject<T>

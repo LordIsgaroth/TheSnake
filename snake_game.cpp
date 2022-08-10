@@ -14,6 +14,19 @@ void SnakeGame::Start()
     eventHandler->AddQuitEventListener(this);
     eventHandler->AddKeyboardEventListener(keyboardListener);
 
+    snake = std::make_shared<Snake>();
+
+    std::shared_ptr<Sprite> headSp = renderer->CreateSprite("Graphics/head_up.png");
+
+    snake->posX = (SCREEN_WIDTH - headSp->Width()) / 2;
+    snake->posY = (SCREEN_HEIGHT - headSp->Height()) / 2;
+
+    step = headSp->Height();
+
+    snake->SetSprite(headSp);
+
+    renderer->AddToRendering(snake);
+
     MainLoop();
 }
 
@@ -58,11 +71,6 @@ void SnakeGame::MainLoop()
 {
     quit = false;
 
-    Sprite* headSp = renderer->CreateSprite("Graphics/head_up.png");
-
-    int posX = (SCREEN_WIDTH - headSp->Width()) / 2;
-    int posY = (SCREEN_HEIGHT - headSp->Height()) / 2;
-
     std::shared_ptr<KeyboardEvent> currEvent;
 
     while(!quit)
@@ -79,22 +87,22 @@ void SnakeGame::MainLoop()
                 {
                 case SDLK_UP:
                 {
-                    posY -= headSp->Height();
+                    snake->posY -= step;
                     break;
                 }
                 case SDLK_DOWN:
                 {
-                    posY += headSp->Height();
+                    snake->posY += step;
                     break;
                 }
                 case SDLK_LEFT:
                 {
-                    posX -= headSp->Width();
+                    snake->posX -= step;
                     break;
                 }
                 case SDLK_RIGHT:
                 {
-                    posX += headSp->Width();
+                    snake->posX += step;
                     break;
                 }
                 
@@ -104,7 +112,7 @@ void SnakeGame::MainLoop()
             }
         }
 
-        renderer->DrawSprite(headSp, posX, posY);
+        renderer->Render();
     }
 
     Close();

@@ -24,7 +24,7 @@ void Renderer::Init()
     initialized = true;
 }
 
-Sprite* Renderer::CreateSprite(std::string path)
+std::shared_ptr<Sprite> Renderer::CreateSprite(std::string path)
 {
     SDL_Surface *surface = IMG_Load(path.c_str());
     if(!surface) throw SDL_GetError();
@@ -33,21 +33,34 @@ Sprite* Renderer::CreateSprite(std::string path)
 
     if(!texture) throw SDL_GetError();
 
-    return new Sprite(texture, surface->w, surface->h);
+    return std::make_shared<Sprite>(texture, surface->w, surface->h);
 }
 
-void Renderer::DrawSprite(Sprite* sprite, int x, int y)
+void Renderer::DrawSprite(std::shared_ptr<Sprite> sprite, int x, int y)
 {
     if (!sprite) throw "Sprite do not exist!";
 
-    SDL_Rect rectHead;
-    rectHead.h = sprite->Height();
-    rectHead.w = sprite->Width();
-    rectHead.x = x;
-    rectHead.y = y;
+    SDL_Rect rect;
+    rect.h = sprite->Height();
+    rect.w = sprite->Width();
+    rect.x = x;
+    rect.y = y;
 
     SDL_RenderClear(sdl_renderer);
     // //SDL_RenderCopy(renderer,background,NULL,&background_RECT); //Копируем в рендер фон
-    SDL_RenderCopy(sdl_renderer, sprite->Texture(), NULL, &rectHead);
+    SDL_RenderCopy(sdl_renderer, sprite->Texture(), NULL, &rect);
     SDL_RenderPresent(sdl_renderer);
+}
+
+void Renderer::Render()
+{
+    for(std::shared_ptr<GameObject> gameObject : objectsToRender)
+    {
+        DrawSprite(gameObject->GetSprite(), gameObject->posX, gameObject->posY);
+    }
+}
+
+void Renderer::AddToRendering(std::shared_ptr<GameObject> gameObject)
+{
+    objectsToRender.insert(gameObject);    
 }

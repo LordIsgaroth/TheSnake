@@ -2,13 +2,9 @@
 
 #include <string>
 
-#include "game_window.hpp"
-#include "renderer.hpp"
-#include "event_handler.hpp"
-#include "keyboard_listener.hpp"
-#include "keyboard_event.hpp"
-#include "sprite.hpp"
-#include "IObserver.hpp"
+#include "my_little_engine.hpp"
+
+#include "snake.hpp"
 
 class SnakeGame : IObserver<bool>
 {
@@ -23,7 +19,10 @@ private:
     GameWindow *mainWindow = nullptr;
     Renderer* renderer = nullptr;
     EventHandler* eventHandler;
-    KeyboardListener* keyboardListener; 
+    KeyboardListener* keyboardListener;
+
+    std::shared_ptr<Snake> snake;
+    int step = 0; 
 
     bool quit = false;
 

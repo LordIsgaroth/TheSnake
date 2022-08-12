@@ -13,8 +13,8 @@ public:
     std::shared_ptr<Sprite> GetSprite();
 
     //TODO: make specific class for position
-    int posX = 0;
-    int posY = 0;
+    double posX = 0;
+    double posY = 0;
 
 private:
     std::shared_ptr<Sprite> sprite = nullptr;    

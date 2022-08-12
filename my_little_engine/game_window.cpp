@@ -21,3 +21,13 @@ GameWindow::~GameWindow()
 {
     SDL_DestroyWindow(sdl_window);
 }
+
+void GameWindow::Update(bool message)
+{
+    active = !message;
+}
+
+bool GameWindow::IsActive()
+{
+    return active;
+}

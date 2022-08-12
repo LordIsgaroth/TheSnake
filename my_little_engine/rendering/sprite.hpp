@@ -11,7 +11,9 @@ public:
     int Width() { return width; }
     int Height() { return height; }
     SDL_Texture* Texture() { return texture; }
+    SDL_Rect* Rect() { return rect; }
 private:
     int width, height;
     SDL_Texture* texture;
+    SDL_Rect* rect;
 };

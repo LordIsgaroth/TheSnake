@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <unordered_set>
 
 #include "../common/ISubject.hpp"
@@ -9,10 +10,10 @@ template<typename T>
 class EventSubject : public ISubject<T>
 {
 public:
+    
+    typedef std::shared_ptr<IObserver<T>> observer;
 
-    typedef IObserver<T> observer;
-
-    void Attach(observer *obs) override
+    void Attach(observer obs) override
     {
         auto obsInSet = observers.find(obs);
 
@@ -22,7 +23,7 @@ public:
         }
     }
 
-    void Detach(observer *obs) override
+    void Detach(observer obs) override
     {
         auto obsInSet = observers.find(obs);
 
@@ -34,7 +35,7 @@ public:
     
     void Notify() override
     {
-        for(observer *obs : observers)
+        for(observer obs : observers)
         {
             obs->Update(message);
         }
@@ -46,6 +47,6 @@ public:
     }
 
 private:
-    std::unordered_set<observer*> observers;
+    std::unordered_set<observer> observers;
     T message;
 };

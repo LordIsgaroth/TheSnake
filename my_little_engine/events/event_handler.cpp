@@ -2,20 +2,20 @@
 
 EventHandler::EventHandler()
 {
-    quitEventNotifier = new EventSubject<bool>();
-    quitEventNotifier->SetMessage(true);
+    //quitEventNotifier = new EventSubject<bool>();
+    quitEventNotifier.SetMessage(true);
 
-    keyboardEventNotifier = new EventSubject<std::shared_ptr<KeyboardEvent>>();
+    //keyboardEventNotifier = new EventSubject<std::shared_ptr<KeyboardEvent>>();
 }
 
-void EventHandler::AddQuitEventListener(IObserver<bool> *listener)
+void EventHandler::AddQuitEventListener(std::shared_ptr<GameWindow> listener)
 {
-    quitEventNotifier->Attach(listener);
+    quitEventNotifier.Attach(listener);
 }
 
-void EventHandler::AddKeyboardEventListener(KeyboardListener *listener)
+void EventHandler::AddKeyboardEventListener(std::shared_ptr<KeyboardListener> listener)
 {
-    keyboardEventNotifier->Attach(listener);
+    keyboardEventNotifier.Attach(listener);
 }
 
 void EventHandler::CheckEvents()
@@ -26,7 +26,7 @@ void EventHandler::CheckEvents()
     {
         if(event.type == SDL_QUIT)
         {
-            quitEventNotifier->Notify();
+            quitEventNotifier.Notify();
         }
         else if (event.type == SDL_KEYDOWN)
         {
@@ -34,13 +34,13 @@ void EventHandler::CheckEvents()
             keyboardEvent->eventType = KeyboardEventType::pressed;
             keyboardEvent->key = event.key.keysym.sym;
 
-            keyboardEventNotifier->SetMessage(keyboardEvent);
-            keyboardEventNotifier->Notify();
+            keyboardEventNotifier.SetMessage(keyboardEvent);
+            keyboardEventNotifier.Notify();
         }
     }
 }
 
 EventHandler::~EventHandler()
 {
-    free(quitEventNotifier);
+    //delete quitEventNotifier;
 }

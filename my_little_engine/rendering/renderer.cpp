@@ -3,7 +3,7 @@
 
 bool Renderer::initialized = false;
 
-Renderer::Renderer(GameWindow *gameWindow)
+Renderer::Renderer(std::shared_ptr<GameWindow> gameWindow)
 {
     if(!initialized) Init();
 
@@ -40,24 +40,26 @@ void Renderer::DrawSprite(std::shared_ptr<Sprite> sprite, int x, int y)
 {
     if (!sprite) throw "Sprite do not exist!";
 
-    SDL_Rect rect;
-    rect.h = sprite->Height();
-    rect.w = sprite->Width();
-    rect.x = x;
-    rect.y = y;
+    // SDL_Rect rect;
+    // rect.h = sprite->Height();
+    // rect.w = sprite->Width();
+    sprite->Rect()->x = x;
+    sprite->Rect()->y = y;
 
-    SDL_RenderClear(sdl_renderer);
     // //SDL_RenderCopy(renderer,background,NULL,&background_RECT); //Копируем в рендер фон
-    SDL_RenderCopy(sdl_renderer, sprite->Texture(), NULL, &rect);
-    SDL_RenderPresent(sdl_renderer);
+    SDL_RenderCopy(sdl_renderer, sprite->Texture(), NULL, sprite->Rect());
 }
 
 void Renderer::Render()
 {
+    SDL_RenderClear(sdl_renderer);
+
     for(std::shared_ptr<GameObject> gameObject : objectsToRender)
     {
         DrawSprite(gameObject->GetSprite(), gameObject->posX, gameObject->posY);
     }
+
+    SDL_RenderPresent(sdl_renderer);
 }
 
 void Renderer::AddToRendering(std::shared_ptr<GameObject> gameObject)

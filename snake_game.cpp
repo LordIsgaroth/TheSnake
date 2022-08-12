@@ -4,123 +4,61 @@ SnakeGame::SnakeGame() {}
 
 void SnakeGame::Start()
 {
-    mainWindow = new GameWindow("The Snake", SCREEN_WIDTH, SCREEN_HEIGHT);
+    mainWindow = std::make_shared<GameWindow>("The Snake", SCREEN_WIDTH, SCREEN_HEIGHT);
     //GameWindow _secondWindow("The Snake - main menu", SCREEN_WIDTH, SCREEN_HEIGHT);
     
     renderer = new Renderer(mainWindow);
     eventHandler = new EventHandler();
-    keyboardListener = new KeyboardListener();
 
-    eventHandler->AddQuitEventListener(this);
-    eventHandler->AddKeyboardEventListener(keyboardListener);
+    eventHandler->AddQuitEventListener(mainWindow);
 
-    snake = std::make_shared<Snake>();
+    std::unique_ptr<SnakeHeadSprites> headSprites = std::make_unique<SnakeHeadSprites>();
+    headSprites->headUp = renderer->CreateSprite("Graphics/head_up.png");
+    headSprites->headDown = renderer->CreateSprite("Graphics/head_down.png");
+    headSprites->headRight = renderer->CreateSprite("Graphics/head_right.png");
+    headSprites->headLeft = renderer->CreateSprite("Graphics/head_left.png");
 
-    std::shared_ptr<Sprite> headSp = renderer->CreateSprite("Graphics/head_up.png");
+    snake = std::make_shared<Snake>(std::move(headSprites));
 
-    snake->posX = (SCREEN_WIDTH - headSp->Width()) / 2;
-    snake->posY = (SCREEN_HEIGHT - headSp->Height()) / 2;
+    snake->posX = (SCREEN_WIDTH - snake->GetSprite()->Width()) / 2;
+    snake->posY = (SCREEN_HEIGHT - snake->GetSprite()->Height()) / 2;
 
-    step = headSp->Height();
-
-    snake->SetSprite(headSp);
+    eventHandler->AddKeyboardEventListener(snake->GetKeyboardListener());
 
     renderer->AddToRendering(snake);
 
     MainLoop();
 }
 
-bool SnakeGame::Init()
-{
-    bool success = true;
-
-    // if (SDL_Init(SDL_INIT_VIDEO) < 0)
-    // {
-    //     printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
-    //     success = false;
-    // }
-    // else
-    // {
-    //     mainWindow = SDL_CreateWindow("The Snake", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-
-    //     if (mainWindow == nullptr)
-    //     {
-    //         printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-    //         success = false;
-    //     }
-    //     else
-    //     {
-    //         //Initialize PNG loading
-    //         int imgFlags = IMG_INIT_PNG;
-    //         if(!(IMG_Init(imgFlags) & imgFlags))
-    //         {
-    //              printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
-    //              success = false;
-    //         }
-    //         else
-    //         {
-    //             //screenSurface = SDL_GetWindowSurface(mainWindow);
-    //         }
-    //     }        
-    // }
-
-    return success;
-}
-
 void SnakeGame::MainLoop()
 {
     quit = false;
 
-    std::shared_ptr<KeyboardEvent> currEvent;
+    std::chrono::duration<double> elapsed_seconds;
+
+    std::chrono::time_point<std::chrono::system_clock> start, end;
+
+    start = std::chrono::system_clock::now();
+    end = std::chrono::system_clock::now();
 
     while(!quit)
     {
+        elapsed_seconds = end - start;
+        std::cout << elapsed_seconds.count() * 1000 << std::endl;
+
+        start = std::chrono::system_clock::now();
+ 
         eventHandler->CheckEvents();
-
-        currEvent = keyboardListener->GetEvent();
-
-        if(currEvent)
-        {
-            if(currEvent->eventType == KeyboardEventType::pressed)
-            {
-                switch (currEvent->key)
-                {
-                case SDLK_UP:
-                {
-                    snake->posY -= step;
-                    break;
-                }
-                case SDLK_DOWN:
-                {
-                    snake->posY += step;
-                    break;
-                }
-                case SDLK_LEFT:
-                {
-                    snake->posX -= step;
-                    break;
-                }
-                case SDLK_RIGHT:
-                {
-                    snake->posX += step;
-                    break;
-                }
-                
-                default:
-                    break;
-                }
-            }
-        }
-
+        snake->Update(elapsed_seconds.count() * 1000); //msec
+        
         renderer->Render();
+
+        quit = !mainWindow->IsActive();
+
+        end = std::chrono::system_clock::now();
     }
 
     Close();
-}
-
-void SnakeGame::Update(bool message)
-{
-    quit = message;
 }
 
 void SnakeGame::Quit()
@@ -129,8 +67,9 @@ void SnakeGame::Quit()
 }
 
 void SnakeGame::Close()
-{
-    free(mainWindow);
+{   
+    //mainWindow->~GameWindow();
+    //free(mainWindow);
     mainWindow = nullptr;
     free(renderer);
     free(eventHandler);

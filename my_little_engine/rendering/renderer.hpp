@@ -14,7 +14,7 @@
 class Renderer
 {
 public:
-    Renderer(GameWindow* gameWindow);
+    Renderer(std::shared_ptr<GameWindow> gameWindow);
     std::shared_ptr<Sprite> CreateSprite(std::string path);
     void DrawSprite(std::shared_ptr<Sprite> sprite, int x, int y);
     void Render();

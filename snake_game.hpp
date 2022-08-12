@@ -1,12 +1,15 @@
 #pragma once
 
 #include <string>
+#include <memory>
+#include <chrono>
+#include <iostream>
 
 #include "my_little_engine.hpp"
 
 #include "snake.hpp"
 
-class SnakeGame : IObserver<bool>
+class SnakeGame
 {
 public:
     SnakeGame();
@@ -16,19 +19,14 @@ private:
     const int SCREEN_WIDTH = 1024;
     const int SCREEN_HEIGHT = 768;
 
-    GameWindow *mainWindow = nullptr;
+    std::shared_ptr<GameWindow> mainWindow;
     Renderer* renderer = nullptr;
     EventHandler* eventHandler;
-    KeyboardListener* keyboardListener;
 
-    std::shared_ptr<Snake> snake;
-    int step = 0; 
+    std::shared_ptr<Snake> snake; 
 
     bool quit = false;
 
-    void Update(bool message) override;
-
-    bool Init();
     void MainLoop();
     void Quit();
     void Close();

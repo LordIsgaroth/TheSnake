@@ -2,22 +2,24 @@
 
 Snake::Snake(std::unique_ptr<SnakeHeadSprites> headSprites)
 {
+    handlesInput = true;
+
     this->headSprites = std::move(headSprites);
     SetSprite(this->headSprites->headUp);
 }
 
 void Snake::Update(double elapsedTime)
 {
-    std::shared_ptr<KeyboardEvent> currEvent;
+    posX += elapsedTime * speed * dirX;  
+    posY += elapsedTime * speed * dirY;    
+}
 
-    currEvent = keyboardListener->GetEvent();
-
-    if (currEvent)
+void Snake::Input(std::shared_ptr<KeyboardEvent> inputEvent)
+{
+    if (inputEvent->eventType == KeyboardEventType::pressed)
     {
-        if (currEvent->eventType == KeyboardEventType::pressed)
+        switch (inputEvent->key)
         {
-            switch (currEvent->key)
-            {
             case SDLK_UP:
             {
                 dirX = 0;
@@ -49,10 +51,6 @@ void Snake::Update(double elapsedTime)
 
             default:
                 break;
-            }
         }
     }
-
-    posX += elapsedTime * speed * dirX;  
-    posY += elapsedTime * speed * dirY;    
-};
+}

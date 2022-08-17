@@ -10,7 +10,13 @@ void SnakeGame::Start()
     renderer = new Renderer(mainWindow);
     eventHandler = new EventHandler();
 
-    eventHandler->AddQuitEventListener(mainWindow);
+    eventHandler->AddQuitEventListener(mainWindow); 
+
+    apple = std::make_shared<Apple>();
+    apple->SetSprite(renderer->CreateSprite("Graphics/apple.png"));
+
+    apple->posX = 100;
+    apple->posY = 100;
 
     std::unique_ptr<SnakeHeadSprites> headSprites = std::make_unique<SnakeHeadSprites>();
     headSprites->headUp = renderer->CreateSprite("Graphics/head_up.png");
@@ -23,8 +29,9 @@ void SnakeGame::Start()
     snake->posX = (SCREEN_WIDTH - snake->GetSprite()->Width()) / 2;
     snake->posY = (SCREEN_HEIGHT - snake->GetSprite()->Height()) / 2;
 
-    eventHandler->AddKeyboardEventListener(snake->GetKeyboardListener());
+    eventHandler->AddKeyboardEventListener(snake);
 
+    renderer->AddToRendering(apple);
     renderer->AddToRendering(snake);
 
     MainLoop();

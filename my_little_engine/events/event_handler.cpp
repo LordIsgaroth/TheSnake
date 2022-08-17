@@ -13,7 +13,7 @@ void EventHandler::AddQuitEventListener(std::shared_ptr<GameWindow> listener)
     quitEventNotifier.Attach(listener);
 }
 
-void EventHandler::AddKeyboardEventListener(std::shared_ptr<KeyboardListener> listener)
+void EventHandler::AddKeyboardEventListener(std::shared_ptr<IInpupListener> listener)
 {
     keyboardEventNotifier.Attach(listener);
 }

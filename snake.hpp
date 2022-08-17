@@ -1,6 +1,6 @@
 #pragma once
 
-#include "my_little_engine/objects/controllable_object.hpp"
+#include "my_little_engine/objects/game_object.hpp"
 
 struct SnakeHeadSprites
 {
@@ -10,11 +10,13 @@ struct SnakeHeadSprites
     std::shared_ptr<Sprite> headLeft = nullptr;
 };
 
-class Snake : public ControllableObject
+class Snake : public GameObject
 {
 public:
     Snake(std::unique_ptr<SnakeHeadSprites> headSprites);
     void Update(double elapsedTime) override;
+    void Input(std::shared_ptr<KeyboardEvent> inputEvent) override;
+
 private:
     double speed = 0.1;
     int dirX = 0;

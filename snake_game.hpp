@@ -8,6 +8,7 @@
 #include "my_little_engine.hpp"
 
 #include "snake.hpp"
+#include "apple.hpp"
 
 class SnakeGame
 {
@@ -23,7 +24,8 @@ private:
     Renderer* renderer = nullptr;
     EventHandler* eventHandler;
 
-    std::shared_ptr<Snake> snake; 
+    std::shared_ptr<Snake> snake;
+    std::shared_ptr<Apple> apple; 
 
     bool quit = false;
 

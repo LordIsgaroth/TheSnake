@@ -5,7 +5,7 @@
 #include "../common/IObserver.hpp"
 #include "../events/keyboard_event.hpp"
 
-class IInpupListener : public IObserver<std::shared_ptr<KeyboardEvent>>
+class IInputListener : public IObserver<std::shared_ptr<KeyboardEvent>>
 {
 private:
     void Update(std::shared_ptr<KeyboardEvent> message) override

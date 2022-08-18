@@ -7,3 +7,5 @@
 #include "my_little_engine/events/event_handler.hpp"
 #include "my_little_engine/events/keyboard_event.hpp"
 #include "my_little_engine/objects/game_object.hpp"
+#include "my_little_engine/objects/collision_object.hpp"
+#include "my_little_engine/physics/collision_manager.hpp"

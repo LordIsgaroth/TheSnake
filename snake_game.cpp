@@ -12,8 +12,8 @@ void SnakeGame::Start()
 
     eventHandler->AddQuitEventListener(mainWindow); 
 
-    apple = std::make_shared<Apple>();
-    apple->SetSprite(renderer->CreateSprite("Graphics/apple.png"));
+    apple = std::make_shared<Apple>(renderer->CreateSprite("Graphics/apple.png"));
+    //apple->SetSprite(renderer->CreateSprite("Graphics/apple.png"));
 
     apple->posX = 100;
     apple->posY = 100;
@@ -33,6 +33,9 @@ void SnakeGame::Start()
 
     renderer->AddToRendering(apple);
     renderer->AddToRendering(snake);
+
+    collisionManager.AddCollideable(snake);
+    collisionManager.AddCollideable(apple);
 
     MainLoop();
 }
@@ -58,6 +61,8 @@ void SnakeGame::MainLoop()
         eventHandler->CheckEvents();
         snake->Update(elapsed_seconds.count() * 1000); //msec
         
+        collisionManager.CheckCollisions();
+
         renderer->Render();
 
         quit = !mainWindow->IsActive();

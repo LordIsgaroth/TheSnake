@@ -23,6 +23,7 @@ private:
     std::shared_ptr<GameWindow> mainWindow;
     Renderer* renderer = nullptr;
     EventHandler* eventHandler;
+    CollisionManager collisionManager;
 
     std::shared_ptr<Snake> snake;
     std::shared_ptr<Apple> apple; 

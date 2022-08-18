@@ -16,7 +16,7 @@ public:
     EventHandler();
     ~EventHandler();
     void AddQuitEventListener(std::shared_ptr<GameWindow> listener);
-    void AddKeyboardEventListener(std::shared_ptr<IInpupListener> listener);
+    void AddKeyboardEventListener(std::shared_ptr<IInputListener> listener);
     void CheckEvents();
 private:
     void QuitNotify(SDL_Event event);

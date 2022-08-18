@@ -1,5 +1,5 @@
 #SRC_DIRS scpeicfies which directories contains source files
-SRC_DIRS := my_little_engine my_little_engine/common my_little_engine/events my_little_engine/objects my_little_engine/rendering .
+SRC_DIRS := my_little_engine my_little_engine/common my_little_engine/events my_little_engine/objects my_little_engine/physics my_little_engine/rendering .
 
 #File searching mask
 SEARCH_FILES := $(addsuffix /*.cpp, $(SRC_DIRS))

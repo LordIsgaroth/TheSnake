@@ -1,11 +1,18 @@
 #include "snake.hpp"
 
+//for testing - remove
+#include <iostream>
+
 Snake::Snake(std::unique_ptr<SnakeHeadSprites> headSprites)
 {
+    name = "Snake";
     handlesInput = true;
 
     this->headSprites = std::move(headSprites);
     SetSprite(this->headSprites->headUp);
+
+    borders->width = sprite->Width();
+    borders->width = sprite->Height();
 }
 
 void Snake::Update(double elapsedTime)
@@ -53,4 +60,9 @@ void Snake::Input(std::shared_ptr<KeyboardEvent> inputEvent)
                 break;
         }
     }
+}
+
+void Snake::OnCollision(std::shared_ptr<Collision> collision)
+{
+    std::cout << name << " collides with " << collision->Other()->Name() << std::endl;
 }

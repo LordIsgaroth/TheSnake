@@ -19,6 +19,7 @@ public:
     void DrawSprite(std::shared_ptr<Sprite> sprite, int x, int y);
     void Render();
     void AddToRendering(std::shared_ptr<GameObject> gameObject);
+    void RemoveFromRendering(std::shared_ptr<GameObject> gameObject);
 
 private:
     SDL_Renderer *sdl_renderer = nullptr;

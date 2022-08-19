@@ -64,5 +64,20 @@ void Renderer::Render()
 
 void Renderer::AddToRendering(std::shared_ptr<GameObject> gameObject)
 {
-    objectsToRender.insert(gameObject);    
+    auto objInSet = objectsToRender.find(gameObject);
+
+    if (objInSet == objectsToRender.end())
+    {
+        objectsToRender.insert(gameObject);
+    }   
+}
+
+void Renderer::RemoveFromRendering(std::shared_ptr<GameObject> gameObject)
+{
+    auto objInSet = objectsToRender.find(gameObject);
+
+    if (objInSet != objectsToRender.end())
+    {
+        objectsToRender.erase(*objInSet);
+    }
 }

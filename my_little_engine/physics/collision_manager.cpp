@@ -2,7 +2,22 @@
 
 void CollisionManager::AddCollideable(std::shared_ptr<CollisionObject> collideable)
 {
-    collidableObjects.insert(collideable);
+    auto objInSet = collidableObjects.find(collideable);
+
+    if (objInSet == collidableObjects.end())
+    {
+        collidableObjects.insert(collideable);
+    }
+}
+
+void CollisionManager::RemoveCollideable(std::shared_ptr<CollisionObject> collideable)
+{
+    auto objInSet = collidableObjects.find(collideable);
+
+    if (objInSet != collidableObjects.end())
+    {
+        collidableObjects.erase(*objInSet);
+    }
 }
 
 void CollisionManager::CheckCollisions()

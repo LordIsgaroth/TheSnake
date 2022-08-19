@@ -29,10 +29,15 @@ void SnakeGame::Start()
     snake->posX = (SCREEN_WIDTH - snake->GetSprite()->Width()) / 2;
     snake->posY = (SCREEN_HEIGHT - snake->GetSprite()->Height()) / 2;
 
+    apple->game = this; //testing - remove
+
     eventHandler->AddKeyboardEventListener(snake);
 
-    renderer->AddToRendering(apple);
-    renderer->AddToRendering(snake);
+    AddGameObject(snake);
+    AddGameObject(apple);
+
+    //renderer->AddToRendering(apple);
+    //renderer->AddToRendering(snake);
 
     collisionManager.AddCollideable(snake);
     collisionManager.AddCollideable(apple);
@@ -59,11 +64,15 @@ void SnakeGame::MainLoop()
         start = std::chrono::system_clock::now();
  
         eventHandler->CheckEvents();
-        snake->Update(elapsed_seconds.count() * 1000); //msec
+
+        UpdateAll(elapsed_seconds.count() * 1000); //msec
+        //snake->Update(elapsed_seconds.count() * 1000); //msec
         
         collisionManager.CheckCollisions();
 
         renderer->Render();
+
+        Remove();
 
         quit = !mainWindow->IsActive();
 
@@ -76,6 +85,59 @@ void SnakeGame::MainLoop()
 void SnakeGame::Quit()
 {
     quit = true;
+}
+
+void SnakeGame::AddGameObject(std::shared_ptr<GameObject> object)
+{
+    auto objInSet = gameObjects.find(object);
+
+    if (objInSet == gameObjects.end())
+    {
+        gameObjects.insert(object);
+    }
+
+    if (object->IsDrawable()) renderer->AddToRendering(object);
+}
+
+void SnakeGame::RemoveGameObject(std::shared_ptr<GameObject> object)
+{
+    auto objInSet = gameObjects.find(object);
+
+    if (objInSet != gameObjects.end())
+    {
+        gameObjects.erase(*objInSet);
+    }
+
+    if (object->IsDrawable()) renderer->RemoveFromRendering(object);
+}
+
+void SnakeGame::Remove()
+{
+    //TODO: structure for objects to remove 
+
+    if (objectsToRemove.size() > 0)
+    {
+        collisionManager.RemoveCollideable(apple);
+        RemoveGameObject(apple);
+    }
+
+    objectsToRemove.clear();
+}
+
+void SnakeGame::UpdateAll(double elapsedTime)
+{
+    for (std::shared_ptr<GameObject> obj : gameObjects)
+    {
+        obj->Update(elapsedTime);
+    }
+}
+
+void SnakeGame::DeleteCollideable()
+{
+    //For testing. TODO - make universal
+    objectsToRemove.insert(apple);
+
+        
 }
 
 void SnakeGame::Close()

@@ -9,7 +9,7 @@ class CollisionManager
 {
 public:
     void AddCollideable(std::shared_ptr<CollisionObject> collideable);
-    //void RemoveCollideable(std::shared_ptr<CollisionObject> collideable);
+    void RemoveCollideable(std::shared_ptr<CollisionObject> collideable);
     void CheckCollisions();
 
 private:

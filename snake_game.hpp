@@ -2,6 +2,7 @@
 
 #include <string>
 #include <memory>
+#include <unordered_set>
 #include <chrono>
 #include <iostream>
 
@@ -10,11 +11,15 @@
 #include "snake.hpp"
 #include "apple.hpp"
 
+class Apple;
+
 class SnakeGame
 {
 public:
     SnakeGame();
     void Start();
+    void DeleteCollideable();
+
 private:
 
     const int SCREEN_WIDTH = 1024;
@@ -30,7 +35,17 @@ private:
 
     bool quit = false;
 
+    void AddGameObject(std::shared_ptr<GameObject> object);
+    void RemoveGameObject(std::shared_ptr<GameObject> object);
+
+    std::unordered_set<std::shared_ptr<GameObject>> gameObjects;
+    std::unordered_set<std::shared_ptr<GameObject>> objectsToRemove;
+
     void MainLoop();
+    void UpdateAll(double elapsedTime);
+    void Remove();
     void Quit();
     void Close();
+
+
 };

@@ -30,7 +30,7 @@ public:
         if (obsInSet != observers.end())
         {
             observers.erase(*obsInSet);
-        }       
+        }
     }
     
     void Notify() override

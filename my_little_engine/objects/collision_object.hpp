@@ -4,6 +4,7 @@
 
 #include "game_object.hpp"
 #include "../physics/collision.hpp"
+#include "../common/ISubject.hpp"
 
 struct CollisionBorders
 {
@@ -24,5 +25,5 @@ public:
     virtual void OnCollision(std::shared_ptr<Collision> collision) {}
 
 protected:
-    std::shared_ptr<CollisionBorders> borders;
+    std::shared_ptr<CollisionBorders> borders;  
 };

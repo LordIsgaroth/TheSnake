@@ -1,7 +1,9 @@
 #pragma once
 
 #include <memory>
-#include "../objects/game_object.hpp"
+#include "my_little_engine/objects/game_object.hpp"
+
+class GameObject;
 
 class Collision
 {

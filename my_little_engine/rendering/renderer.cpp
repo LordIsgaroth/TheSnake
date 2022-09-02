@@ -1,19 +1,19 @@
 #include "renderer.hpp"
-//#include <stdio.h>
 
 bool Renderer::initialized = false;
 
-Renderer::Renderer(std::shared_ptr<GameWindow> gameWindow)
+Renderer::Renderer(SDL_Window* window)
 {
     if(!initialized) Init();
 
-    if(!gameWindow->window()) throw "Can not create renderer from null window!";
+    if(!window) throw "Can not create renderer from null window!";
 
-    sdl_renderer = SDL_CreateRenderer(gameWindow->window(), -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    sdl_renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     
     if(!sdl_renderer) throw SDL_GetError();
 
     //SDL_SetRenderDrawColor(sdl_renderer, 0, 0, 0, 0);
+
 }
 
 void Renderer::Init()
@@ -24,7 +24,7 @@ void Renderer::Init()
     initialized = true;
 }
 
-std::shared_ptr<Sprite> Renderer::CreateSprite(std::string path)
+std::shared_ptr<Sprite> Renderer::CreateSprite(std::string path) const
 {
     SDL_Surface *surface = IMG_Load(path.c_str());
     if(!surface) throw SDL_GetError();
@@ -36,7 +36,7 @@ std::shared_ptr<Sprite> Renderer::CreateSprite(std::string path)
     return std::make_shared<Sprite>(texture, surface->w, surface->h);
 }
 
-void Renderer::DrawSprite(std::shared_ptr<Sprite> sprite, int x, int y)
+void Renderer::DrawSprite(std::shared_ptr<Sprite> sprite, int x, int y) const
 {
     if (!sprite) throw "Sprite do not exist!";
 
@@ -50,13 +50,13 @@ void Renderer::DrawSprite(std::shared_ptr<Sprite> sprite, int x, int y)
     SDL_RenderCopy(sdl_renderer, sprite->Texture(), NULL, sprite->Rect());
 }
 
-void Renderer::Render()
+void Renderer::Render() const
 {
     SDL_RenderClear(sdl_renderer);
 
-    for(std::shared_ptr<GameObject> gameObject : objectsToRender)
+    for(auto record : objectsToRender)
     {
-        DrawSprite(gameObject->GetSprite(), gameObject->posX, gameObject->posY);
+        DrawSprite(record.second->GetSprite(), record.second->posX, record.second->posY);
     }
 
     SDL_RenderPresent(sdl_renderer);
@@ -64,20 +64,18 @@ void Renderer::Render()
 
 void Renderer::AddToRendering(std::shared_ptr<GameObject> gameObject)
 {
-    auto objInSet = objectsToRender.find(gameObject);
-
-    if (objInSet == objectsToRender.end())
-    {
-        objectsToRender.insert(gameObject);
-    }   
+    if(Contains(gameObject->Id())) return;
+    objectsToRender.insert(std::make_pair(gameObject->Id(), gameObject));
 }
 
-void Renderer::RemoveFromRendering(std::shared_ptr<GameObject> gameObject)
+void Renderer::RemoveFromRendering(int id)
 {
-    auto objInSet = objectsToRender.find(gameObject);
+    if(!Contains(id)) return;
+    objectsToRender.erase(id);
+}
 
-    if (objInSet != objectsToRender.end())
-    {
-        objectsToRender.erase(*objInSet);
-    }
+bool Renderer::Contains(int id) const
+{
+    if (objectsToRender.find(id) != objectsToRender.end()) return true;
+    else return false;
 }

@@ -3,8 +3,8 @@
 #include <memory>
 #include <unordered_set>
 
-#include "../common/ISubject.hpp"
-#include "../common/IObserver.hpp"
+#include "my_little_engine/common/ISubject.hpp"
+#include "my_little_engine/common/IObserver.hpp"
 
 template<typename T>
 class EventSubject : public ISubject<T>

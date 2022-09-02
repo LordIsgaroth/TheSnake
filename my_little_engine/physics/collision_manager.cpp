@@ -2,41 +2,39 @@
 
 void CollisionManager::AddCollideable(std::shared_ptr<CollisionObject> collideable)
 {
-    auto objInSet = collidableObjects.find(collideable);
-
-    if (objInSet == collidableObjects.end())
-    {
-        collidableObjects.insert(collideable);
-    }
+    if(Contains(collideable->Id())) return;
+    collidableObjects.insert(std::make_pair(collideable->Id(), collideable));
 }
 
-void CollisionManager::RemoveCollideable(std::shared_ptr<CollisionObject> collideable)
+void CollisionManager::RemoveCollideable(int id)
 {
-    auto objInSet = collidableObjects.find(collideable);
+    if(!Contains(id)) return;
+    collidableObjects.erase(id);
+}
 
-    if (objInSet != collidableObjects.end())
-    {
-        collidableObjects.erase(*objInSet);
-    }
+bool CollisionManager::Contains(int id) const
+{
+    if (collidableObjects.find(id) != collidableObjects.end()) return true;
+    else return false;
 }
 
 void CollisionManager::CheckCollisions()
 {
-    for(std::shared_ptr<CollisionObject> object : collidableObjects)
+    for(auto record : collidableObjects)
     {
-        CheckForObject(object);
+        CheckForObject(record.second);
     }
 }
 
 void CollisionManager::CheckForObject(std::shared_ptr<CollisionObject> object)
 {
-    for(std::shared_ptr<CollisionObject> other : collidableObjects)
+    for(auto record : collidableObjects)
     {
-        if(other != object)
+        if(record.second != object)
         {
-            if(IsColliding(object, other))
+            if(IsColliding(object, record.second))
             {
-                object->OnCollision(std::make_shared<Collision>(other));
+                object->OnCollision(std::make_shared<Collision>(record.second));
             }    
         }
     }

@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 
 #include "snake_game.hpp"
@@ -17,3 +16,4 @@ int main()
 
     return 0;
 }
+

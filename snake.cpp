@@ -18,7 +18,7 @@ Snake::Snake(std::unique_ptr<SnakeHeadSprites> headSprites)
 void Snake::Update(double elapsedTime)
 {
     posX += elapsedTime * speed * dirX;  
-    posY += elapsedTime * speed * dirY;    
+    posY += elapsedTime * speed * dirY;
 }
 
 void Snake::Input(std::shared_ptr<KeyboardEvent> inputEvent)
@@ -65,4 +65,6 @@ void Snake::Input(std::shared_ptr<KeyboardEvent> inputEvent)
 void Snake::OnCollision(std::shared_ptr<Collision> collision)
 {
     std::cout << name << " collides with " << collision->Other()->Name() << std::endl;
+
+    if(collision->Other()->Name() == "Apple") Engine::RemoveObject(collision->Other()->Id());
 }

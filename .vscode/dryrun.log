@@ -1,22 +1,19 @@
 make --dry-run --always-make --keep-going --print-directory
 make: Entering directory '/home/jared_kane/Projects/Source/C++/TheSnake'
-g++ -c -MD -Imy_little_engine -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. my_little_engine/game_window.cpp
- 
-g++ -c -MD -Imy_little_engine -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. my_little_engine/events/event_handler.cpp
- 
-g++ -c -MD -Imy_little_engine -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. my_little_engine/objects/game_object.cpp
-g++ -c -MD -Imy_little_engine -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. my_little_engine/objects/collision_object.cpp
-g++ -c -MD -Imy_little_engine -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. my_little_engine/physics/collision.cpp
- 
-g++ -c -MD -Imy_little_engine -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. my_little_engine/physics/collision_manager.cpp
-g++ -c -MD -Imy_little_engine -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. my_little_engine/rendering/sprite.cpp
-g++ -c -MD -Imy_little_engine -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. my_little_engine/rendering/renderer.cpp
- 
-g++ -c -MD -Imy_little_engine -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. snake.cpp
- 
-g++ -c -MD -Imy_little_engine -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. the_snake.cpp
-g++ -c -MD -Imy_little_engine -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. snake_game.cpp
-g++ -c -MD -Imy_little_engine -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. apple.cpp
-g++ game_window.o event_handler.o game_object.o collision_object.o collision.o collision_manager.o sprite.o renderer.o snake.o the_snake.o snake_game.o apple.o -Wall -g -lSDL2 -lSDL2_image -o the_snake
+g++ -c -MD -Imy_little_engine -Imy_little_engine/core -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. my_little_engine/game_window.cpp
+g++ -c -MD -Imy_little_engine -Imy_little_engine/core -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. my_little_engine/core/engine.cpp
+g++ -c -MD -Imy_little_engine -Imy_little_engine/core -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. my_little_engine/events/event_handler.cpp
+g++ -c -MD -Imy_little_engine -Imy_little_engine/core -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. my_little_engine/objects/game_object.cpp
+g++ -c -MD -Imy_little_engine -Imy_little_engine/core -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. my_little_engine/objects/scene.cpp
+g++ -c -MD -Imy_little_engine -Imy_little_engine/core -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. my_little_engine/physics/collision.cpp
+g++ -c -MD -Imy_little_engine -Imy_little_engine/core -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. my_little_engine/physics/collision_manager.cpp
+g++ -c -MD -Imy_little_engine -Imy_little_engine/core -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. my_little_engine/rendering/sprite.cpp
+g++ -c -MD -Imy_little_engine -Imy_little_engine/core -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. my_little_engine/rendering/renderer.cpp
+g++ -c -MD -Imy_little_engine -Imy_little_engine/core -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. snake.cpp
+g++ -c -MD -Imy_little_engine -Imy_little_engine/core -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. snake_game.cpp
+g++ -c -MD -Imy_little_engine -Imy_little_engine/core -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. the_snake.cpp
+g++ -c -MD -Imy_little_engine -Imy_little_engine/core -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. apple.cpp
+g++ -c -MD -Imy_little_engine -Imy_little_engine/core -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I. tests.cpp
+g++ game_window.o engine.o event_handler.o game_object.o scene.o collision.o collision_manager.o sprite.o renderer.o snake.o snake_game.o the_snake.o apple.o tests.o -Wall -g -lSDL2 -lSDL2_image -o the_snake
 make: Leaving directory '/home/jared_kane/Projects/Source/C++/TheSnake'
  

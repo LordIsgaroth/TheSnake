@@ -2,8 +2,8 @@
 
 #include <memory>
 
-#include "../common/IObserver.hpp"
-#include "../events/keyboard_event.hpp"
+#include "my_little_engine/common/IObserver.hpp"
+#include "my_little_engine/events/keyboard_event.hpp"
 
 class IInputListener : public IObserver<std::shared_ptr<KeyboardEvent>>
 {

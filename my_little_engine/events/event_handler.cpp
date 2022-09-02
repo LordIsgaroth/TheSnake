@@ -1,21 +1,15 @@
 #include "event_handler.hpp"
 
-EventHandler::EventHandler()
-{
-    //quitEventNotifier = new EventSubject<bool>();
-    quitEventNotifier.SetMessage(true);
+EventHandler::EventHandler(){}
 
-    //keyboardEventNotifier = new EventSubject<std::shared_ptr<KeyboardEvent>>();
-}
-
-void EventHandler::AddQuitEventListener(std::shared_ptr<GameWindow> listener)
-{
-    quitEventNotifier.Attach(listener);
-}
-
-void EventHandler::AddKeyboardEventListener(std::shared_ptr<IInputListener> listener)
+void EventHandler::AddInputEventListener(std::shared_ptr<IInputListener> listener)
 {
     keyboardEventNotifier.Attach(listener);
+}
+
+void EventHandler::RemoveInputEventListener(std::shared_ptr<IInputListener> listener)
+{
+    keyboardEventNotifier.Detach(listener);
 }
 
 void EventHandler::CheckEvents()
@@ -24,10 +18,7 @@ void EventHandler::CheckEvents()
 
     while (SDL_PollEvent(&event) != 0)
     {
-        if(event.type == SDL_QUIT)
-        {
-            quitEventNotifier.Notify();
-        }
+        if(event.type == SDL_QUIT) Engine::Quit();
         else if (event.type == SDL_KEYDOWN)
         {
             std::shared_ptr<KeyboardEvent> keyboardEvent = std::make_shared<KeyboardEvent>();
@@ -38,9 +29,4 @@ void EventHandler::CheckEvents()
             keyboardEventNotifier.Notify();
         }
     }
-}
-
-EventHandler::~EventHandler()
-{
-    //delete quitEventNotifier;
 }

@@ -6,6 +6,7 @@
 #include "my_little_engine/rendering/sprite.hpp"
 #include "my_little_engine/events/input_listener.hpp"
 #include "my_little_engine/physics/collision.hpp"
+#include "my_little_engine/common/vector.hpp"
 
 class GameObject : public IInputListener
 {
@@ -23,9 +24,7 @@ public:
     void SetSprite(std::shared_ptr<Sprite>);
     std::shared_ptr<Sprite> GetSprite();
 
-    //TODO: make specific class for position
-    double posX = 0;
-    double posY = 0;
+    Vector2D position;
 
 protected:
     static int maxId;

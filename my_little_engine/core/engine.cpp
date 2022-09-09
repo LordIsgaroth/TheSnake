@@ -14,7 +14,7 @@ std::unique_ptr<CollisionManager> Engine::collisionManager;
 
 void Engine::Initialize(std::string name, int startWidth, int startHeight)
 {
-    if(initialized) return;
+    if (initialized) return;
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
@@ -31,6 +31,22 @@ void Engine::Initialize(std::string name, int startWidth, int startHeight)
     collisionManager = std::make_unique<CollisionManager>();  
 }
 
+void Engine::Free()
+{
+    if(!initialized) return;
+
+    initialized = false;
+    gameName = "";
+
+    SDL_DestroyWindow(gameWindow);
+
+    renderer = nullptr;
+    eventHandler = nullptr;
+    collisionManager = nullptr;
+
+    SDL_Quit();
+}
+
 std::shared_ptr<Scene> Engine::CurrentScene() { return currentScene; }
 
 const Renderer& Engine::GetRenderer()
@@ -44,7 +60,7 @@ void Engine::LoadScene(std::shared_ptr<Scene> scene)
 
     for (auto record : scene->GameObjects())
     {
-        if(record.second->HandlesInput()) eventHandler->AddInputEventListener(record.second);
+        if (record.second->HandlesInput()) eventHandler->AddInputEventListener(record.second);
         AddToRendering(record.second);
         AddCollideable(record.second);
     }    
@@ -52,23 +68,23 @@ void Engine::LoadScene(std::shared_ptr<Scene> scene)
 
 void Engine::AddObject(std::shared_ptr<GameObject> gameObject)
 {
-    if(!initialized) throw ("Engine not initialized!");
-    if(!currentScene) throw ("Scene not loaded!");
+    if (!initialized) throw ("Engine not initialized!");
+    if (!currentScene) throw ("Scene not loaded!");
 
-    if(!currentScene->ContainsObject(gameObject->Id())) objectsToAdd.push_back(gameObject);
+    if (!currentScene->ContainsObject(gameObject->Id())) objectsToAdd.push_back(gameObject);
 }
 
 void Engine::RemoveObject(int id)
 {
-    if(!initialized) throw ("Engine not initialized!");
-    if(!currentScene) throw ("Scene not loaded!");
+    if (!initialized) throw ("Engine not initialized!");
+    if (!currentScene) throw ("Scene not loaded!");
 
-    if(currentScene->ContainsObject(id)) objectsToRemove.push_back(id);
+    if (currentScene->ContainsObject(id)) objectsToRemove.push_back(id);
 }
 
 void Engine::AddToRendering(std::shared_ptr<GameObject> gameObject)
 {
-    if(gameObject->IsDrawable()) renderer->AddToRendering(gameObject);
+    if (gameObject->IsDrawable()) renderer->AddToRendering(gameObject);
 }
 
 void Engine::AddCollideable(std::shared_ptr<GameObject> gameObject)
@@ -110,7 +126,7 @@ void Engine::MainLoop()
     while(currentScene->Active())
     {
         elapsed_seconds = end - start;
-        std::cout << elapsed_seconds.count() * 1000 << std::endl;
+        //std::cout << elapsed_seconds.count() * 1000 << std::endl;
 
         start = std::chrono::system_clock::now();
  
@@ -150,6 +166,8 @@ void Engine::AddNewObjects()
         AddToRendering(gameObject);
         AddCollideable(gameObject);
     }
+
+    objectsToAdd.clear();
 }
 
 void Engine::RemoveObjects()

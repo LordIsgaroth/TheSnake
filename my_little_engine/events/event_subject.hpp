@@ -33,20 +33,14 @@ public:
         }
     }
     
-    void Notify() override
+    void Notify(T message) override
     {
         for(observer obs : observers)
         {
-            obs->Update(message);
+            obs->OnNotify(message);
         }
-    }
-
-    void SetMessage(T message)
-    {
-        this->message = message;
     }
 
 private:
     std::unordered_set<observer> observers;
-    T message;
 };

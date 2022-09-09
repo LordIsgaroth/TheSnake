@@ -5,7 +5,7 @@ int GameObject::maxId;
 GameObject::GameObject()
 {
     id = maxId + 1;
-    maxId = 1;
+    maxId = id;
 }
 
 bool GameObject::IsDrawable()

@@ -1,8 +1,6 @@
 #pragma once
 
-#include "my_little_engine.hpp"
-
-#include "snake_game.hpp"
+#include "my_little_engine/my_little_engine.hpp"
 
 class Apple : public CollisionObject
 {

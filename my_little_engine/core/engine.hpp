@@ -21,6 +21,7 @@ class Engine
 {
 public:
     static void Initialize(std::string name, int startWidth, int startHeight);
+    static void Free();
 
     static std::shared_ptr<Scene> CurrentScene();
     static const Renderer& GetRenderer();

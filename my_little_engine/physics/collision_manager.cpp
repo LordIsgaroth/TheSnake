@@ -47,5 +47,10 @@ bool CollisionManager::IsColliding(std::shared_ptr<CollisionObject> first, std::
     double right = (second->posX + second->CollisionWidth()) - first->posX;
     double bottom = second->posY - (first->posY + first->CollisionHeight());
 
+    // std::cout << "collision: " << first->CollisionHeight() << " " << first->CollisionWidth() << " " << second->CollisionHeight() << " " << second->CollisionWidth() << std::endl;
+    // std::cout << "collision: " << first->posX << " " << first->posY << " " << second->posX << " " << second->posY << std::endl;
+    // std::cout << "collision: " << left << " " << right << " " << top << " " << bottom << std::endl;
+    // std::cout << std::endl;
+
     return !(left > 0 || right < 0 || top < 0 || bottom > 0);
 }

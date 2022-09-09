@@ -25,8 +25,7 @@ void EventHandler::CheckEvents()
             keyboardEvent->eventType = KeyboardEventType::pressed;
             keyboardEvent->key = event.key.keysym.sym;
 
-            keyboardEventNotifier.SetMessage(keyboardEvent);
-            keyboardEventNotifier.Notify();
+            keyboardEventNotifier.Notify(keyboardEvent);
         }
     }
 }

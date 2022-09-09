@@ -36,6 +36,18 @@ std::shared_ptr<Sprite> Renderer::CreateSprite(std::string path) const
     return std::make_shared<Sprite>(texture, surface->w, surface->h);
 }
 
+std::shared_ptr<Sprite> Renderer::CreateSprite(std::string path, int width, int height) const
+{
+    SDL_Surface *surface = IMG_Load(path.c_str());
+    if(!surface) throw SDL_GetError();
+
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(sdl_renderer, surface);
+
+    if(!texture) throw SDL_GetError();
+
+    return std::make_shared<Sprite>(texture, width, height);
+}
+
 void Renderer::DrawSprite(std::shared_ptr<Sprite> sprite, int x, int y) const
 {
     if (!sprite) throw "Sprite do not exist!";

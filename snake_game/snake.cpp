@@ -9,16 +9,17 @@ Snake::Snake(std::unique_ptr<SnakeHeadSprites> headSprites)
     handlesInput = true;
 
     this->headSprites = std::move(headSprites);
-    SetSprite(this->headSprites->headUp);
-
+    
+    SetSprite(this->headSprites->headRight);
+    
     borders->width = sprite->Width();
-    borders->width = sprite->Height();
+    borders->height = sprite->Height();
 }
 
 void Snake::Update(double elapsedTime)
 {
-    posX += elapsedTime * speed * dirX;  
-    posY += elapsedTime * speed * dirY;
+    position.x += elapsedTime * speed * direction.x;  
+    position.y += elapsedTime * speed * direction.y;
 }
 
 void Snake::Input(std::shared_ptr<KeyboardEvent> inputEvent)
@@ -29,29 +30,25 @@ void Snake::Input(std::shared_ptr<KeyboardEvent> inputEvent)
         {
             case SDLK_UP:
             {
-                dirX = 0;
-                dirY = -1;
+                direction = Vector2D::Up();
                 SetSprite(headSprites->headUp);
                 break;
             }
             case SDLK_DOWN:
             {
-                dirX = 0;
-                dirY = 1;
+                direction = Vector2D::Down();
                 SetSprite(headSprites->headDown);
                 break;
             }
             case SDLK_LEFT:
             {
-                dirX = -1;
-                dirY = 0;
+                direction = Vector2D::Left();
                 SetSprite(headSprites->headLeft);
                 break;
             }
             case SDLK_RIGHT:
             {
-                dirX = 1;
-                dirY = 0;
+                direction = Vector2D::Right();
                 SetSprite(headSprites->headRight);
                 break;
             }
@@ -66,5 +63,26 @@ void Snake::OnCollision(std::shared_ptr<Collision> collision)
 {
     std::cout << name << " collides with " << collision->Other()->Name() << std::endl;
 
-    if(collision->Other()->Name() == "Apple") Engine::RemoveObject(collision->Other()->Id());
+    if(collision->Other()->Name() == "Apple") 
+    {
+        std::shared_ptr<SnakeEvent> event = std::make_shared<SnakeEvent>(SnakeEventType::AppleEaten);
+        observer->OnNotify(event);
+
+        Engine::RemoveObject(collision->Other()->Id());
+    }
+}
+
+void Snake::Attach(std::shared_ptr<IObserver<std::shared_ptr<SnakeEvent>>> observer)
+{
+    this->observer = observer;
+}
+
+void Snake::Detach(std::shared_ptr<IObserver<std::shared_ptr<SnakeEvent>>> observer)
+{
+    this->observer = nullptr;
+}
+
+void Snake::Notify(std::shared_ptr<SnakeEvent> message)
+{
+    if(observer) observer->OnNotify(message);
 }

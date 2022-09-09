@@ -14,7 +14,10 @@ class Renderer
 {
 public:
     Renderer(SDL_Window* window);
+
     std::shared_ptr<Sprite> CreateSprite(std::string path) const;
+    std::shared_ptr<Sprite> CreateSprite(std::string path, int width, int height) const;
+
     void DrawSprite(std::shared_ptr<Sprite> sprite, int x, int y) const;
     void Render() const;
     void AddToRendering(std::shared_ptr<GameObject> gameObject);

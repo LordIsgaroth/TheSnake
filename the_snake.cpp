@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "snake_game.hpp"
+#include "snake_game/snake_game.hpp"
 
 int main()
 {
@@ -8,6 +8,8 @@ int main()
     {
         SnakeGame game;
         game.Start();
+
+        //Engine::Free();
     }
     catch(const char* e)
     {
@@ -16,4 +18,3 @@ int main()
 
     return 0;
 }
-

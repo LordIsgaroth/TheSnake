@@ -22,7 +22,7 @@ private:
     const int SCREEN_WIDTH = 1024;
     const int SCREEN_HEIGHT = 768;
     const int TILE_SIZE = 40;
-    const int FIELD_WIDTH = 22;
-    const int FIELD_HEIGHT = 18;
+    const int FIELD_WIDTH = 20;
+    const int FIELD_HEIGHT = 16;
     const int MIN_APPLES = 1;
 };

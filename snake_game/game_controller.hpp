@@ -6,7 +6,7 @@
 #include "my_little_engine/my_little_engine.hpp"
 
 #include "snake.hpp"
-#include "apple.hpp"
+#include "snake_game_objects.hpp"
 
 class GameController : public GameObject, public IObserver<std::shared_ptr<SnakeEvent>>
 {
@@ -15,6 +15,7 @@ public:
     ~GameController();
 
     std::shared_ptr<Snake> GetSnake() const;
+    const std::vector<std::shared_ptr<Border>>& GetBorders() const; 
 
 private:
     int minApplesCount, currentApplesCount;
@@ -26,8 +27,10 @@ private:
 
     std::shared_ptr<Snake> snake;
     std::shared_ptr<Sprite> appleSprite;
+    std::vector<std::shared_ptr<Border>> borders;
 
     void CreateField();
+    void CreateBorders();
     void CreateSnake();
     void AddApple();
 

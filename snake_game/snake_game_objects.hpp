@@ -7,5 +7,11 @@ class Apple : public CollisionObject
 public:
     Apple();
     Apple(std::shared_ptr<Sprite> sprite);
-    void OnCollision(std::shared_ptr<Collision> collision) override;
+};
+
+class Border : public CollisionObject
+{
+public:
+    Border();
+    Border(std::shared_ptr<Sprite> sprite); 
 };

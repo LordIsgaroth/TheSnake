@@ -5,8 +5,9 @@
 
 Snake::Snake(std::unique_ptr<SnakeHeadSprites> headSprites)
 {
-    name = "Snake";
     handlesInput = true;
+    name = "Snake";
+    alive = true;
 
     this->headSprites = std::move(headSprites);
     
@@ -24,6 +25,8 @@ void Snake::Update(double elapsedTime)
 
 void Snake::Input(std::shared_ptr<KeyboardEvent> inputEvent)
 {
+    if (!alive) return;
+
     if (inputEvent->eventType == KeyboardEventType::pressed)
     {
         switch (inputEvent->key)
@@ -63,13 +66,18 @@ void Snake::OnCollision(std::shared_ptr<Collision> collision)
 {
     std::cout << name << " collides with " << collision->Other()->Name() << std::endl;
 
-    if(collision->Other()->Name() == "Apple") 
+    if (collision->Other()->Name() == "Apple") 
     {
         std::shared_ptr<SnakeEvent> event = std::make_shared<SnakeEvent>(SnakeEventType::AppleEaten);
         observer->OnNotify(event);
 
         Engine::RemoveObject(collision->Other()->Id());
     }
+    else if (collision->Other()->Name() == "Border")
+    {
+        alive = false;
+        speed = 0;
+    } 
 }
 
 void Snake::Attach(std::shared_ptr<IObserver<std::shared_ptr<SnakeEvent>>> observer)

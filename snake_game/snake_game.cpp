@@ -14,6 +14,11 @@ void SnakeGame::Start()
     objectsForLoading->push_back(gameController);
     objectsForLoading->push_back(gameController->GetSnake());
 
+    for(std::shared_ptr<Border> border : gameController->GetBorders())
+    {
+        objectsForLoading->push_back(border);
+    }
+
     std::shared_ptr<Scene> mainScene = std::make_shared<Scene>("Main scene", std::move(objectsForLoading));
 
     Engine::LoadScene(mainScene);

@@ -25,6 +25,7 @@ public:
     void Notify(std::shared_ptr<SnakeEvent> message) override;
 
 private:
+    bool alive;
     double speed = 0.2;
     
     Vector2D direction, nextDirection;

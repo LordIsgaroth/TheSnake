@@ -15,7 +15,7 @@ struct SnakeHeadSprites
 class Snake : public CollisionObject, public ISubject<std::shared_ptr<SnakeEvent>>
 {
 public:
-    Snake(std::unique_ptr<SnakeHeadSprites> headSprites);
+    Snake(std::unique_ptr<SpriteRenderer> spriteRenderer, std::unique_ptr<SnakeHeadSprites> headSprites);
     void Update(double elapsedTime) override;
     void Input(std::shared_ptr<KeyboardEvent> inputEvent) override;
     void OnCollision(std::shared_ptr<Collision> collision) override;

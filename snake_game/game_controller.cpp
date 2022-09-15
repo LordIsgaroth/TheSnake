@@ -10,8 +10,7 @@ GameController::GameController(int tileSize, int fieldWidth, int fieldHeight, in
     this->fieldHeight = fieldHeight;
     this->minApplesCount = minApplesCount;
 
-    appleSprite = Engine::GetRenderer().CreateSprite("Graphics/apple.png", tileSize, tileSize);
-
+    appleSprite = Engine::GetRenderer().CreateSprite("Graphics/apple.png");
 
     CreateField();
     CreateBorders();
@@ -29,39 +28,47 @@ const std::vector<std::shared_ptr<Border>>& GameController::GetBorders() const {
 
 void GameController::CreateField()
 {
+    std::shared_ptr<Sprite> grassSprite = Engine::GetRenderer().CreateSprite("Graphics/grass.png");
+    
     field = new char[fieldWidth * fieldHeight];
 
     for (int i = 0; i < fieldWidth * fieldHeight; i++)
     {
-        field[i] = '-';       
-    }
+        field[i] = '-';
+
+        std::shared_ptr<Grass> grass = std::make_shared<Grass>(CreateTileSpriteRenderer(grassSprite, 0));
+        grass->position.x = tileSize + (i % fieldWidth) * tileSize;
+        grass->position.y = tileSize + (i / fieldWidth) * tileSize;
+
+        fieldTiles.push_back(grass);
+    }    
 }
 
 void GameController::CreateBorders()
 {
-    std::shared_ptr<Sprite> topBorderSprite = Engine::GetRenderer().CreateSprite("Graphics/border_top.png", tileSize, tileSize);
-    std::shared_ptr<Sprite> bottomBorderSprite = Engine::GetRenderer().CreateSprite("Graphics/border_bottom.png", tileSize, tileSize);
-    std::shared_ptr<Sprite> leftBorderSprite = Engine::GetRenderer().CreateSprite("Graphics/border_left.png", tileSize, tileSize);
-    std::shared_ptr<Sprite> rightBorderSprite = Engine::GetRenderer().CreateSprite("Graphics/border_right.png", tileSize, tileSize);
+    std::shared_ptr<Sprite> topBorderSprite = Engine::GetRenderer().CreateSprite("Graphics/border_top.png");
+    std::shared_ptr<Sprite> bottomBorderSprite = Engine::GetRenderer().CreateSprite("Graphics/border_bottom.png");
+    std::shared_ptr<Sprite> leftBorderSprite = Engine::GetRenderer().CreateSprite("Graphics/border_left.png");
+    std::shared_ptr<Sprite> rightBorderSprite = Engine::GetRenderer().CreateSprite("Graphics/border_right.png");
 
-    std::shared_ptr<Sprite> topLeftCornerSprite = Engine::GetRenderer().CreateSprite("Graphics/border_top_left_corner.png", tileSize, tileSize);
-    std::shared_ptr<Sprite> topRightCornerSprite = Engine::GetRenderer().CreateSprite("Graphics/border_top_right_corner.png", tileSize, tileSize);
-    std::shared_ptr<Sprite> bottomLeftCornerSprite = Engine::GetRenderer().CreateSprite("Graphics/border_bottom_left_corner.png", tileSize, tileSize);
-    std::shared_ptr<Sprite> bottomRightCornerSprite = Engine::GetRenderer().CreateSprite("Graphics/border_bottom_right_corner.png", tileSize, tileSize);
+    std::shared_ptr<Sprite> topLeftCornerSprite = Engine::GetRenderer().CreateSprite("Graphics/border_top_left_corner.png");
+    std::shared_ptr<Sprite> topRightCornerSprite = Engine::GetRenderer().CreateSprite("Graphics/border_top_right_corner.png");
+    std::shared_ptr<Sprite> bottomLeftCornerSprite = Engine::GetRenderer().CreateSprite("Graphics/border_bottom_left_corner.png");
+    std::shared_ptr<Sprite> bottomRightCornerSprite = Engine::GetRenderer().CreateSprite("Graphics/border_bottom_right_corner.png");  
 
-    std::shared_ptr<Border> topLeftCorner = std::make_shared<Border>(topLeftCornerSprite);
+    std::shared_ptr<Border> topLeftCorner = std::make_shared<Border>(CreateTileSpriteRenderer(topLeftCornerSprite, 3));
     topLeftCorner->position.x = 0;
     topLeftCorner->position.y = 0;
 
-    std::shared_ptr<Border> topRightCorner = std::make_shared<Border>(topRightCornerSprite);
+    std::shared_ptr<Border> topRightCorner = std::make_shared<Border>(CreateTileSpriteRenderer(topRightCornerSprite, 3));
     topRightCorner->position.x = tileSize + fieldWidth * tileSize;
     topRightCorner->position.y = 0;
 
-    std::shared_ptr<Border> bottomLeftCorner = std::make_shared<Border>(bottomLeftCornerSprite);
+    std::shared_ptr<Border> bottomLeftCorner = std::make_shared<Border>(CreateTileSpriteRenderer(bottomLeftCornerSprite, 3));
     bottomLeftCorner->position.x = 0;
     bottomLeftCorner->position.y = tileSize + fieldHeight * tileSize;
 
-    std::shared_ptr<Border> bottomRightCorner = std::make_shared<Border>(bottomRightCornerSprite);
+    std::shared_ptr<Border> bottomRightCorner = std::make_shared<Border>(CreateTileSpriteRenderer(bottomRightCornerSprite, 3));
     bottomRightCorner->position.x = tileSize + fieldWidth * tileSize;
     bottomRightCorner->position.y = tileSize + fieldHeight * tileSize;    
 
@@ -72,11 +79,11 @@ void GameController::CreateBorders()
 
     for (int i = 0; i < fieldWidth; i++)
     {
-        std::shared_ptr<Border> topBorder = std::make_shared<Border>(topBorderSprite);
+        std::shared_ptr<Border> topBorder = std::make_shared<Border>(CreateTileSpriteRenderer(topBorderSprite, 3));
         topBorder->position.x = tileSize + i * tileSize;
         topBorder->position.y = 0;
 
-        std::shared_ptr<Border> bottomBorder = std::make_shared<Border>(bottomBorderSprite);
+        std::shared_ptr<Border> bottomBorder = std::make_shared<Border>(CreateTileSpriteRenderer(bottomBorderSprite, 3));
         bottomBorder->position.x = tileSize + i * tileSize;
         bottomBorder->position.y = tileSize + fieldHeight * tileSize;
 
@@ -86,11 +93,11 @@ void GameController::CreateBorders()
 
     for (int i = 0; i < fieldHeight; i++)
     {
-        std::shared_ptr<Border> leftBorder = std::make_shared<Border>(leftBorderSprite);
+        std::shared_ptr<Border> leftBorder = std::make_shared<Border>(CreateTileSpriteRenderer(leftBorderSprite, 3));
         leftBorder->position.x = 0;
         leftBorder->position.y = tileSize + i * tileSize;
 
-        std::shared_ptr<Border> rightBorder = std::make_shared<Border>(rightBorderSprite);
+        std::shared_ptr<Border> rightBorder = std::make_shared<Border>(CreateTileSpriteRenderer(rightBorderSprite, 3));
         rightBorder->position.x = tileSize + fieldWidth * tileSize;
         rightBorder->position.y = tileSize + i * tileSize;
 
@@ -102,15 +109,20 @@ void GameController::CreateBorders()
 void GameController::CreateSnake()
 {
     std::unique_ptr<SnakeHeadSprites> headSprites = std::make_unique<SnakeHeadSprites>();
-    headSprites->headUp = Engine::GetRenderer().CreateSprite("Graphics/head_up.png", tileSize, tileSize);
-    headSprites->headDown = Engine::GetRenderer().CreateSprite("Graphics/head_down.png", tileSize, tileSize);
-    headSprites->headRight = Engine::GetRenderer().CreateSprite("Graphics/head_right.png", tileSize, tileSize);
-    headSprites->headLeft = Engine::GetRenderer().CreateSprite("Graphics/head_left.png", tileSize, tileSize);
+    headSprites->headUp = Engine::GetRenderer().CreateSprite("Graphics/head_up.png");
+    headSprites->headDown = Engine::GetRenderer().CreateSprite("Graphics/head_down.png");
+    headSprites->headRight = Engine::GetRenderer().CreateSprite("Graphics/head_right.png");
+    headSprites->headLeft = Engine::GetRenderer().CreateSprite("Graphics/head_left.png");
 
-    snake = std::make_shared<Snake>(std::move(headSprites));
+    snake = std::make_shared<Snake>(CreateTileSpriteRenderer(headSprites->headRight, 2), std::move(headSprites));
 
     snake->position.x = tileSize * fieldWidth / 2;
     snake->position.y = tileSize * fieldHeight / 2;
+}
+
+std::unique_ptr<SpriteRenderer> GameController::CreateTileSpriteRenderer(std::shared_ptr<Sprite> sprite, int renderingOrder)
+{
+    return std::move(std::make_unique<SpriteRenderer>(sprite, tileSize, tileSize, renderingOrder));
 }
 
 void GameController::Update(double elapsedTime)
@@ -125,7 +137,7 @@ void GameController::OnNotify(std::shared_ptr<SnakeEvent> message)
 
 void GameController::AddApple()
 {
-    std::shared_ptr<Apple> newApple = std::make_shared<Apple>(appleSprite);
+    std::shared_ptr<Apple> newApple = std::make_shared<Apple>(CreateTileSpriteRenderer(appleSprite, 1));
 
     Vector2D position = GetFreePosition();
 

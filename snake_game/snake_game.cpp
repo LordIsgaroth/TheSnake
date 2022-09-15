@@ -12,13 +12,19 @@ void SnakeGame::Start()
 
     std::unique_ptr<std::vector<std::shared_ptr<GameObject>>> objectsForLoading = std::make_unique<std::vector<std::shared_ptr<GameObject>>>();
     objectsForLoading->push_back(gameController);
-    objectsForLoading->push_back(gameController->GetSnake());
 
     for(std::shared_ptr<Border> border : gameController->GetBorders())
     {
         objectsForLoading->push_back(border);
     }
 
+    for(std::shared_ptr<GameObject> grass : gameController->GetField())
+    {
+        objectsForLoading->push_back(grass);
+    }
+
+    objectsForLoading->push_back(gameController->GetSnake());
+    
     std::shared_ptr<Scene> mainScene = std::make_shared<Scene>("Main scene", std::move(objectsForLoading));
 
     Engine::LoadScene(mainScene);

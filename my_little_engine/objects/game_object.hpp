@@ -12,8 +12,9 @@ class GameObject : public IInputListener
 {
 public:
     GameObject();
+    GameObject(std::unique_ptr<SpriteRenderer> spriteRenderer);    
 
-    virtual void Update(double elapsedTime) {}
+    virtual void Update(double elapsedTime) = 0;
     virtual void Input(std::shared_ptr<KeyboardEvent> inputEvent) override {}
 
     std::string Name() { return name; }
@@ -21,8 +22,8 @@ public:
 
     bool IsDrawable();
     bool HandlesInput();
-    void SetSprite(std::shared_ptr<Sprite>);
-    std::shared_ptr<Sprite> GetSprite();
+    void SetSpriteRenderer(std::unique_ptr<SpriteRenderer> spriteRenderer);
+    const std::unique_ptr<SpriteRenderer>& GetSpriteRenderer() const;
 
     Vector2D position;
 
@@ -31,9 +32,10 @@ protected:
 
     int id;
     std::string name;
-    std::shared_ptr<Sprite> sprite = nullptr;
+    std::unique_ptr<SpriteRenderer> spriteRenderer = nullptr;
     bool handlesInput = false;
 
+    void SetId();
 };
 
 struct CollisionBorders
@@ -48,14 +50,16 @@ class CollisionObject : public GameObject
 {  
 public:
     CollisionObject();
+    CollisionObject(std::unique_ptr<SpriteRenderer> spriteRenderer);
     CollisionObject(int width, int height);
-    CollisionObject(std::shared_ptr<Sprite> sprite);
     
     int CollisionWidth() { return borders->width; }
     int CollisionHeight() { return borders->height; }
+    bool CanCollide() { return canCollide; }
 
     virtual void OnCollision(std::shared_ptr<Collision> collision) {}
 
 protected:
+    bool canCollide;
     std::shared_ptr<CollisionBorders> borders;  
 };

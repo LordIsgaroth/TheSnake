@@ -22,7 +22,7 @@ void CollisionManager::CheckCollisions()
 {
     for(auto record : collidableObjects)
     {
-        CheckForObject(record.second);
+        if (record.second->CanCollide()) CheckForObject(record.second);
     }
 }
 
@@ -32,7 +32,7 @@ void CollisionManager::CheckForObject(std::shared_ptr<CollisionObject> object)
     {
         if(record.second != object)
         {
-            if(IsColliding(object, record.second))
+            if(record.second->CanCollide() && IsColliding(object, record.second))
             {
                 object->OnCollision(std::make_shared<Collision>(record.second));
             }    
@@ -42,10 +42,10 @@ void CollisionManager::CheckForObject(std::shared_ptr<CollisionObject> object)
 
 bool CollisionManager::IsColliding(std::shared_ptr<CollisionObject> first, std::shared_ptr<CollisionObject> second)
 {
-    double left = second->posX - (first->posX + first->CollisionWidth());
-    double top = (second->posY + second->CollisionHeight()) - first->posY;
-    double right = (second->posX + second->CollisionWidth()) - first->posX;
-    double bottom = second->posY - (first->posY + first->CollisionHeight());
+    double left = second->position.x - (first->position.x + first->CollisionWidth());
+    double top = (second->position.y + second->CollisionHeight()) - first->position.y;
+    double right = (second->position.x + second->CollisionWidth()) - first->position.x;
+    double bottom = second->position.y - (first->position.y + first->CollisionHeight());
 
     // std::cout << "collision: " << first->CollisionHeight() << " " << first->CollisionWidth() << " " << second->CollisionHeight() << " " << second->CollisionWidth() << std::endl;
     // std::cout << "collision: " << first->posX << " " << first->posY << " " << second->posX << " " << second->posY << std::endl;

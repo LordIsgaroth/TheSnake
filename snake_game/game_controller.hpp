@@ -15,7 +15,10 @@ public:
     ~GameController();
 
     std::shared_ptr<Snake> GetSnake() const;
-    const std::vector<std::shared_ptr<Border>>& GetBorders() const; 
+    const std::vector<std::shared_ptr<Border>>& GetBorders() const;
+
+    //for testing - remove
+    const std::vector<std::shared_ptr<GameObject>>& GetField() const { return fieldTiles; } 
 
 private:
     int minApplesCount, currentApplesCount;
@@ -28,11 +31,14 @@ private:
     std::shared_ptr<Snake> snake;
     std::shared_ptr<Sprite> appleSprite;
     std::vector<std::shared_ptr<Border>> borders;
-
+    std::vector<std::shared_ptr<GameObject>> fieldTiles;
+    
     void CreateField();
     void CreateBorders();
     void CreateSnake();
     void AddApple();
+
+    std::unique_ptr<SpriteRenderer> CreateTileSpriteRenderer(std::shared_ptr<Sprite> sprite, int renderingOrder); 
 
     Vector2D GetFreePosition();
 

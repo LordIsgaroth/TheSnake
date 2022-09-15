@@ -13,7 +13,7 @@ Renderer::Renderer(SDL_Window* window)
     if(!sdl_renderer) throw SDL_GetError();
 
     //SDL_SetRenderDrawColor(sdl_renderer, 0, 0, 0, 0);
-
+    
 }
 
 void Renderer::Init()
@@ -31,44 +31,36 @@ std::shared_ptr<Sprite> Renderer::CreateSprite(std::string path) const
 
     SDL_Texture *texture = SDL_CreateTextureFromSurface(sdl_renderer, surface);
 
+    delete(surface);
     if(!texture) throw SDL_GetError();
 
-    return std::make_shared<Sprite>(texture, surface->w, surface->h);
+    return std::make_shared<Sprite>(std::move(texture), surface->w, surface->h);
 }
 
-std::shared_ptr<Sprite> Renderer::CreateSprite(std::string path, int width, int height) const
+void Renderer::DrawSprite(const std::unique_ptr<SpriteRenderer>& spriteRenderer, int x, int y) const
 {
-    SDL_Surface *surface = IMG_Load(path.c_str());
-    if(!surface) throw SDL_GetError();
+    if (!spriteRenderer || !spriteRenderer->GetSprite()) throw "Sprite do not exist!";
 
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(sdl_renderer, surface);
+    SDL_Rect* srsRect = spriteRenderer->GetRect().get();
 
-    if(!texture) throw SDL_GetError();
-
-    return std::make_shared<Sprite>(texture, width, height);
-}
-
-void Renderer::DrawSprite(std::shared_ptr<Sprite> sprite, int x, int y) const
-{
-    if (!sprite) throw "Sprite do not exist!";
-
-    // SDL_Rect rect;
-    // rect.h = sprite->Height();
-    // rect.w = sprite->Width();
-    sprite->Rect()->x = x;
-    sprite->Rect()->y = y;
-
-    // //SDL_RenderCopy(renderer,background,NULL,&background_RECT); //Копируем в рендер фон
-    SDL_RenderCopy(sdl_renderer, sprite->Texture(), NULL, sprite->Rect());
+    SDL_Rect destRect(*srsRect);
+    destRect.x = x;
+    destRect.y = y;
+    
+    SDL_RenderCopy(sdl_renderer, spriteRenderer->GetSprite()->Texture(), srsRect, &destRect);
 }
 
 void Renderer::Render() const
 {
     SDL_RenderClear(sdl_renderer);
 
-    for(auto record : objectsToRender)
-    {
-        DrawSprite(record.second->GetSprite(), record.second->posX, record.second->posY);
+    for (auto layer : objectsToRender)
+    {   
+        for (auto record: layer.second)
+        {
+            std::cout << record.second->Name() << std::endl;
+            DrawSprite(record.second->GetSpriteRenderer(), record.second->position.x, record.second->position.y);
+        }
     }
 
     SDL_RenderPresent(sdl_renderer);
@@ -76,18 +68,41 @@ void Renderer::Render() const
 
 void Renderer::AddToRendering(std::shared_ptr<GameObject> gameObject)
 {
-    if(Contains(gameObject->Id())) return;
-    objectsToRender.insert(std::make_pair(gameObject->Id(), gameObject));
+    int renderingOrder = gameObject->GetSpriteRenderer()->RenderingOrder();
+
+    if(ContainsObject(gameObject->Id(), renderingOrder)) return;
+
+    if(!ContainsOrder(renderingOrder)) CreateLayer(renderingOrder);
+    objectsToRender.find(renderingOrder)->second.insert(std::make_pair(gameObject->Id(), gameObject));
 }
 
-void Renderer::RemoveFromRendering(int id)
+void Renderer::RemoveFromRendering(int id, int renderingOrder)
 {
-    if(!Contains(id)) return;
-    objectsToRender.erase(id);
+    if(!ContainsObject(id, renderingOrder)) return;
+
+    auto layer = objectsToRender.find(renderingOrder);
+
+    layer->second.erase(id);
+
+    if(layer->second.size() == 0) objectsToRender.erase(renderingOrder);
 }
 
-bool Renderer::Contains(int id) const
+bool Renderer::ContainsObject(int id, int renderingOrder) const
+{   
+    auto layer = objectsToRender.find(renderingOrder); 
+
+    if(layer == objectsToRender.end()) return false;
+
+    return layer->second.find(id) != layer->second.end();
+}
+
+bool Renderer::ContainsOrder(int renderingOrder) const
 {
-    if (objectsToRender.find(id) != objectsToRender.end()) return true;
-    else return false;
+    return objectsToRender.find(renderingOrder) != objectsToRender.end();
+}
+
+void Renderer::CreateLayer(int renderingOrder)
+{
+    std::unordered_map<int, std::shared_ptr<GameObject>> layer;
+    objectsToRender.insert(std::make_pair(renderingOrder, layer));
 }

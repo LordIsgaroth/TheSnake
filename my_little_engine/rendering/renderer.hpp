@@ -6,6 +6,9 @@
 #include <string>
 #include <memory>
 #include <unordered_map>
+#include <map>
+
+#include <iostream>
 
 #include "my_little_engine/objects/game_object.hpp"
 #include "sprite.hpp"
@@ -16,19 +19,21 @@ public:
     Renderer(SDL_Window* window);
 
     std::shared_ptr<Sprite> CreateSprite(std::string path) const;
-    std::shared_ptr<Sprite> CreateSprite(std::string path, int width, int height) const;
 
-    void DrawSprite(std::shared_ptr<Sprite> sprite, int x, int y) const;
+    void DrawSprite(const std::unique_ptr<SpriteRenderer>& spriteRenderer, int x, int y) const;
     void Render() const;
     void AddToRendering(std::shared_ptr<GameObject> gameObject);
-    void RemoveFromRendering(int id);
-    bool Contains(int id) const;
+    void RemoveFromRendering(int id, int renderingOrder);
+    bool ContainsObject(int id, int renderingOrder) const;
 
 private:
     SDL_Renderer *sdl_renderer = nullptr;
     static bool initialized;
 
-    std::unordered_map<int, std::shared_ptr<GameObject>> objectsToRender;
+    std::multimap<int, std::unordered_map<int, std::shared_ptr<GameObject>>> objectsToRender;
+
+    bool ContainsOrder(int renderingOrder) const;
+    void CreateLayer(int renderingOrder);
 
     static void Init();
 };

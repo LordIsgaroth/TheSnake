@@ -95,7 +95,7 @@ void Engine::AddCollideable(std::shared_ptr<GameObject> gameObject)
 
 void Engine::RemoveFromRendering(std::shared_ptr<GameObject> gameObject)
 {
-    if(gameObject->IsDrawable()) renderer->RemoveFromRendering(gameObject->Id());
+    if(gameObject->IsDrawable()) renderer->RemoveFromRendering(gameObject->Id(), gameObject->GetSpriteRenderer()->RenderingOrder());
 }
 
 void Engine::RemoveCollideable(std::shared_ptr<GameObject> gameObject)

@@ -3,18 +3,19 @@
 //for testing - remove
 #include <iostream>
 
-Snake::Snake(std::unique_ptr<SnakeHeadSprites> headSprites)
+Snake::Snake(std::unique_ptr<SpriteRenderer> spriteRenderer, std::unique_ptr<SnakeHeadSprites> headSprites) : CollisionObject(std::move(spriteRenderer))
 {
-    handlesInput = true;
     name = "Snake";
+    handlesInput = true;
+    canCollide = true;
     alive = true;
 
     this->headSprites = std::move(headSprites);
     
-    SetSprite(this->headSprites->headRight);
+    this->spriteRenderer->SetSprite(this->headSprites->headRight);
     
-    borders->width = sprite->Width();
-    borders->height = sprite->Height();
+    borders->width = this->spriteRenderer->GetRect()->w;
+    borders->height = this->spriteRenderer->GetRect()->h;
 }
 
 void Snake::Update(double elapsedTime)
@@ -34,25 +35,25 @@ void Snake::Input(std::shared_ptr<KeyboardEvent> inputEvent)
             case SDLK_UP:
             {
                 direction = Vector2D::Up();
-                SetSprite(headSprites->headUp);
+                spriteRenderer->SetSprite(headSprites->headUp);
                 break;
             }
             case SDLK_DOWN:
             {
                 direction = Vector2D::Down();
-                SetSprite(headSprites->headDown);
+                spriteRenderer->SetSprite(headSprites->headDown);
                 break;
             }
             case SDLK_LEFT:
             {
                 direction = Vector2D::Left();
-                SetSprite(headSprites->headLeft);
+                spriteRenderer->SetSprite(headSprites->headLeft);
                 break;
             }
             case SDLK_RIGHT:
             {
                 direction = Vector2D::Right();
-                SetSprite(headSprites->headRight);
+                spriteRenderer->SetSprite(headSprites->headRight);
                 break;
             }
 
@@ -76,6 +77,7 @@ void Snake::OnCollision(std::shared_ptr<Collision> collision)
     else if (collision->Other()->Name() == "Border")
     {
         alive = false;
+        canCollide = false;
         speed = 0;
     } 
 }

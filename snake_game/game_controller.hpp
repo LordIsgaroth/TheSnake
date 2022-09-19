@@ -16,11 +16,12 @@ public:
 
     std::shared_ptr<Snake> GetSnake() const;
     const std::vector<std::shared_ptr<Border>>& GetBorders() const;
-
-    //for testing - remove
     const std::vector<std::shared_ptr<GameObject>>& GetField() const { return fieldTiles; } 
 
 private:
+    const float minChangeDir = 0.2; 
+    const float maxChangeDir = 0.8;
+
     int minApplesCount, currentApplesCount;
 
     int fieldWidth, fieldHeight;
@@ -37,6 +38,8 @@ private:
     void CreateBorders();
     void CreateSnake();
     void AddApple();
+
+    void ChangeSnakeDirection();
 
     std::unique_ptr<SpriteRenderer> CreateTileSpriteRenderer(std::shared_ptr<Sprite> sprite, int renderingOrder); 
 

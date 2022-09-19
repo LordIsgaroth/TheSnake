@@ -20,17 +20,20 @@ public:
     std::string Name() { return name; }
     int Id() { return id; } 
 
+    const Vector2D& GetPosition();
+    void SetPosition(Vector2D newPosiion);
+    
     bool IsDrawable();
     bool HandlesInput();
     void SetSpriteRenderer(std::unique_ptr<SpriteRenderer> spriteRenderer);
     const std::unique_ptr<SpriteRenderer>& GetSpriteRenderer() const;
 
-    Vector2D position;
-
 protected:
     static int maxId;
-
     int id;
+
+    Vector2D position;
+
     std::string name;
     std::unique_ptr<SpriteRenderer> spriteRenderer = nullptr;
     bool handlesInput = false;

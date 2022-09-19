@@ -143,6 +143,8 @@ void Engine::MainLoop()
 
         end = std::chrono::system_clock::now();
     }
+
+    //std::cout << "End of main loop" << std::endl;
 }
 
 void Engine::UpdateAll(double elapsedTime)

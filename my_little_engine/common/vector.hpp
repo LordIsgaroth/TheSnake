@@ -12,3 +12,5 @@ public:
     static Vector2D Left();
     static Vector2D Right();
 };
+
+bool operator == (Vector2D first, Vector2D second);

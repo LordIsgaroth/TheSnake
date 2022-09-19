@@ -19,8 +19,8 @@ public:
 
 private:
 
-    const int SCREEN_WIDTH = 1024;
-    const int SCREEN_HEIGHT = 768;
+    const int SCREEN_WIDTH = 880;
+    const int SCREEN_HEIGHT = 720;
     const int TILE_SIZE = 40;
     const int FIELD_WIDTH = 20;
     const int FIELD_HEIGHT = 16;

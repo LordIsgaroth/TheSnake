@@ -19,25 +19,17 @@ void GameObject::SetId()
     maxId = id;
 }
 
-bool GameObject::IsDrawable()
-{
-    return spriteRenderer != nullptr;
-}
+const Vector2D& GameObject::GetPosition() { return position; }
 
-bool GameObject::HandlesInput()
-{
-    return handlesInput;
-}
+void GameObject::SetPosition(Vector2D newPostion) { position = newPostion; }
 
-void GameObject::SetSpriteRenderer(std::unique_ptr<SpriteRenderer> spriteRenderer)
-{
-    this->spriteRenderer = std::move(spriteRenderer);
-}
+bool GameObject::IsDrawable() { return spriteRenderer != nullptr; }
 
-const std::unique_ptr<SpriteRenderer>& GameObject::GetSpriteRenderer() const
-{
-    return spriteRenderer;
-}
+bool GameObject::HandlesInput() { return handlesInput; }
+
+void GameObject::SetSpriteRenderer(std::unique_ptr<SpriteRenderer> spriteRenderer) { this->spriteRenderer = std::move(spriteRenderer); }
+
+const std::unique_ptr<SpriteRenderer>& GameObject::GetSpriteRenderer() const { return spriteRenderer; }
 
 CollisionObject::CollisionObject()
 {

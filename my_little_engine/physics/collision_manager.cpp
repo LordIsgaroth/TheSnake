@@ -42,15 +42,18 @@ void CollisionManager::CheckForObject(std::shared_ptr<CollisionObject> object)
 
 bool CollisionManager::IsColliding(std::shared_ptr<CollisionObject> first, std::shared_ptr<CollisionObject> second)
 {
-    double left = second->position.x - (first->position.x + first->CollisionWidth());
-    double top = (second->position.y + second->CollisionHeight()) - first->position.y;
-    double right = (second->position.x + second->CollisionWidth()) - first->position.x;
-    double bottom = second->position.y - (first->position.y + first->CollisionHeight());
+    const Vector2D firstPosition = first->GetPosition();
+    const Vector2D secondPosition = second->GetPosition();
+
+    double left = secondPosition.x - (firstPosition.x + first->CollisionWidth());
+    double top = (secondPosition.y + second->CollisionHeight()) - firstPosition.y;
+    double right = (secondPosition.x + second->CollisionWidth()) - firstPosition.x;
+    double bottom = secondPosition.y - (firstPosition.y + first->CollisionHeight());
 
     // std::cout << "collision: " << first->CollisionHeight() << " " << first->CollisionWidth() << " " << second->CollisionHeight() << " " << second->CollisionWidth() << std::endl;
     // std::cout << "collision: " << first->posX << " " << first->posY << " " << second->posX << " " << second->posY << std::endl;
     // std::cout << "collision: " << left << " " << right << " " << top << " " << bottom << std::endl;
     // std::cout << std::endl;
 
-    return !(left > 0 || right < 0 || top < 0 || bottom > 0);
+    return !(left >= 0 || right <= 0 || top <= 0 || bottom >= 0);
 }

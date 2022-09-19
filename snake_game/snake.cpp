@@ -34,25 +34,33 @@ void Snake::Input(std::shared_ptr<KeyboardEvent> inputEvent)
         {
             case SDLK_UP:
             {
-                direction = Vector2D::Up();
+                if(direction == Vector2D::Down() || direction == Vector2D::Up()) return;
+
+                nextDirection = Vector2D::Up();
                 spriteRenderer->SetSprite(headSprites->headUp);
                 break;
             }
             case SDLK_DOWN:
             {
-                direction = Vector2D::Down();
+                if(direction == Vector2D::Up() || direction == Vector2D::Down()) return;
+
+                nextDirection = Vector2D::Down();
                 spriteRenderer->SetSprite(headSprites->headDown);
                 break;
             }
             case SDLK_LEFT:
             {
-                direction = Vector2D::Left();
+                if(direction == Vector2D::Right() || direction == Vector2D::Left()) return;
+
+                nextDirection = Vector2D::Left();
                 spriteRenderer->SetSprite(headSprites->headLeft);
                 break;
             }
             case SDLK_RIGHT:
             {
-                direction = Vector2D::Right();
+                if(direction == Vector2D::Left() || direction == Vector2D::Right()) return;
+
+                nextDirection = Vector2D::Right();
                 spriteRenderer->SetSprite(headSprites->headRight);
                 break;
             }

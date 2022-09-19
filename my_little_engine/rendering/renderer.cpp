@@ -37,15 +37,15 @@ std::shared_ptr<Sprite> Renderer::CreateSprite(std::string path) const
     return std::make_shared<Sprite>(std::move(texture), surface->w, surface->h);
 }
 
-void Renderer::DrawSprite(const std::unique_ptr<SpriteRenderer>& spriteRenderer, int x, int y) const
+void Renderer::DrawSprite(const std::unique_ptr<SpriteRenderer>& spriteRenderer, Vector2D position) const
 {
     if (!spriteRenderer || !spriteRenderer->GetSprite()) throw "Sprite do not exist!";
 
     SDL_Rect* srsRect = spriteRenderer->GetRect().get();
 
     SDL_Rect destRect(*srsRect);
-    destRect.x = x;
-    destRect.y = y;
+    destRect.x = position.x;
+    destRect.y = position.y;
     
     SDL_RenderCopy(sdl_renderer, spriteRenderer->GetSprite()->Texture(), srsRect, &destRect);
 }
@@ -56,10 +56,9 @@ void Renderer::Render() const
 
     for (auto layer : objectsToRender)
     {   
-        for (auto record: layer.second)
+        for (auto record : layer.second)
         {
-            std::cout << record.second->Name() << std::endl;
-            DrawSprite(record.second->GetSpriteRenderer(), record.second->position.x, record.second->position.y);
+            DrawSprite(record.second->GetSpriteRenderer(), record.second->GetPosition());
         }
     }
 

@@ -20,7 +20,7 @@ public:
 
     std::shared_ptr<Sprite> CreateSprite(std::string path) const;
 
-    void DrawSprite(const std::unique_ptr<SpriteRenderer>& spriteRenderer, int x, int y) const;
+    void DrawSprite(const std::unique_ptr<SpriteRenderer>& spriteRenderer, Vector2D position) const;
     void Render() const;
     void AddToRendering(std::shared_ptr<GameObject> gameObject);
     void RemoveFromRendering(int id, int renderingOrder);

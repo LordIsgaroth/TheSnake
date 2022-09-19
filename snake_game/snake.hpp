@@ -20,6 +20,9 @@ public:
     void Input(std::shared_ptr<KeyboardEvent> inputEvent) override;
     void OnCollision(std::shared_ptr<Collision> collision) override;
 
+    const Vector2D GetDirection() { return direction; }
+    void SetNextDirection() { direction = nextDirection; }
+
     void Attach(std::shared_ptr<IObserver<std::shared_ptr<SnakeEvent>>> observer) override;
     void Detach(std::shared_ptr<IObserver<std::shared_ptr<SnakeEvent>>> observer) override;
     void Notify(std::shared_ptr<SnakeEvent> message) override;

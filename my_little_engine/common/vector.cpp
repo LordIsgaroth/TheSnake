@@ -16,3 +16,8 @@ Vector2D Vector2D::Up() { return Vector2D(0, -1); }
 Vector2D Vector2D::Down() { return Vector2D(0, 1); }
 Vector2D Vector2D::Left() { return Vector2D(-1, 0); }
 Vector2D Vector2D::Right() { return Vector2D(1, 0); }
+
+bool operator == (Vector2D first, Vector2D second)
+{
+    return (first.x == second.x && first.y == second.y);
+}

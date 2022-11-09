@@ -2,13 +2,13 @@
 
 void CollisionManager::AddCollideable(std::shared_ptr<CollisionObject> collideable)
 {
-    if(Contains(collideable->Id())) return;
+    if (Contains(collideable->Id())) return;
     collidableObjects.insert(std::make_pair(collideable->Id(), collideable));
 }
 
 void CollisionManager::RemoveCollideable(int id)
 {
-    if(!Contains(id)) return;
+    if (!Contains(id)) return;
     collidableObjects.erase(id);
 }
 
@@ -28,11 +28,13 @@ void CollisionManager::CheckCollisions()
 
 void CollisionManager::CheckForObject(std::shared_ptr<CollisionObject> object)
 {
-    for(auto record : collidableObjects)
+    if (!object->CanCollide()) return;
+
+    for (auto record : collidableObjects)
     {
-        if(record.second != object)
+        if (record.second != object)
         {
-            if(record.second->CanCollide() && IsColliding(object, record.second))
+            if (record.second->CanCollide() && IsColliding(object, record.second))
             {
                 object->OnCollision(std::make_shared<Collision>(record.second));
             }    
@@ -42,18 +44,13 @@ void CollisionManager::CheckForObject(std::shared_ptr<CollisionObject> object)
 
 bool CollisionManager::IsColliding(std::shared_ptr<CollisionObject> first, std::shared_ptr<CollisionObject> second)
 {
-    const Vector2D firstPosition = first->GetPosition();
-    const Vector2D secondPosition = second->GetPosition();
+    const Vector2D firstPosition = first->position;
+    const Vector2D secondPosition = second->position;
 
-    double left = secondPosition.x - (firstPosition.x + first->CollisionWidth());
-    double top = (secondPosition.y + second->CollisionHeight()) - firstPosition.y;
-    double right = (secondPosition.x + second->CollisionWidth()) - firstPosition.x;
-    double bottom = secondPosition.y - (firstPosition.y + first->CollisionHeight());
-
-    // std::cout << "collision: " << first->CollisionHeight() << " " << first->CollisionWidth() << " " << second->CollisionHeight() << " " << second->CollisionWidth() << std::endl;
-    // std::cout << "collision: " << first->posX << " " << first->posY << " " << second->posX << " " << second->posY << std::endl;
-    // std::cout << "collision: " << left << " " << right << " " << top << " " << bottom << std::endl;
-    // std::cout << std::endl;
+    double left = secondPosition.X() - (firstPosition.X() + first->CollisionWidth());
+    double top = (secondPosition.Y() + second->CollisionHeight()) - firstPosition.Y();
+    double right = (secondPosition.X() + second->CollisionWidth()) - firstPosition.X();
+    double bottom = secondPosition.Y() - (firstPosition.Y() + first->CollisionHeight());
 
     return !(left >= 0 || right <= 0 || top <= 0 || bottom >= 0);
 }

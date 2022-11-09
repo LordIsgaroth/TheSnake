@@ -7,9 +7,10 @@ int main()
     try
     {
         SnakeGame game;
+        game.Load();
         game.Start();
 
-        //Engine::Free();
+        Engine::Free();
     }
     catch(const char* e)
     {

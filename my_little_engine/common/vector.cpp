@@ -19,5 +19,10 @@ Vector2D Vector2D::Right() { return Vector2D(1, 0); }
 
 bool operator == (Vector2D first, Vector2D second)
 {
-    return (first.x == second.x && first.y == second.y);
+    return (first.X() == second.X() && first.Y() == second.Y());
+}
+
+bool operator != (Vector2D first, Vector2D second)
+{
+    return (first.X() != second.X() || first.Y() != second.Y());
 }

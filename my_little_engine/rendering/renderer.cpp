@@ -31,23 +31,45 @@ std::shared_ptr<Sprite> Renderer::CreateSprite(std::string path) const
 
     SDL_Texture *texture = SDL_CreateTextureFromSurface(sdl_renderer, surface);
 
-    delete(surface);
     if(!texture) throw SDL_GetError();
 
-    return std::make_shared<Sprite>(std::move(texture), surface->w, surface->h);
+    std::shared_ptr<Sprite> sprite = std::make_shared<Sprite>(std::move(texture), surface->w, surface->h);
+    delete(surface);
+
+    return sprite;
+}
+
+std::shared_ptr<Sprite> Renderer::CreateSprite(std::string path, int width, int height) const
+{
+    SDL_Surface *surface = IMG_Load(path.c_str());
+    if(!surface) throw SDL_GetError();
+
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(sdl_renderer, surface);
+
+    if(!texture) throw SDL_GetError();
+
+    surface->w = width;
+    surface->h = height;
+
+    std::shared_ptr<Sprite> sprite = std::make_shared<Sprite>(std::move(texture), surface->w, surface->h);
+    delete(surface);
+
+    return sprite;
 }
 
 void Renderer::DrawSprite(const std::unique_ptr<SpriteRenderer>& spriteRenderer, Vector2D position) const
 {
     if (!spriteRenderer || !spriteRenderer->GetSprite()) throw "Sprite do not exist!";
 
-    SDL_Rect* srsRect = spriteRenderer->GetRect().get();
+    const SDL_Rect* srsRect = &spriteRenderer->GetRect();
 
-    SDL_Rect destRect(*srsRect);
-    destRect.x = position.x;
-    destRect.y = position.y;
+    SDL_Rect destRect(spriteRenderer->GetRect());
+    destRect.x = position.X();
+    destRect.y = position.Y();
+    destRect.w = srsRect->w;
+    destRect.h = srsRect->h;
     
-    SDL_RenderCopy(sdl_renderer, spriteRenderer->GetSprite()->Texture(), srsRect, &destRect);
+    SDL_RenderCopy(sdl_renderer, spriteRenderer->GetSprite()->Texture(), &spriteRenderer->GetRect(), &destRect);
 }
 
 void Renderer::Render() const
@@ -58,7 +80,7 @@ void Renderer::Render() const
     {   
         for (auto record : layer.second)
         {
-            DrawSprite(record.second->GetSpriteRenderer(), record.second->GetPosition());
+            DrawSprite(record.second->GetSpriteRenderer(), record.second->position);
         }
     }
 

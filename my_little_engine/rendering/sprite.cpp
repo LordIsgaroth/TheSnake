@@ -26,6 +26,19 @@ SpriteRenderer::SpriteRenderer(std::shared_ptr<Sprite> sprite, int width, int he
     CreateRect(width, height);
 }
 
+SpriteRenderer::SpriteRenderer(const SpriteRenderer& origin)
+{
+    this->sprite = origin.GetSprite();
+    this->renderingOrder = origin.RenderingOrder();
+
+    const SDL_Rect& rect = origin.GetRect();
+ 
+    int rectWidth = rect.w;
+    int rectHeight = rect.h;
+
+    CreateRect(rectWidth, rectHeight);
+}
+
 void SpriteRenderer::SetSprite(std::shared_ptr<Sprite> sprite)
 {
     this->sprite = sprite;    

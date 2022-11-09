@@ -19,14 +19,6 @@ void GameObject::SetId()
     maxId = id;
 }
 
-const Vector2D& GameObject::GetPosition() { return position; }
-
-void GameObject::SetPosition(Vector2D newPostion) { position = newPostion; }
-
-bool GameObject::IsDrawable() { return spriteRenderer != nullptr; }
-
-bool GameObject::HandlesInput() { return handlesInput; }
-
 void GameObject::SetSpriteRenderer(std::unique_ptr<SpriteRenderer> spriteRenderer) { this->spriteRenderer = std::move(spriteRenderer); }
 
 const std::unique_ptr<SpriteRenderer>& GameObject::GetSpriteRenderer() const { return spriteRenderer; }
@@ -48,6 +40,12 @@ CollisionObject::CollisionObject(int width, int height)
 CollisionObject::CollisionObject(std::unique_ptr<SpriteRenderer> spriteRenderer) : GameObject(std::move(spriteRenderer))
 {
     borders = std::make_shared<CollisionBorders>();
-    borders->width = this->spriteRenderer->GetRect()->w;
-    borders->height = this->spriteRenderer->GetRect()->h;
+    borders->width = this->spriteRenderer->GetRect().w;
+    borders->height = this->spriteRenderer->GetRect().h;
+}
+
+void CollisionObject::SetCollisionBorders(int width, int height)
+{
+    borders->width = width;
+    borders->height = height;
 }

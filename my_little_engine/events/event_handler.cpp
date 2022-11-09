@@ -1,6 +1,6 @@
 #include "event_handler.hpp"
 
-EventHandler::EventHandler(){}
+EventHandler::EventHandler() {}
 
 void EventHandler::AddInputEventListener(std::shared_ptr<IInputListener> listener)
 {

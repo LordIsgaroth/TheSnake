@@ -15,13 +15,16 @@ class SnakeGame
 {
 public:
     SnakeGame();
+    void Load();
     void Start();
 
 private:
 
-    const int SCREEN_WIDTH = 880;
-    const int SCREEN_HEIGHT = 720;
-    const int TILE_SIZE = 40;
+    std::shared_ptr<Scene> mainScene;
+
+    const int SCREEN_WIDTH = 704;
+    const int SCREEN_HEIGHT = 576;
+    const int TILE_SIZE = 32;
     const int FIELD_WIDTH = 20;
     const int FIELD_HEIGHT = 16;
     const int MIN_APPLES = 1;

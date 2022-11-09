@@ -17,23 +17,20 @@ public:
     virtual void Update(double elapsedTime) = 0;
     virtual void Input(std::shared_ptr<KeyboardEvent> inputEvent) override {}
 
-    std::string Name() { return name; }
-    int Id() { return id; } 
+    std::string Name() const { return name; }
+    int Id() const { return id; } 
 
-    const Vector2D& GetPosition();
-    void SetPosition(Vector2D newPosiion);
+    Vector2D position;
     
-    bool IsDrawable();
-    bool HandlesInput();
+    bool HandlesInput() const { return handlesInput; }
+    bool IsDrawable() const { return spriteRenderer != nullptr; }
     void SetSpriteRenderer(std::unique_ptr<SpriteRenderer> spriteRenderer);
     const std::unique_ptr<SpriteRenderer>& GetSpriteRenderer() const;
 
 protected:
     static int maxId;
     int id;
-
-    Vector2D position;
-
+    
     std::string name;
     std::unique_ptr<SpriteRenderer> spriteRenderer = nullptr;
     bool handlesInput = false;
@@ -56,9 +53,10 @@ public:
     CollisionObject(std::unique_ptr<SpriteRenderer> spriteRenderer);
     CollisionObject(int width, int height);
     
-    int CollisionWidth() { return borders->width; }
-    int CollisionHeight() { return borders->height; }
-    bool CanCollide() { return canCollide; }
+    void SetCollisionBorders(int width, int height);
+    int CollisionWidth() const { return borders->width; }
+    int CollisionHeight() const { return borders->height; }
+    bool CanCollide() const { return canCollide; }
 
     virtual void OnCollision(std::shared_ptr<Collision> collision) {}
 

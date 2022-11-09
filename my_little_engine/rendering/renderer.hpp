@@ -19,6 +19,7 @@ public:
     Renderer(SDL_Window* window);
 
     std::shared_ptr<Sprite> CreateSprite(std::string path) const;
+    std::shared_ptr<Sprite> CreateSprite(std::string path, int width, int height) const;
 
     void DrawSprite(const std::unique_ptr<SpriteRenderer>& spriteRenderer, Vector2D position) const;
     void Render() const;
@@ -31,6 +32,8 @@ private:
     static bool initialized;
 
     std::multimap<int, std::unordered_map<int, std::shared_ptr<GameObject>>> objectsToRender;
+
+    //std::shared_ptr<Sprite> CreateSpriteFromFile(std::string path, int width, int height);
 
     bool ContainsOrder(int renderingOrder) const;
     void CreateLayer(int renderingOrder);

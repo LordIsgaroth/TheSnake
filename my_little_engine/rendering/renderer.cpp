@@ -80,7 +80,7 @@ void Renderer::Render() const
     {   
         for (auto record : layer.second)
         {
-            DrawSprite(record.second->GetSpriteRenderer(), record.second->position);
+            if(record.second->GetSpriteRenderer()->visible) DrawSprite(record.second->GetSpriteRenderer(), record.second->position);
         }
     }
 

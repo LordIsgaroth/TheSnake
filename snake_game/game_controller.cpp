@@ -108,7 +108,7 @@ void GameController::CreateSnake()
 
 std::unique_ptr<SpriteRenderer> GameController::CreateTileSpriteRenderer(std::shared_ptr<Sprite> sprite, int renderingOrder)
 {
-    return std::move(std::make_unique<SpriteRenderer>(sprite, tileSize, tileSize, renderingOrder));
+    return std::move(std::make_unique<SpriteRenderer>(sprite, tileSize, tileSize, renderingOrder, true));
 }
 
 void GameController::Update(double elapsedTime)

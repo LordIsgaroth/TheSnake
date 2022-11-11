@@ -20,13 +20,15 @@ private:
 class SpriteRenderer
 {   
 public:    
-    SpriteRenderer(std::shared_ptr<Sprite> sprite, int renderingOrder);
-    SpriteRenderer(std::shared_ptr<Sprite> sprite, int width, int height, int renderingOrder);
+    SpriteRenderer(std::shared_ptr<Sprite> sprite, int renderingOrder, bool visible = false);
+    SpriteRenderer(std::shared_ptr<Sprite> sprite, int width, int height, int renderingOrder, bool visible = false);
     SpriteRenderer(const SpriteRenderer& origin);
 
+    bool visible;
+
     const std::shared_ptr<Sprite> GetSprite() const { return sprite; }  
-    //std::unique_ptr<SDL_Rect>& GetRect() { return rect; }
     const SDL_Rect& GetRect() const { return *rect; }
+    
     int RenderingOrder() const { return renderingOrder; }
 
     void SetSprite(std::shared_ptr<Sprite> sprite);

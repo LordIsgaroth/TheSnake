@@ -28,7 +28,7 @@ SnakeSegment::SnakeSegment(std::unique_ptr<SpriteRenderer> spriteRenderer, Vecto
 SnakeSegment::SnakeSegment(const SnakeSegment& origin)
 {
     name = "Segment";
-    canCollide = false;
+    canCollide = true;
 
     direction = origin.direction;
     prevDirection = origin.prevDirection;
@@ -134,6 +134,7 @@ void Snake::Move()
     for (SnakeSegment* segment : segments)
     {
         segment->SetSpriteByDirection();
+        if(!segment->GetSpriteRenderer()->visible) segment->GetSpriteRenderer()->visible = true;
     }
 }
 
@@ -148,11 +149,13 @@ void Snake::SetSpriteByDirection()
 
 void Snake::Grow()
 {
-    std::shared_ptr<SnakeSegment> newSegment = std::make_shared<SnakeSegment>(*this);
+    std::shared_ptr<SnakeSegment> newSegment = std::make_shared<SnakeSegment>(*segments[segments.size() - 1]);
+    newSegment->GetSpriteRenderer()->visible = false;
 
-    Vector2D newSegmentPos = segments[segments.size() - 2]->position;
-
+    Vector2D newSegmentPos = segments[segments.size() - 1]->position;
     newSegment->position = newSegmentPos;
+    newSegment->SetSpriteByDirection();
+
     Engine::AddObject(newSegment);
 
     segments.insert(--segments.end(), newSegment.get());
@@ -215,7 +218,9 @@ void Snake::OnCollision(std::shared_ptr<Collision> collision)
 
         Engine::RemoveObject(collision->Other()->Id());
     }
-    else if (collision->Other()->Name() == "Border")
+    else if (collision->Other()->Name() == "Border" 
+            || collision->Other()->Name() == "Segment"
+            || collision->Other()->Name() == "Tail")
     {
         alive = false;
         canCollide = false;

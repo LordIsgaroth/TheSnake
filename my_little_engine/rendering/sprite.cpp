@@ -12,17 +12,19 @@ Sprite::~Sprite()
     delete(texture);
 }
 
-SpriteRenderer::SpriteRenderer(std::shared_ptr<Sprite> sprite, int renderingOrder)
+SpriteRenderer::SpriteRenderer(std::shared_ptr<Sprite> sprite, int renderingOrder, bool visible)
 {
     this->sprite = sprite;
     this->renderingOrder = renderingOrder;
+    this->visible = visible;
     CreateRect(sprite->Width(), sprite->Height());
 }
 
-SpriteRenderer::SpriteRenderer(std::shared_ptr<Sprite> sprite, int width, int height, int renderingOrder)
+SpriteRenderer::SpriteRenderer(std::shared_ptr<Sprite> sprite, int width, int height, int renderingOrder, bool visible)
 {
     this->sprite = sprite;
     this->renderingOrder = renderingOrder;
+    this->visible = visible;
     CreateRect(width, height);
 }
 
@@ -30,6 +32,7 @@ SpriteRenderer::SpriteRenderer(const SpriteRenderer& origin)
 {
     this->sprite = origin.GetSprite();
     this->renderingOrder = origin.RenderingOrder();
+    this->visible = origin.visible;
 
     const SDL_Rect& rect = origin.GetRect();
  

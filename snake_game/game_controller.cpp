@@ -16,11 +16,6 @@ GameController::GameController(int tileSize, int fieldWidth, int fieldHeight, in
     CreateBorders();
 }
 
-GameController::~GameController()
-{
-    delete(field);
-}
-
 std::shared_ptr<Snake> GameController::GetSnake() const { return snake; }
 const std::vector<std::shared_ptr<Border>>& GameController::GetBorders() const { return borders; }
 
@@ -28,18 +23,21 @@ void GameController::CreateField()
 {
     std::shared_ptr<Sprite> grassSprite = Engine::GetRenderer().CreateSprite("Graphics/grass.png", tileSize, tileSize);
     
-    field = new char[fieldWidth * fieldHeight];
+    //field = new char[fieldWidth * fieldHeight];
 
     for (int i = 0; i < fieldWidth * fieldHeight; i++)
     {
-        field[i] = '-';
+        //field[i] = '-';
 
         std::shared_ptr<Grass> grass = std::make_shared<Grass>(CreateTileSpriteRenderer(grassSprite, 0));
         int x = tileSize + (i % fieldWidth) * tileSize;
         int y = tileSize + (i / fieldWidth) * tileSize;
 
+        Vector2D position = Vector2D(x, y);
+
         grass->position = Vector2D(x, y);
 
+        field.push_back(position);
         fieldTiles.push_back(grass);
     }    
 }
@@ -134,23 +132,39 @@ void GameController::OnNotify(std::shared_ptr<SnakeEvent> message)
 void GameController::AddApple()
 {
     std::shared_ptr<Apple> newApple = std::make_shared<Apple>(CreateTileSpriteRenderer(appleSprite, 1));
-    newApple->position = GetFreePosition();
+    newApple->position = GetRandomFreePosition();
 
     currentApplesCount++;
 
     Engine::AddObject(newApple);
 }
 
-Vector2D GameController::GetFreePosition()
+void GameController::DefineFreePositions()
+{
+    freePositions.clear();
+
+    for (Vector2D position : field)
+    {
+        freePositions.push_back(position);
+    }
+
+    for (SnakeSegment* segment : snake->GetSegments())
+    {
+        auto pos = std::find(freePositions.begin(), freePositions.end(), segment->position); 
+
+        if(pos != freePositions.end())
+        {
+            freePositions.erase(pos);
+        }
+    }
+}
+
+Vector2D GameController::GetRandomFreePosition()
 {
     std::srand(std::time(nullptr));
+    DefineFreePositions();
 
-    //random position on field
-
-    double newPosX = tileSize + (std::rand() % fieldWidth) * tileSize;
-    double newPosY = tileSize + (std::rand() % fieldHeight) * tileSize;
-
-    Vector2D newPosition(newPosX, newPosY);
+    Vector2D newPosition = freePositions[std::rand() % (freePositions.size() - 1)];
     
     std::cout << "new apple position (x): " << newPosition.X() << std::endl;
     std::cout << "new apple position (y): " << newPosition.Y() << std::endl;

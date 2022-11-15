@@ -65,6 +65,8 @@ public:
     void OnCollision(std::shared_ptr<Collision> collision) override;
     void SetSpriteByDirection() override;
 
+    const std::vector<SnakeSegment*>& GetSegments() const { return segments; }
+
     void Move();
     void Grow();
 
@@ -86,6 +88,6 @@ class SnakeTail : public SnakeSegment
 public:
     SnakeTail(std::unique_ptr<SpriteRenderer> spriteRenderer, Vector2D position, Vector2D direction);
     SnakeTail(const SnakeSegment& origin);
-protected:
-    void SetSpriteByDirection() override;    
+
+    void SetSpriteByDirection() override;
 };

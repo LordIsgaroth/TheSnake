@@ -1,7 +1,8 @@
 #pragma once
 
 #include <memory>
-#include <unordered_map>
+#include <vector>
+#include <algorithm>
 
 #include "my_little_engine/my_little_engine.hpp"
 
@@ -12,7 +13,6 @@ class GameController : public GameObject, public IObserver<std::shared_ptr<Snake
 {
 public:
     GameController(int tileSize, int fieldWidth, int fieldHeight, int minApplesCount);
-    ~GameController();
 
     std::shared_ptr<Snake> GetSnake() const;
     const std::vector<std::shared_ptr<Border>>& GetBorders() const;
@@ -32,8 +32,9 @@ private:
     int fieldWidth, fieldHeight;
     int tileSize;
 
-    char* field;
-
+    std::vector<Vector2D> field;
+    std::vector<Vector2D> freePositions;
+   
     std::shared_ptr<Snake> snake;
     std::shared_ptr<Sprite> appleSprite;
     std::vector<std::shared_ptr<Border>> borders;
@@ -41,11 +42,13 @@ private:
     
     void CreateField();
     void CreateBorders();
+
     void AddApple();
 
     std::unique_ptr<SpriteRenderer> CreateTileSpriteRenderer(std::shared_ptr<Sprite> sprite, int renderingOrder); 
 
-    Vector2D GetFreePosition();
+    void DefineFreePositions();
+    Vector2D GetRandomFreePosition();
 
     void Update(double elapsedTime) override;
     void OnNotify(std::shared_ptr<SnakeEvent> message) override;

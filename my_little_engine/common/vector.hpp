@@ -12,9 +12,11 @@ public:
     static Vector2D Down();
     static Vector2D Left();
     static Vector2D Right();
+
+    friend bool operator == (const Vector2D& first, const Vector2D& second) { return (first.X() == second.X() && first.Y() == second.Y()); }
+    friend bool operator != (const Vector2D& first, const Vector2D& second) { return (first.X() != second.X() || first.Y() != second.Y()); }
+
 private:
     double x, y;
 };
 
-bool operator == (Vector2D first, Vector2D second);
-bool operator != (Vector2D first, Vector2D second);

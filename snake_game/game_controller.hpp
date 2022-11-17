@@ -21,9 +21,6 @@ public:
     void CreateSnake();
 
 private:
-    const float minChangeDir = 0.15;
-    const float maxChangeDir = 0.85;
-
     double movementDuration = 0;
     double maxMovementDuration = 100;
 

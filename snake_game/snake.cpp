@@ -97,7 +97,9 @@ Snake::Snake(std::unique_ptr<SpriteRenderer> spriteRenderer, Vector2D position, 
     handlesInput = true;
     canCollide = true;
     alive = true;
+    isMoving = false;
 
+    nextDirection = direction;
     SetSpriteByDirection();
 
     borders->width = this->spriteRenderer->GetRect().w;
@@ -106,12 +108,14 @@ Snake::Snake(std::unique_ptr<SpriteRenderer> spriteRenderer, Vector2D position, 
     segments.push_back(this);
 
     std::shared_ptr<SnakeSegment> snakeSegment = std::make_shared<SnakeSegment>(*this);
-    snakeSegment->position = Vector2D(position.X() - borders->width, position.Y());    
+    snakeSegment->position = Vector2D(position.X() - borders->width, position.Y());
+    snakeSegment->SetSpriteByDirection();    
     segments.push_back(snakeSegment.get());
     Engine::AddObject(snakeSegment);
 
     std::shared_ptr<SnakeTail> snakeTail = std::make_shared<SnakeTail>(*this);
     snakeTail->position = Vector2D(position.X() - 2 * borders->width, position.Y());
+    snakeTail->SetSpriteByDirection();
     segments.push_back(snakeTail.get());
     Engine::AddObject(snakeTail);
 }
@@ -120,6 +124,8 @@ void Snake::Move()
 {
     if (isMoving)
     {
+        direction = nextDirection;
+
         for (int i = segments.size() - 1; i > 0; i--)
         {
             segments[i]->position = segments[i - 1]->position;
@@ -167,36 +173,38 @@ void Snake::Input(std::shared_ptr<KeyboardEvent> inputEvent)
 
     if (inputEvent->eventType == KeyboardEventType::pressed)
     {
-        if (!isMoving) isMoving = true;
-
         switch (inputEvent->key)
         {
             case SDLK_UP:
             {
+                if (!isMoving) isMoving = true;
                 if (direction == Vector2D::Down() || direction == Vector2D::Up()) return;
 
-                direction = Vector2D::Up();
+                nextDirection = Vector2D::Up();
                 break;
             }
             case SDLK_DOWN:
             {
+                if (!isMoving) isMoving = true;
                 if (direction == Vector2D::Up() || direction == Vector2D::Down()) return;
 
-                direction = Vector2D::Down();
+                nextDirection = Vector2D::Down();
                 break;
             }
             case SDLK_LEFT:
             {
+                if (!isMoving) isMoving = true;
                 if (direction == Vector2D::Right() || direction == Vector2D::Left()) return;
 
-                direction = Vector2D::Left();
+                nextDirection = Vector2D::Left();
                 break;
             }
             case SDLK_RIGHT:
             {
+                if (!isMoving) isMoving = true;
                 if (direction == Vector2D::Left() || direction == Vector2D::Right()) return;
 
-                direction = Vector2D::Right();
+                nextDirection = Vector2D::Right();
                 break;
             }
 

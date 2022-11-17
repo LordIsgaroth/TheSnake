@@ -22,13 +22,9 @@ const std::vector<std::shared_ptr<Border>>& GameController::GetBorders() const {
 void GameController::CreateField()
 {
     std::shared_ptr<Sprite> grassSprite = Engine::GetRenderer().CreateSprite("Graphics/grass.png", tileSize, tileSize);
-    
-    //field = new char[fieldWidth * fieldHeight];
 
     for (int i = 0; i < fieldWidth * fieldHeight; i++)
     {
-        //field[i] = '-';
-
         std::shared_ptr<Grass> grass = std::make_shared<Grass>(CreateTileSpriteRenderer(grassSprite, 0));
         int x = tileSize + (i % fieldWidth) * tileSize;
         int y = tileSize + (i / fieldWidth) * tileSize;

@@ -43,6 +43,7 @@ public:
     virtual void SetSpriteByDirection();
 
     Vector2D direction;
+    Vector2D nextDirection;
     Vector2D prevDirection;
 
 protected:

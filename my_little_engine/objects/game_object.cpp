@@ -7,21 +7,27 @@ GameObject::GameObject()
     SetId();
 }
 
-GameObject::GameObject(std::unique_ptr<SpriteRenderer> spriteRenderer)
-{
-    SetId();
-    this->spriteRenderer = std::move(spriteRenderer);
-}
-
 void GameObject::SetId()
 {
     id = maxId + 1;
     maxId = id;
 }
 
-void GameObject::SetSpriteRenderer(std::unique_ptr<SpriteRenderer> spriteRenderer) { this->spriteRenderer = std::move(spriteRenderer); }
+SceneObject::SceneObject(std::unique_ptr<SpriteRenderer> spriteRenderer)
+{
+    this->spriteRenderer = std::move(spriteRenderer);
+}
 
-const std::unique_ptr<SpriteRenderer>& GameObject::GetSpriteRenderer() const { return spriteRenderer; }
+TextObject::TextObject(std::string labelName, std::unique_ptr<LabelRenderer> labelRenderer)
+{
+    this->name = labelName;
+    this->labelRenderer = std::move(labelRenderer);
+}
+
+//void GameObject::SetTextureRenderer(std::unique_ptr<TextureRenderer> textureRenderer) { this->textureRenderer = std::move(textureRenderer); }
+
+// TextureRenderer& GameObject::GetTextureRenderer() const { return *textureRenderer; }
+
 
 CollisionObject::CollisionObject()
 {
@@ -37,7 +43,7 @@ CollisionObject::CollisionObject(int width, int height)
     borders->height = height;
 };
 
-CollisionObject::CollisionObject(std::unique_ptr<SpriteRenderer> spriteRenderer) : GameObject(std::move(spriteRenderer))
+CollisionObject::CollisionObject(std::unique_ptr<SpriteRenderer> spriteRenderer) : SceneObject(std::move(spriteRenderer))
 {
     borders = std::make_shared<CollisionBorders>();
     borders->width = this->spriteRenderer->GetRect().w;

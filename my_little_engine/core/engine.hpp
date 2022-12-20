@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-#include "my_little_engine/rendering/renderer.hpp"
+#include "my_little_engine/rendering/rendering_controller.hpp"
 #include "my_little_engine/physics/collision_manager.hpp"
 #include "my_little_engine/events/event_handler.hpp"
 #include "my_little_engine/objects/game_object.hpp"
@@ -24,7 +24,7 @@ public:
     static void Free();
 
     static std::shared_ptr<Scene> CurrentScene();
-    static const Renderer& GetRenderer();
+    static const RenderingController& GetRenderingController();
 
     static void LoadScene(std::shared_ptr<Scene> scene);
 
@@ -45,7 +45,7 @@ private:
     static std::vector<std::shared_ptr<GameObject>> objectsToAdd;
     static std::vector<int> objectsToRemove;
 
-    static std::unique_ptr<Renderer> renderer;
+    static std::unique_ptr<RenderingController> renderingController;
     static std::unique_ptr<EventHandler> eventHandler;
     static std::unique_ptr<CollisionManager> collisionManager;
 

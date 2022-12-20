@@ -16,7 +16,7 @@ public:
     void Update(double elapsedTime) override {} 
 };
 
-class Grass : public GameObject
+class Grass : public SceneObject
 {
 public:
     Grass(std::unique_ptr<SpriteRenderer> spriteRenderer);

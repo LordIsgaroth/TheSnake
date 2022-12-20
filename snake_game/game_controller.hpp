@@ -9,14 +9,15 @@
 #include "snake.hpp"
 #include "snake_game_objects.hpp"
 
-class GameController : public GameObject, public IObserver<std::shared_ptr<SnakeEvent>>
+class GameController : public SceneObject, public IObserver<std::shared_ptr<SnakeEvent>>
 {
 public:
     GameController(int tileSize, int fieldWidth, int fieldHeight, int minApplesCount);
 
-    std::shared_ptr<Snake> GetSnake() const;
-    const std::vector<std::shared_ptr<Border>>& GetBorders() const;
+    std::shared_ptr<Snake> GetSnake() const { return snake; }
+    const std::vector<std::shared_ptr<Border>>& GetBorders() const { return borders; }
     const std::vector<std::shared_ptr<GameObject>>& GetField() const { return fieldTiles; } 
+    std::shared_ptr<TextObject> GetScoreText() const { return scoreText; }
 
     void CreateSnake();
 
@@ -24,14 +25,18 @@ private:
     double movementDuration = 0;
     double maxMovementDuration = 100;
 
+    int score = 0;
+
     int minApplesCount, currentApplesCount;
 
     int fieldWidth, fieldHeight;
     int tileSize;
+    int scoreFieldSize;
 
     std::vector<Vector2D> field;
     std::vector<Vector2D> freePositions;
    
+    std::shared_ptr<TextObject> scoreText;
     std::shared_ptr<Snake> snake;
     std::shared_ptr<Sprite> appleSprite;
     std::vector<std::shared_ptr<Border>> borders;
@@ -39,8 +44,11 @@ private:
     
     void CreateField();
     void CreateBorders();
+    void CreateScoreText();
 
     void AddApple();
+
+    void UpdateScore();
 
     std::unique_ptr<SpriteRenderer> CreateTileSpriteRenderer(std::shared_ptr<Sprite> sprite, int renderingOrder); 
 

@@ -2,32 +2,43 @@
 
 GameController::GameController(int tileSize, int fieldWidth, int fieldHeight, int minApplesCount)
 {
+    scoreFieldSize = 2 * tileSize;
+
     name = "Game controller";
     currentApplesCount = 0;
+    score = 0;
 
     this->tileSize = tileSize;
     this->fieldWidth = fieldWidth;
     this->fieldHeight = fieldHeight;
     this->minApplesCount = minApplesCount;
 
-    appleSprite = Engine::GetRenderer().CreateSprite("Graphics/apple.png", tileSize, tileSize);
+    appleSprite = std::make_shared<Sprite>("Graphics/apple.png");
 
     CreateField();
     CreateBorders();
+    CreateScoreText();
 }
 
-std::shared_ptr<Snake> GameController::GetSnake() const { return snake; }
-const std::vector<std::shared_ptr<Border>>& GameController::GetBorders() const { return borders; }
+void GameController::CreateScoreText()
+{
+    std::unique_ptr<Text> text = std::make_unique<Text>("Graphics/score_font.ttf", 40, "Score: 0");
+
+    std::unique_ptr<LabelRenderer> labelRenderer = std::make_unique<LabelRenderer>(std::move(text), 300, 60, 100, true);
+
+    scoreText = std::make_shared<TextObject>("Score text", std::move(labelRenderer));
+    scoreText->position = Vector2D(((2 * tileSize + fieldWidth * tileSize) / 2) - 150, 0);
+}
 
 void GameController::CreateField()
 {
-    std::shared_ptr<Sprite> grassSprite = Engine::GetRenderer().CreateSprite("Graphics/grass.png", tileSize, tileSize);
+    std::shared_ptr<Sprite> grassSprite = std::make_shared<Sprite>("Graphics/grass.png");
 
     for (int i = 0; i < fieldWidth * fieldHeight; i++)
     {
         std::shared_ptr<Grass> grass = std::make_shared<Grass>(CreateTileSpriteRenderer(grassSprite, 0));
         int x = tileSize + (i % fieldWidth) * tileSize;
-        int y = tileSize + (i / fieldWidth) * tileSize;
+        int y = scoreFieldSize + tileSize + (i / fieldWidth) * tileSize;
 
         Vector2D position = Vector2D(x, y);
 
@@ -40,27 +51,27 @@ void GameController::CreateField()
 
 void GameController::CreateBorders()
 {
-    std::shared_ptr<Sprite> topBorderSprite = Engine::GetRenderer().CreateSprite("Graphics/border_top.png", tileSize, tileSize);
-    std::shared_ptr<Sprite> bottomBorderSprite = Engine::GetRenderer().CreateSprite("Graphics/border_bottom.png", tileSize, tileSize);
-    std::shared_ptr<Sprite> leftBorderSprite = Engine::GetRenderer().CreateSprite("Graphics/border_left.png", tileSize, tileSize);
-    std::shared_ptr<Sprite> rightBorderSprite = Engine::GetRenderer().CreateSprite("Graphics/border_right.png", tileSize, tileSize);
+    std::shared_ptr<Sprite> topBorderSprite = std::make_shared<Sprite>("Graphics/border_top.png");
+    std::shared_ptr<Sprite> bottomBorderSprite = std::make_shared<Sprite>("Graphics/border_bottom.png");
+    std::shared_ptr<Sprite> leftBorderSprite = std::make_shared<Sprite>("Graphics/border_left.png");
+    std::shared_ptr<Sprite> rightBorderSprite = std::make_shared<Sprite>("Graphics/border_right.png");
 
-    std::shared_ptr<Sprite> topLeftCornerSprite = Engine::GetRenderer().CreateSprite("Graphics/border_top_left_corner.png", tileSize, tileSize);
-    std::shared_ptr<Sprite> topRightCornerSprite = Engine::GetRenderer().CreateSprite("Graphics/border_top_right_corner.png", tileSize, tileSize);
-    std::shared_ptr<Sprite> bottomLeftCornerSprite = Engine::GetRenderer().CreateSprite("Graphics/border_bottom_left_corner.png", tileSize, tileSize);
-    std::shared_ptr<Sprite> bottomRightCornerSprite = Engine::GetRenderer().CreateSprite("Graphics/border_bottom_right_corner.png", tileSize, tileSize);  
+    std::shared_ptr<Sprite> topLeftCornerSprite = std::make_shared<Sprite>("Graphics/border_top_left_corner.png");
+    std::shared_ptr<Sprite> topRightCornerSprite = std::make_shared<Sprite>("Graphics/border_top_right_corner.png");
+    std::shared_ptr<Sprite> bottomLeftCornerSprite = std::make_shared<Sprite>("Graphics/border_bottom_left_corner.png");
+    std::shared_ptr<Sprite> bottomRightCornerSprite = std::make_shared<Sprite>("Graphics/border_bottom_right_corner.png");  
 
     std::shared_ptr<Border> topLeftCorner = std::make_shared<Border>(CreateTileSpriteRenderer(topLeftCornerSprite, 3));
-    topLeftCorner->position = Vector2D(0, 0);
+    topLeftCorner->position = Vector2D(0, scoreFieldSize);
 
     std::shared_ptr<Border> topRightCorner = std::make_shared<Border>(CreateTileSpriteRenderer(topRightCornerSprite, 3));
-    topRightCorner->position = Vector2D(tileSize + fieldWidth * tileSize, 0);
+    topRightCorner->position = Vector2D(tileSize + fieldWidth * tileSize, scoreFieldSize);
 
     std::shared_ptr<Border> bottomLeftCorner = std::make_shared<Border>(CreateTileSpriteRenderer(bottomLeftCornerSprite, 3));
-    bottomLeftCorner->position = Vector2D(0, tileSize + fieldHeight * tileSize);
+    bottomLeftCorner->position = Vector2D(0, scoreFieldSize + tileSize + fieldHeight * tileSize);
 
     std::shared_ptr<Border> bottomRightCorner = std::make_shared<Border>(CreateTileSpriteRenderer(bottomRightCornerSprite, 3));
-    bottomRightCorner->position = Vector2D(tileSize + fieldWidth * tileSize, tileSize + fieldHeight * tileSize);
+    bottomRightCorner->position = Vector2D(tileSize + fieldWidth * tileSize, scoreFieldSize + tileSize + fieldHeight * tileSize);
 
     borders.push_back(topLeftCorner);
     borders.push_back(topRightCorner);
@@ -70,10 +81,10 @@ void GameController::CreateBorders()
     for (int i = 0; i < fieldWidth; i++)
     {
         std::shared_ptr<Border> topBorder = std::make_shared<Border>(CreateTileSpriteRenderer(topBorderSprite, 3));
-        topBorder->position = Vector2D(tileSize + i * tileSize, 0);
+        topBorder->position = Vector2D(tileSize + i * tileSize, scoreFieldSize);
 
         std::shared_ptr<Border> bottomBorder = std::make_shared<Border>(CreateTileSpriteRenderer(bottomBorderSprite, 3));
-        bottomBorder->position = Vector2D(tileSize + i * tileSize, tileSize + fieldHeight * tileSize);
+        bottomBorder->position = Vector2D(tileSize + i * tileSize, scoreFieldSize + tileSize + fieldHeight * tileSize);
 
         borders.push_back(topBorder);
         borders.push_back(bottomBorder);
@@ -82,10 +93,10 @@ void GameController::CreateBorders()
     for (int i = 0; i < fieldHeight; i++)
     {
         std::shared_ptr<Border> leftBorder = std::make_shared<Border>(CreateTileSpriteRenderer(leftBorderSprite, 3));
-        leftBorder->position = Vector2D(0, tileSize + i * tileSize);
+        leftBorder->position = Vector2D(0, scoreFieldSize+ tileSize + i * tileSize);
 
         std::shared_ptr<Border> rightBorder = std::make_shared<Border>(CreateTileSpriteRenderer(rightBorderSprite, 3));
-        rightBorder->position = Vector2D(tileSize + fieldWidth * tileSize, tileSize + i * tileSize);
+        rightBorder->position = Vector2D(tileSize + fieldWidth * tileSize, scoreFieldSize + tileSize + i * tileSize);
 
         borders.push_back(leftBorder);
         borders.push_back(rightBorder);
@@ -122,7 +133,12 @@ void GameController::Update(double elapsedTime)
 
 void GameController::OnNotify(std::shared_ptr<SnakeEvent> message)
 {
-    if (message->Type() == SnakeEventType::AppleEaten) currentApplesCount--;
+    if (message->Type() == SnakeEventType::AppleEaten) 
+    {
+        currentApplesCount--;
+        score++;
+        UpdateScore();
+    }
 }
 
 void GameController::AddApple()
@@ -167,3 +183,8 @@ Vector2D GameController::GetRandomFreePosition()
 
     return newPosition;
 }
+
+void GameController::UpdateScore()
+{
+    scoreText->SetText("Score: " + std::to_string(score));
+}    

@@ -32,7 +32,7 @@ SnakeSegment::SnakeSegment(const SnakeSegment& origin)
 
     direction = origin.direction;
     prevDirection = origin.prevDirection;
-    spriteRenderer = std::make_unique<SpriteRenderer>(*origin.GetSpriteRenderer());
+    spriteRenderer = std::make_unique<SpriteRenderer>(origin.GetSpriteRenderer());
 
     direction = origin.direction;
 
@@ -42,22 +42,22 @@ SnakeSegment::SnakeSegment(const SnakeSegment& origin)
 
 void SnakeSegment::LoadSprites()
 {
-    headSpriteSet.headUp = Engine::GetRenderer().CreateSprite("Graphics/head_up.png");
-    headSpriteSet.headDown = Engine::GetRenderer().CreateSprite("Graphics/head_down.png");
-    headSpriteSet.headLeft = Engine::GetRenderer().CreateSprite("Graphics/head_left.png");
-    headSpriteSet.headRight = Engine::GetRenderer().CreateSprite("Graphics/head_right.png");    
+    headSpriteSet.headUp = std::make_shared<Sprite>("Graphics/head_up.png");
+    headSpriteSet.headDown = std::make_shared<Sprite>("Graphics/head_down.png");
+    headSpriteSet.headLeft = std::make_shared<Sprite>("Graphics/head_left.png");
+    headSpriteSet.headRight = std::make_shared<Sprite>("Graphics/head_right.png");    
 
-    segmentSpriteSet.bodyBottomLeft = Engine::GetRenderer().CreateSprite("Graphics/body_bottomleft.png");
-    segmentSpriteSet.bodyBottomRight = Engine::GetRenderer().CreateSprite("Graphics/body_bottomright.png");
-    segmentSpriteSet.bodyTopLeft = Engine::GetRenderer().CreateSprite("Graphics/body_topleft.png");
-    segmentSpriteSet.bodyTopRight = Engine::GetRenderer().CreateSprite("Graphics/body_topright.png");
-    segmentSpriteSet.bodyHorizontal = Engine::GetRenderer().CreateSprite("Graphics/body_horizontal.png");
-    segmentSpriteSet.bodyVertical = Engine::GetRenderer().CreateSprite("Graphics/body_vertical.png");
+    segmentSpriteSet.bodyBottomLeft = std::make_shared<Sprite>("Graphics/body_bottomleft.png");
+    segmentSpriteSet.bodyBottomRight = std::make_shared<Sprite>("Graphics/body_bottomright.png");
+    segmentSpriteSet.bodyTopLeft = std::make_shared<Sprite>("Graphics/body_topleft.png");
+    segmentSpriteSet.bodyTopRight = std::make_shared<Sprite>("Graphics/body_topright.png");
+    segmentSpriteSet.bodyHorizontal = std::make_shared<Sprite>("Graphics/body_horizontal.png");
+    segmentSpriteSet.bodyVertical = std::make_shared<Sprite>("Graphics/body_vertical.png");
 
-    tailSpriteSet.tailUp = Engine::GetRenderer().CreateSprite("Graphics/tail_up.png");
-    tailSpriteSet.tailDown = Engine::GetRenderer().CreateSprite("Graphics/tail_down.png");
-    tailSpriteSet.tailLeft = Engine::GetRenderer().CreateSprite("Graphics/tail_left.png");
-    tailSpriteSet.tailRight = Engine::GetRenderer().CreateSprite("Graphics/tail_right.png");
+    tailSpriteSet.tailUp = std::make_shared<Sprite>("Graphics/tail_up.png");
+    tailSpriteSet.tailDown = std::make_shared<Sprite>("Graphics/tail_down.png");
+    tailSpriteSet.tailLeft = std::make_shared<Sprite>("Graphics/tail_left.png");
+    tailSpriteSet.tailRight = std::make_shared<Sprite>("Graphics/tail_right.png");
 }
 
 void SnakeSegment::SetSpriteByDirection()
@@ -140,7 +140,7 @@ void Snake::Move()
     for (SnakeSegment* segment : segments)
     {
         segment->SetSpriteByDirection();
-        if(!segment->GetSpriteRenderer()->visible) segment->GetSpriteRenderer()->visible = true;
+        if(!segment->GetTextureRenderer().visible) segment->GetTextureRenderer().visible = true;
     }
 }
 
@@ -156,7 +156,7 @@ void Snake::SetSpriteByDirection()
 void Snake::Grow()
 {
     std::shared_ptr<SnakeSegment> newSegment = std::make_shared<SnakeSegment>(*segments[segments.size() - 1]);
-    newSegment->GetSpriteRenderer()->visible = false;
+    newSegment->GetSpriteRenderer().visible = false;
 
     Vector2D newSegmentPos = segments[segments.size() - 1]->position;
     newSegment->position = newSegmentPos;

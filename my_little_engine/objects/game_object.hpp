@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 
-#include "my_little_engine/rendering/sprite.hpp"
+#include "my_little_engine/rendering/texture_renderer.hpp"
 #include "my_little_engine/events/input_listener.hpp"
 #include "my_little_engine/physics/collision.hpp"
 #include "my_little_engine/common/vector.hpp"
@@ -12,7 +12,6 @@ class GameObject : public IInputListener
 {
 public:
     GameObject();
-    GameObject(std::unique_ptr<SpriteRenderer> spriteRenderer);    
 
     virtual void Update(double elapsedTime) = 0;
     virtual void Input(std::shared_ptr<KeyboardEvent> inputEvent) override {}
@@ -23,19 +22,46 @@ public:
     Vector2D position;
     
     bool HandlesInput() const { return handlesInput; }
-    bool IsDrawable() const { return spriteRenderer != nullptr; }
-    void SetSpriteRenderer(std::unique_ptr<SpriteRenderer> spriteRenderer);
-    const std::unique_ptr<SpriteRenderer>& GetSpriteRenderer() const;
+    virtual bool IsDrawable() const = 0;
+    virtual TextureRenderer& GetTextureRenderer() const = 0;
 
 protected:
-    static int maxId;
-    int id;
-    
+    int id;    
     std::string name;
-    std::unique_ptr<SpriteRenderer> spriteRenderer = nullptr;
     bool handlesInput = false;
 
+private:
+    static int maxId;
     void SetId();
+};
+
+class SceneObject : public GameObject
+{
+public:
+    SceneObject() {}
+    SceneObject(std::unique_ptr<SpriteRenderer> spriteRenderer);
+
+    bool IsDrawable() const override { return spriteRenderer != nullptr; }
+    TextureRenderer& GetTextureRenderer() const override { return *spriteRenderer; }
+    SpriteRenderer& GetSpriteRenderer() const { return *spriteRenderer; }
+
+protected:
+    std::unique_ptr<SpriteRenderer> spriteRenderer;
+};
+
+class TextObject : public GameObject
+{
+public:
+    TextObject(std::string labelName, std::unique_ptr<LabelRenderer> labelRenderer);
+
+    void SetText(std::string text) { labelRenderer->SetText(text); } 
+
+    void Update(double elapsedTime) override {}
+    bool IsDrawable() const override { return labelRenderer != nullptr; }
+    TextureRenderer& GetTextureRenderer() const override { return *labelRenderer; }
+    
+protected:
+    std::unique_ptr<LabelRenderer> labelRenderer;
 };
 
 struct CollisionBorders
@@ -46,7 +72,7 @@ struct CollisionBorders
 
 class Collision;
 
-class CollisionObject : public GameObject
+class CollisionObject : public SceneObject
 {  
 public:
     CollisionObject();

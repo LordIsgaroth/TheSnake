@@ -8,7 +8,7 @@ std::vector<std::shared_ptr<GameObject>> Engine::objectsToAdd;
 std::vector<int> Engine::objectsToRemove;
 
 SDL_Window* Engine::gameWindow;
-std::unique_ptr<Renderer> Engine::renderer;
+std::unique_ptr<RenderingController> Engine::renderingController;
 std::unique_ptr<EventHandler> Engine::eventHandler;
 std::unique_ptr<CollisionManager> Engine::collisionManager;
 
@@ -25,7 +25,7 @@ void Engine::Initialize(std::string name, int startWidth, int startHeight)
     gameName = name;
 
     gameWindow = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, startWidth, startHeight, SDL_WINDOW_SHOWN);
-    renderer = std::make_unique<Renderer>(gameWindow);
+    renderingController = std::make_unique<RenderingController>(gameWindow);
 
     eventHandler = std::make_unique<EventHandler>();
     collisionManager = std::make_unique<CollisionManager>();  
@@ -40,7 +40,7 @@ void Engine::Free()
 
     SDL_DestroyWindow(gameWindow);
 
-    renderer = nullptr;
+    renderingController = nullptr;
     eventHandler = nullptr;
     collisionManager = nullptr;
 
@@ -49,9 +49,9 @@ void Engine::Free()
 
 std::shared_ptr<Scene> Engine::CurrentScene() { return currentScene; }
 
-const Renderer& Engine::GetRenderer()
+const RenderingController& Engine::GetRenderingController()
 {
-    return *renderer;
+    return *renderingController;
 }
 
 void Engine::LoadScene(std::shared_ptr<Scene> scene)
@@ -61,7 +61,8 @@ void Engine::LoadScene(std::shared_ptr<Scene> scene)
     for (auto record : scene->GameObjects())
     {
         if (record.second->HandlesInput()) eventHandler->AddInputEventListener(record.second);
-        AddToRendering(record.second);
+        //AddToRendering(record.second);
+        if (record.second->IsDrawable()) renderingController->AddToRendering(record.second);
         AddCollideable(record.second);
     }    
 }
@@ -84,7 +85,7 @@ void Engine::RemoveObject(int id)
 
 void Engine::AddToRendering(std::shared_ptr<GameObject> gameObject)
 {
-    if (gameObject->IsDrawable()) renderer->AddToRendering(gameObject);
+    if (gameObject->IsDrawable()) renderingController->AddToRendering(gameObject);
 }
 
 void Engine::AddCollideable(std::shared_ptr<GameObject> gameObject)
@@ -95,12 +96,12 @@ void Engine::AddCollideable(std::shared_ptr<GameObject> gameObject)
 
 void Engine::RemoveFromRendering(std::shared_ptr<GameObject> gameObject)
 {
-    if(gameObject->IsDrawable()) renderer->RemoveFromRendering(gameObject->Id(), gameObject->GetSpriteRenderer()->RenderingOrder());
+    if(gameObject->IsDrawable()) renderingController->RemoveFromRendering(gameObject->Id(), gameObject->GetTextureRenderer().RenderingOrder());
 }
 
 void Engine::RemoveCollideable(std::shared_ptr<GameObject> gameObject)
 {
-    std::shared_ptr<CollisionObject> collObj = std::dynamic_pointer_cast<CollisionObject>(gameObject);        
+    std::shared_ptr<CollisionObject> collObj = std::dynamic_pointer_cast<CollisionObject>(gameObject);
     if (collObj) collisionManager->RemoveCollideable(collObj->Id());
 }
 
@@ -137,7 +138,7 @@ void Engine::MainLoop()
 
         UpdateAll(elapsed_seconds.count() * 1000); //msec
         
-        renderer->Render();
+        renderingController->Render();
 
         RemoveObjects();
 
@@ -165,7 +166,7 @@ void Engine::AddNewObjects()
 
         if(gameObject->HandlesInput()) eventHandler->AddInputEventListener(gameObject);
 
-        AddToRendering(gameObject);
+        if (gameObject->IsDrawable()) renderingController->AddToRendering(gameObject);//AddToRendering(gameObject);
         AddCollideable(gameObject);
     }
 

@@ -12,7 +12,7 @@ Border::Border(std::unique_ptr<SpriteRenderer> spriteRenderer) : CollisionObject
     canCollide = true;
 }
 
-Grass::Grass(std::unique_ptr<SpriteRenderer> spriteRenderer) : GameObject(std::move(spriteRenderer))
+Grass::Grass(std::unique_ptr<SpriteRenderer> spriteRenderer) : SceneObject(std::move(spriteRenderer))
 {
     name = "Grass";
 }

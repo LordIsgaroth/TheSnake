@@ -18,6 +18,7 @@ GameController::GameController(int tileSize, int fieldWidth, int fieldHeight, in
     CreateField();
     CreateBorders();
     CreateScoreText();
+    //CreatePlayAgainButton();
 }
 
 void GameController::CreateScoreText()
@@ -111,6 +112,27 @@ void GameController::CreateSnake()
     Engine::AddObject(snake);
 }
 
+void GameController::CreatePlayAgainButton()
+{
+    std::shared_ptr<Sprite> buttonSprite = std::make_shared<Sprite>("Graphics/button.png");
+    std::unique_ptr<SpriteRenderer> buttonSpriteRenderer = std::make_unique<SpriteRenderer>(buttonSprite, 90, false);
+
+    playAgainButton = std::make_shared<Button>("Play again", std::move(buttonSpriteRenderer));
+
+    int posX = (tileSize * 2 + tileSize * fieldWidth - buttonSprite->GetSurface().w) / 2;
+    int posY = (tileSize * 4 + tileSize * fieldHeight - buttonSprite->GetSurface().h / 2) / 2;
+
+    playAgainButton->position = Vector2D(posX, posY);
+
+    Engine::AddObject(playAgainButton);
+}
+
+void GameController::ShowPlayAgainButton()
+{
+    if(!playAgainButton) CreatePlayAgainButton();
+    playAgainButton->GetSpriteRenderer().visible = true;
+}
+
 std::unique_ptr<SpriteRenderer> GameController::CreateTileSpriteRenderer(std::shared_ptr<Sprite> sprite, int renderingOrder)
 {
     return std::move(std::make_unique<SpriteRenderer>(sprite, tileSize, tileSize, renderingOrder, true));
@@ -118,6 +140,9 @@ std::unique_ptr<SpriteRenderer> GameController::CreateTileSpriteRenderer(std::sh
 
 void GameController::Update(double elapsedTime)
 {
+    //testing - remove
+    ShowPlayAgainButton();
+
     while(currentApplesCount < minApplesCount) AddApple();
 
     movementDuration += elapsedTime;

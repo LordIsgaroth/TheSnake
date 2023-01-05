@@ -27,5 +27,11 @@ void EventHandler::CheckEvents()
 
             keyboardEventNotifier.Notify(keyboardEvent);
         }
+        else if (event.type == SDL_MOUSEBUTTONUP)
+        {
+            std::shared_ptr<MouseEvent> mouseEvent = std::make_shared<MouseEvent>();
+            mouseEvent->eventType = MouseEventType::up;
+            mouseEvent->eventData = event.button;            
+        }       
     }
 }

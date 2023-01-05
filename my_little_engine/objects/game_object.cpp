@@ -24,11 +24,6 @@ TextObject::TextObject(std::string labelName, std::unique_ptr<LabelRenderer> lab
     this->labelRenderer = std::move(labelRenderer);
 }
 
-//void GameObject::SetTextureRenderer(std::unique_ptr<TextureRenderer> textureRenderer) { this->textureRenderer = std::move(textureRenderer); }
-
-// TextureRenderer& GameObject::GetTextureRenderer() const { return *textureRenderer; }
-
-
 CollisionObject::CollisionObject()
 {
     borders = std::make_shared<CollisionBorders>();

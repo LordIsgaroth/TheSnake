@@ -8,6 +8,7 @@
 
 #include "event_subject.hpp"
 #include "keyboard_event.hpp"
+#include "mouse_event.hpp"
 #include "input_listener.hpp"
 
 class EventHandler
@@ -20,7 +21,7 @@ public:
 
     void CheckEvents();
 private:
-    void QuitNotify(SDL_Event event);
+    //void QuitNotify(SDL_Event event);
     
     EventSubject<std::shared_ptr<KeyboardEvent>> keyboardEventNotifier;
 };

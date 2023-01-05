@@ -37,6 +37,8 @@ private:
     std::vector<Vector2D> freePositions;
    
     std::shared_ptr<TextObject> scoreText;
+    std::shared_ptr<Button> playAgainButton;
+
     std::shared_ptr<Snake> snake;
     std::shared_ptr<Sprite> appleSprite;
     std::vector<std::shared_ptr<Border>> borders;
@@ -45,10 +47,11 @@ private:
     void CreateField();
     void CreateBorders();
     void CreateScoreText();
+    void CreatePlayAgainButton();
 
     void AddApple();
-
     void UpdateScore();
+    void ShowPlayAgainButton();
 
     std::unique_ptr<SpriteRenderer> CreateTileSpriteRenderer(std::shared_ptr<Sprite> sprite, int renderingOrder); 
 

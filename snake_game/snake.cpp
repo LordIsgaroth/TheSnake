@@ -167,13 +167,13 @@ void Snake::Grow()
     segments.insert(--segments.end(), newSegment.get());
 }
 
-void Snake::Input(std::shared_ptr<KeyboardEvent> inputEvent)
+void Snake::Input(std::shared_ptr<SDL_Event> inputEvent)
 {
     if (!alive) return;
 
-    if (inputEvent->eventType == KeyboardEventType::pressed)
+    if (inputEvent->type == SDL_KEYDOWN)
     {
-        switch (inputEvent->key)
+        switch (inputEvent->key.keysym.sym)
         {
             case SDLK_UP:
             {

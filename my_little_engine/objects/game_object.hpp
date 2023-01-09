@@ -14,7 +14,7 @@ public:
     GameObject();
 
     virtual void Update(double elapsedTime) = 0;
-    virtual void Input(std::shared_ptr<KeyboardEvent> inputEvent) override {}
+    virtual void Input(std::shared_ptr<SDL_Event> inputEvent) override {}
 
     std::string Name() const { return name; }
     int Id() const { return id; } 

@@ -7,8 +7,6 @@
 #include "my_little_engine/core/engine.hpp"
 
 #include "event_subject.hpp"
-#include "keyboard_event.hpp"
-#include "mouse_event.hpp"
 #include "input_listener.hpp"
 
 class EventHandler
@@ -23,5 +21,5 @@ public:
 private:
     //void QuitNotify(SDL_Event event);
     
-    EventSubject<std::shared_ptr<KeyboardEvent>> keyboardEventNotifier;
+    EventSubject<std::shared_ptr<SDL_Event>> inputEventNotifier;
 };

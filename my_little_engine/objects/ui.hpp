@@ -17,7 +17,7 @@ public:
     Button(std::string buttonName, std::unique_ptr<SpriteRenderer> spriteRenderer);
 
     void Update(double elapsedTime) override {}
-    void Input(std::shared_ptr<KeyboardEvent> inputEvent) override;
+    void Input(std::shared_ptr<SDL_Event> inputEvent) override;
 
     bool IsDrawable() const override { return spriteRenderer != nullptr; }
     TextureRenderer& GetTextureRenderer() const override { return *spriteRenderer; }
@@ -25,4 +25,7 @@ public:
 
 protected:
     std::unique_ptr<SpriteRenderer> spriteRenderer;
+
+    //В дальнейшем вывести в какой-либо общий класс
+    bool PointInRect(Vector2D point, Vector2D rectPosition, const SDL_Rect& rect);  
 };

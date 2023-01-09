@@ -62,7 +62,7 @@ class Snake : public SnakeSegment, public ISubject<std::shared_ptr<SnakeEvent>>
 public:
     Snake(std::unique_ptr<SpriteRenderer> spriteRenderer, Vector2D position, Vector2D direction);
 
-    void Input(std::shared_ptr<KeyboardEvent> inputEvent) override;
+    void Input(std::shared_ptr<SDL_Event> inputEvent) override;
     void OnCollision(std::shared_ptr<Collision> collision) override;
     void SetSpriteByDirection() override;
 

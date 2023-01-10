@@ -12,7 +12,6 @@ COMPILER_FLAGS = -Wall -g
 
 #LINKER_FLAGS specifies the libraries we're linking against
 LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf
-#-lSDL2_ttf -lSDL2_mixer
 
 #Source files
 SRCS := $(notdir $(wildcard $(SEARCH_FILES)))

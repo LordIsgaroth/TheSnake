@@ -18,7 +18,6 @@ GameController::GameController(int tileSize, int fieldWidth, int fieldHeight, in
     CreateField();
     CreateBorders();
     CreateScoreText();
-    //CreatePlayAgainButton();
 }
 
 void GameController::CreateScoreText()
@@ -123,6 +122,7 @@ void GameController::CreatePlayAgainButton()
     int posY = (tileSize * 4 + tileSize * fieldHeight - buttonSprite->GetSurface().h / 2) / 2;
 
     playAgainButton->position = Vector2D(posX, posY);
+    playAgainButton->OnPressed.connect(boost::bind(&GameController::PlayAgain, this));
 
     Engine::AddObject(playAgainButton);
 }
@@ -212,4 +212,9 @@ Vector2D GameController::GetRandomFreePosition()
 void GameController::UpdateScore()
 {
     scoreText->SetText("Score: " + std::to_string(score));
-}    
+}
+
+void GameController::PlayAgain()
+{
+    std::cout << "Play again!" << std::endl;
+}

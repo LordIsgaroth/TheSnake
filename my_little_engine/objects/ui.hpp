@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game_object.hpp"
+#include <boost/signals2.hpp>
 
 //testing
 #include <iostream>
@@ -22,6 +23,8 @@ public:
     bool IsDrawable() const override { return spriteRenderer != nullptr; }
     TextureRenderer& GetTextureRenderer() const override { return *spriteRenderer; }
     SpriteRenderer& GetSpriteRenderer() const { return *spriteRenderer; }
+
+    boost::signals2::signal<void()> OnPressed;
 
 protected:
     std::unique_ptr<SpriteRenderer> spriteRenderer;

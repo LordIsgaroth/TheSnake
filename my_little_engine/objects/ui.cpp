@@ -20,7 +20,7 @@ void Button::Input(std::shared_ptr<SDL_Event> inputEvent)
 
         if(PointInRect(mousePosition, position, GetSpriteRenderer().GetRect()))
         {
-            std::cout << "Button pressed!" << std::endl;
+            OnPressed();
         }
     }
 }

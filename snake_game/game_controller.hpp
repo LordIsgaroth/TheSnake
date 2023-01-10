@@ -52,6 +52,7 @@ private:
     void AddApple();
     void UpdateScore();
     void ShowPlayAgainButton();
+    void PlayAgain();
 
     std::unique_ptr<SpriteRenderer> CreateTileSpriteRenderer(std::shared_ptr<Sprite> sprite, int renderingOrder); 
 

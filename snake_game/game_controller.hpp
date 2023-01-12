@@ -3,13 +3,14 @@
 #include <memory>
 #include <vector>
 #include <algorithm>
+#include <functional>
 
 #include "my_little_engine/my_little_engine.hpp"
 
 #include "snake.hpp"
 #include "snake_game_objects.hpp"
 
-class GameController : public SceneObject, public IObserver<std::shared_ptr<SnakeEvent>>
+class GameController : public SceneObject
 {
 public:
     GameController(int tileSize, int fieldWidth, int fieldHeight, int minApplesCount);
@@ -49,6 +50,7 @@ private:
     void CreateScoreText();
     void CreatePlayAgainButton();
 
+    void AppleEaten();
     void AddApple();
     void UpdateScore();
     void ShowPlayAgainButton();
@@ -59,7 +61,5 @@ private:
     void DefineFreePositions();
     Vector2D GetRandomFreePosition();
 
-    void Update(double elapsedTime) override;
-    void OnNotify(std::shared_ptr<SnakeEvent> message) override;
-
+    void Update(double elapsedTime) override;  
 };

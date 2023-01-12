@@ -5,7 +5,7 @@ SnakeEvent::SnakeEvent(SnakeEventType type)
     this->type = type;    
 }
 
-const SnakeEventType SnakeEvent::Type()
+const SnakeEventType SnakeEvent::Type() const
 {
     return type;
 }

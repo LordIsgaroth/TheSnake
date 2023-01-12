@@ -57,7 +57,7 @@ private:
     static void LoadSprites();
 };
 
-class Snake : public SnakeSegment, public ISubject<std::shared_ptr<SnakeEvent>>
+class Snake : public SnakeSegment
 {
 public:
     Snake(std::unique_ptr<SpriteRenderer> spriteRenderer, Vector2D position, Vector2D direction);
@@ -70,18 +70,16 @@ public:
 
     void Move();
     void Grow();
+    void Destroy();
 
-    void Attach(std::shared_ptr<IObserver<std::shared_ptr<SnakeEvent>>> observer) override;
-    void Detach(std::shared_ptr<IObserver<std::shared_ptr<SnakeEvent>>> observer) override;
-    void Notify(std::shared_ptr<SnakeEvent> message) override;
+    boost::signals2::signal<void()> OnAppleEaten;
+    boost::signals2::signal<void()> OnSnakeDead;
 
 private:
     bool alive;
     bool isMoving;
     
     std::vector<SnakeSegment*> segments;
-
-    std::shared_ptr<IObserver<std::shared_ptr<SnakeEvent>>> observer;
 };
 
 class SnakeTail : public SnakeSegment

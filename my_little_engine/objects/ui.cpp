@@ -15,9 +15,6 @@ void Button::Input(std::shared_ptr<SDL_Event> inputEvent)
     {
         Vector2D mousePosition(inputEvent->button.x, inputEvent->button.y);
 
-        position.X();
-        position.Y();
-
         if(PointInRect(mousePosition, position, GetSpriteRenderer().GetRect()))
         {
             OnPressed();

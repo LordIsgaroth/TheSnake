@@ -108,6 +108,8 @@ void GameController::CreateSnake()
     Vector2D snakePosition(tileSize * fieldWidth / 2, tileSize * fieldHeight / 2);
 
     snake = std::make_shared<Snake>(CreateTileSpriteRenderer(nullptr, 2), snakePosition, Vector2D::Right());
+    snake->OnAppleEaten.connect(boost::bind(&GameController::AppleEaten, this));
+    snake->OnSnakeDead.connect(boost::bind(&GameController::ShowPlayAgainButton, this));
     Engine::AddObject(snake);
 }
 
@@ -140,9 +142,6 @@ std::unique_ptr<SpriteRenderer> GameController::CreateTileSpriteRenderer(std::sh
 
 void GameController::Update(double elapsedTime)
 {
-    //testing - remove
-    ShowPlayAgainButton();
-
     while(currentApplesCount < minApplesCount) AddApple();
 
     movementDuration += elapsedTime;
@@ -156,14 +155,11 @@ void GameController::Update(double elapsedTime)
     //std::cout << movementDuration << std::endl;
 }
 
-void GameController::OnNotify(std::shared_ptr<SnakeEvent> message)
+void GameController::AppleEaten()
 {
-    if (message->Type() == SnakeEventType::AppleEaten) 
-    {
-        currentApplesCount--;
-        score++;
-        UpdateScore();
-    }
+    currentApplesCount--;
+    score++;
+    UpdateScore();
 }
 
 void GameController::AddApple()
@@ -217,4 +213,6 @@ void GameController::UpdateScore()
 void GameController::PlayAgain()
 {
     std::cout << "Play again!" << std::endl;
+    snake->Destroy();
+    //snake = nullptr;
 }

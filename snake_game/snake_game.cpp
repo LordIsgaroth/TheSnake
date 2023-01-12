@@ -28,7 +28,6 @@ void SnakeGame::Load()
     Engine::LoadScene(mainScene);
 
     gameController->CreateSnake();
-    gameController->GetSnake()->Attach(gameController);
 }
 
 void SnakeGame::Start()

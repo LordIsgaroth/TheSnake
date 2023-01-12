@@ -10,7 +10,7 @@ class SnakeEvent
 {
 public:
     SnakeEvent(SnakeEventType type);
-    const SnakeEventType Type();
+    const SnakeEventType Type() const;
 
 private:    
     SnakeEventType type;

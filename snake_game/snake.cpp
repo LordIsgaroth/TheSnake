@@ -120,6 +120,16 @@ Snake::Snake(std::unique_ptr<SpriteRenderer> spriteRenderer, Vector2D position, 
     Engine::AddObject(snakeTail);
 }
 
+void Snake::Destroy()
+{
+    for (SnakeSegment* segment : segments)
+    {
+        Engine::RemoveObject(segment->Id());
+    }
+
+    segments.clear();
+}
+
 void Snake::Move()
 {
     if (isMoving)
@@ -221,8 +231,7 @@ void Snake::OnCollision(std::shared_ptr<Collision> collision)
     if (collision->Other()->Name() == "Apple") 
     {
         Grow();
-        std::shared_ptr<SnakeEvent> event = std::make_shared<SnakeEvent>(SnakeEventType::AppleEaten);
-        observer->OnNotify(event);
+        OnAppleEaten();
 
         Engine::RemoveObject(collision->Other()->Id());
     }
@@ -233,22 +242,9 @@ void Snake::OnCollision(std::shared_ptr<Collision> collision)
         alive = false;
         canCollide = false;
         isMoving = false;
+
+        OnSnakeDead();
     } 
-}
-
-void Snake::Attach(std::shared_ptr<IObserver<std::shared_ptr<SnakeEvent>>> observer)
-{
-    this->observer = observer;
-}
-
-void Snake::Detach(std::shared_ptr<IObserver<std::shared_ptr<SnakeEvent>>> observer)
-{
-    this->observer = nullptr;
-}
-
-void Snake::Notify(std::shared_ptr<SnakeEvent> message)
-{
-    if(observer) observer->OnNotify(message);
 }
 
 SnakeTail::SnakeTail(std::unique_ptr<SpriteRenderer> spriteRenderer, Vector2D position, Vector2D direction) 

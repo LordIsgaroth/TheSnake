@@ -21,7 +21,8 @@ void SnakeGame::Load()
         objectsForLoading->push_back(grass);
     }
 
-    objectsForLoading->push_back(gameController->GetScoreText());
+    objectsForLoading->push_back(gameController->GetScoreLabel());
+    objectsForLoading->push_back(gameController->GetGameOverLabel());
 
     mainScene = std::make_shared<Scene>("Main scene", std::move(objectsForLoading));
 

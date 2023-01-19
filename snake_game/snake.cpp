@@ -231,7 +231,7 @@ void Snake::OnCollision(std::shared_ptr<Collision> collision)
     if (collision->Other()->Name() == "Apple") 
     {
         Grow();
-        OnAppleEaten();
+        OnAppleEaten(collision->Other()->position);
 
         Engine::RemoveObject(collision->Other()->Id());
     }

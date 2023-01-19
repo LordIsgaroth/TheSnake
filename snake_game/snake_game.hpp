@@ -8,8 +8,8 @@
 
 #include "my_little_engine/my_little_engine.hpp"
 
-#include "game_controller.hpp"
-#include "snake.hpp"
+#include "level.hpp"
+#include "interface.hpp"
 
 class SnakeGame
 {
@@ -19,8 +19,9 @@ public:
     void Start();
 
 private:
-
     std::shared_ptr<Scene> mainScene;
+
+    Interface interface;
 
     const int SCREEN_WIDTH = 704;
     const int SCREEN_HEIGHT = 640;

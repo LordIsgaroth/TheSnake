@@ -72,7 +72,7 @@ public:
     void Grow();
     void Destroy();
 
-    boost::signals2::signal<void()> OnAppleEaten;
+    boost::signals2::signal<void(Vector2D)> OnAppleEaten;
     boost::signals2::signal<void()> OnSnakeDead;
 
 private:

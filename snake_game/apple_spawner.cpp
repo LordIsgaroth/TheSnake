@@ -17,6 +17,7 @@ void AppleSpawner::SpawnApples(std::vector<Vector2D>& freePositions)
     {
         Vector2D position = GetRandomPosition(freePositions);
         CreateApple(position);
+        AppleSpawned(position);
     }
 }
 
@@ -38,11 +39,9 @@ void AppleSpawner::CreateApple(Vector2D& position)
 Vector2D AppleSpawner::GetRandomPosition(std::vector<Vector2D>& positions)
 {
     std::srand(std::time(nullptr));
-    
-    Vector2D newPosition = positions[std::rand() % (positions.size() - 1)];
-    
-    std::cout << "new apple position (x): " << newPosition.X() << std::endl;
-    std::cout << "new apple position (y): " << newPosition.Y() << std::endl;
 
+    int randomNumber = std::rand() % (positions.size() - 1);
+    Vector2D newPosition = positions[randomNumber];
+    
     return newPosition;
 }

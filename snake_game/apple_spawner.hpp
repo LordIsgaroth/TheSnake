@@ -11,6 +11,8 @@ public:
     void ReduceCurrentApplesCount() { currentApplesCount--; }
     void SpawnApples(std::vector<Vector2D>& freePositions);
 
+    boost::signals2::signal<void(Vector2D)> AppleSpawned;
+
 private:
     int minApplesCount, currentApplesCount;
     int tileSize;

@@ -25,12 +25,10 @@ void SnakeGame::Load()
 
     level->ScoreChanged.connect(boost::bind(&Interface::UpdateScore, &interface, boost::placeholders::_1));
     level->GameOver.connect(boost::bind(&Interface::ShowPlayAgain, &interface));
-    interface.PlayAgainPressed.connect(boost::bind(&Level::PlayAgain, level.get()));
-    //AppleSpawned.connect(boost::bind(&Field::TakePosition, field.get(), boost::placeholders::_1));
+    interface.PlayAgainPressed.connect(boost::bind(&Level::Reload, level.get()));
 
     level->Load();
     interface.Load();
-    //level->CreateSnake();
 }
 
 void SnakeGame::Start()

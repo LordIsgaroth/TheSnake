@@ -6,24 +6,15 @@
 class AppleSpawner
 {
 public:
-    AppleSpawner(int minApplesCount, int tileSize, int appleRenderingOrder);
-
-    void ReduceCurrentApplesCount() { currentApplesCount--; }
-    void SpawnApples(std::vector<Vector2D>& freePositions);
-
-    boost::signals2::signal<void(Vector2D)> AppleSpawned;
+    AppleSpawner(int tileSize, int appleRenderingOrder);
+    std::shared_ptr<Apple> SpawnApple(std::vector<Vector2D>& freePositions);
 
 private:
-    int minApplesCount, currentApplesCount;
     int tileSize;
     int appleRenderingOrder;
 
     std::shared_ptr<Sprite> appleSprite;
-    
-    //Change to collection for multiple apples
-    const Apple* apple;
 
     void CreateApple(Vector2D& position);
     Vector2D GetRandomPosition(std::vector<Vector2D>& positions);
-
 };

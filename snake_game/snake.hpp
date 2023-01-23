@@ -37,7 +37,7 @@ public:
     SnakeSegment(std::unique_ptr<SpriteRenderer> spriteRenderer, Vector2D position, Vector2D direction);
     SnakeSegment(const SnakeSegment& origin);
 
-    void Update(double elapsedTime) override {}
+    virtual void Update(double elapsedTime) override {}
     void OnCollision(std::shared_ptr<Collision> collision) override {}
 
     virtual void SetSpriteByDirection();
@@ -66,6 +66,8 @@ public:
     void OnCollision(std::shared_ptr<Collision> collision) override;
     void SetSpriteByDirection() override;
 
+    void Update(double elapsedTime) override;
+
     const std::vector<SnakeSegment*>& GetSegments() const { return segments; }
 
     void Move();
@@ -78,6 +80,9 @@ public:
 private:
     bool alive;
     bool isMoving;
+
+    double movementDuration = 0;
+    double maxMovementDuration = 100;
     
     std::vector<SnakeSegment*> segments;
 };
@@ -88,5 +93,6 @@ public:
     SnakeTail(std::unique_ptr<SpriteRenderer> spriteRenderer, Vector2D position, Vector2D direction);
     SnakeTail(const SnakeSegment& origin);
 
+    void Update(double elapsedTime) override {}
     void SetSpriteByDirection() override;
 };

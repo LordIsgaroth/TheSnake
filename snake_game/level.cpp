@@ -11,13 +11,13 @@ Level::Level(int tileSize, int fieldWidth, int fieldHeight, int minApplesCount)
     this->tileSize = tileSize;
     this->fieldWidth = fieldWidth;
     this->fieldHeight = fieldHeight;
+    this->minApplesCount = minApplesCount;
 
     int applesRenderingOrder = 1;
 
     field = std::make_shared<Field>(Vector2D(0, scoreFieldSize), tileSize, fieldWidth, fieldHeight);
-    appleSpawner = std::make_shared<AppleSpawner>(minApplesCount, tileSize, applesRenderingOrder);
-    appleSpawner->AppleSpawned.connect(boost::bind(&Field::TakePosition, field.get(), boost::placeholders::_1));
-
+    appleSpawner = std::make_shared<AppleSpawner>(tileSize, applesRenderingOrder);
+   
     CreateBorders();
 }
 
@@ -26,14 +26,10 @@ void Level::Load()
     if (loaded) return;
 
     LoadBorders();
+    LoadField();
 
-    for (std::shared_ptr<GameObject> grass : field->GetFieldTiles())
-    {
-        Engine::AddObject(grass);
-    }
-
-    CreateBorders();
-    CreateSnake();
+    CreateAndLoadSnake();
+    SpawnApples();
 
     loaded = true;
 }
@@ -92,12 +88,11 @@ void Level::CreateBorders()
     } 
 }
 
-void Level::CreateSnake()
+void Level::CreateAndLoadSnake()
 {
     Vector2D snakePosition(tileSize * fieldWidth / 2, tileSize * fieldHeight / 2);
 
     snake = std::make_shared<Snake>(CreateTileSpriteRenderer(nullptr, 2), snakePosition, Vector2D::Right());
-    //snake->OnAppleEaten.connect(boost::bind(&Field::RemoveApple, *(field.get()), boost::placeholders::_1));
     snake->OnAppleEaten.connect(boost::bind(&Level::AppleEaten, this, boost::placeholders::_1));
     snake->OnSnakeDead.connect(boost::bind(&Level::ShowPlayAgain, this));
     Engine::AddObject(snake);
@@ -108,7 +103,15 @@ void Level::LoadBorders()
     for (std::shared_ptr<Border> object : borderTiles)
     {
         Engine::AddObject(object);
-    }    
+    }
+}
+
+void Level::LoadField()
+{
+    for (std::shared_ptr<GameObject> grass : field->GetFieldTiles())
+    {
+        Engine::AddObject(grass);
+    }
 }
 
 void Level::ShowPlayAgain()
@@ -121,40 +124,70 @@ std::unique_ptr<SpriteRenderer> Level::CreateTileSpriteRenderer(std::shared_ptr<
     return std::move(std::make_unique<SpriteRenderer>(sprite, tileSize, tileSize, renderingOrder, true));
 }
 
+void Level::SpawnApples()
+{
+    while (apples.size() < minApplesCount)
+    {
+        std::shared_ptr<Apple> newApple = appleSpawner->SpawnApple(field->GetFreePositions());
+        apples.push_back(newApple);
+        field->TakePosition(newApple->position);
+
+        Engine::AddObject(newApple);
+    }
+}
+
 void Level::Update(double elapsedTime)
 {
-    appleSpawner->SpawnApples(field->GetFreePositions());
-    
-    movementDuration += elapsedTime;
 
-    if (movementDuration >= maxMovementDuration)
-    {
-        movementDuration = 0;
-        snake->Move(); 
-    }
-
-    //std::cout << movementDuration << std::endl;
 }
 
 void Level::AppleEaten(Vector2D position)
 {
-
-    appleSpawner->ReduceCurrentApplesCount();
-    appleSpawner->SpawnApples(field->GetFreePositions());
+    RemoveAppleOnPosition(position);
     field->ReleasePosition(position);
-
+   
     score++;
     ScoreChanged(score);
+
+    SpawnApples();
 }
 
-void Level::PlayAgain()
+void Level::RemoveAppleOnPosition(Vector2D position)
+{
+    //Temporary solution
+
+    //auto pos = std::find_if(apples.begin(), apples.end(), [](std::shared_ptr<Apple> apple, Vector2D position) { return apple->position == position; }); 
+
+    std::shared_ptr<Apple> findedApple = nullptr;
+
+    for (std::shared_ptr<Apple> apple : apples)
+    {
+        //if (pos != apples.end())
+        if (apple->position == position)
+        {   
+            findedApple = apple;
+        }
+    }
+
+    auto pos = std::find(apples.begin(), apples.end(), findedApple); 
+
+    if (pos != apples.end())
+    {
+        Engine::RemoveObject(pos->get()->Id());
+        apples.erase(pos);
+    }
+}
+
+void Level::Reload()
 {
     snake->Destroy();
 
-    CreateSnake();
+    CreateAndLoadSnake();
 
     score = 0;
     ScoreChanged(score);
+
+
 
     // Engine::RemoveObject(apple->Id());
     // currentApplesCount--;

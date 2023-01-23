@@ -28,5 +28,5 @@ private:
     const int TILE_SIZE = 32;
     const int FIELD_WIDTH = 20;
     const int FIELD_HEIGHT = 16;
-    const int MIN_APPLES = 1;
+    const int MIN_APPLES = 5;
 };

@@ -232,8 +232,6 @@ void Snake::OnCollision(std::shared_ptr<Collision> collision)
     {
         Grow();
         OnAppleEaten(collision->Other()->position);
-
-        Engine::RemoveObject(collision->Other()->Id());
     }
     else if (collision->Other()->Name() == "Border" 
             || collision->Other()->Name() == "Segment"
@@ -245,6 +243,19 @@ void Snake::OnCollision(std::shared_ptr<Collision> collision)
 
         OnSnakeDead();
     } 
+}
+
+void Snake::Update(double elapsedTime)
+{
+    if(!isMoving) return;
+
+        movementDuration += elapsedTime;
+
+    if (movementDuration >= maxMovementDuration)
+    {
+        movementDuration = 0;
+        Move(); 
+    }
 }
 
 SnakeTail::SnakeTail(std::unique_ptr<SpriteRenderer> spriteRenderer, Vector2D position, Vector2D direction) 

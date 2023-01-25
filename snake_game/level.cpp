@@ -11,7 +11,8 @@ Level::Level(int tileSize, int fieldWidth, int fieldHeight, int minApplesCount)
     this->tileSize = tileSize;
     this->fieldWidth = fieldWidth;
     this->fieldHeight = fieldHeight;
-    this->minApplesCount = minApplesCount;
+    
+    appleStorage = AppleStorage(minApplesCount);
 
     int applesRenderingOrder = 1;
 
@@ -126,13 +127,11 @@ std::unique_ptr<SpriteRenderer> Level::CreateTileSpriteRenderer(std::shared_ptr<
 
 void Level::SpawnApples()
 {
-    while (apples.size() < minApplesCount)
+    while (appleStorage.CanContainApple())
     {
         std::shared_ptr<Apple> newApple = appleSpawner->SpawnApple(field->GetFreePositions());
-        apples.push_back(newApple);
+        appleStorage.AddApple(newApple);
         field->TakePosition(newApple->position);
-
-        Engine::AddObject(newApple);
     }
 }
 
@@ -143,7 +142,7 @@ void Level::Update(double elapsedTime)
 
 void Level::AppleEaten(Vector2D position)
 {
-    RemoveAppleOnPosition(position);
+    appleStorage.RemoveAppleAtPosition(position);
     field->ReleasePosition(position);
    
     score++;
@@ -152,45 +151,15 @@ void Level::AppleEaten(Vector2D position)
     SpawnApples();
 }
 
-void Level::RemoveAppleOnPosition(Vector2D position)
-{
-    //Temporary solution
-
-    //auto pos = std::find_if(apples.begin(), apples.end(), [](std::shared_ptr<Apple> apple, Vector2D position) { return apple->position == position; }); 
-
-    std::shared_ptr<Apple> findedApple = nullptr;
-
-    for (std::shared_ptr<Apple> apple : apples)
-    {
-        //if (pos != apples.end())
-        if (apple->position == position)
-        {   
-            findedApple = apple;
-        }
-    }
-
-    auto pos = std::find(apples.begin(), apples.end(), findedApple); 
-
-    if (pos != apples.end())
-    {
-        Engine::RemoveObject(pos->get()->Id());
-        apples.erase(pos);
-    }
-}
-
 void Level::Reload()
 {
     snake->Destroy();
+    appleStorage.RemoveAllApples();
 
     CreateAndLoadSnake();
 
     score = 0;
     ScoreChanged(score);
 
-
-
-    // Engine::RemoveObject(apple->Id());
-    // currentApplesCount--;
-
-    // AddApple();
+    SpawnApples();
 }

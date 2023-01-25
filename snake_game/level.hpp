@@ -13,6 +13,7 @@
 #include "snake_game_objects.hpp"
 #include "field.hpp"
 #include "apple_spawner.hpp"
+#include "apple_storage.hpp"
 
 //Ответственности класса
 //Создание и хранение игровых объектов
@@ -38,14 +39,14 @@ private:
 
     int fieldWidth, fieldHeight;
     int tileSize;
-    int minApplesCount;
+    //int minApplesCount;
     int scoreFieldSize;
 
     std::shared_ptr<Field> field;
     std::shared_ptr<AppleSpawner> appleSpawner;
-    
+    AppleStorage appleStorage;
+
     std::vector<std::shared_ptr<Border>> borderTiles;
-    std::vector<std::shared_ptr<Apple>> apples;
     std::shared_ptr<Snake> snake;
    
     void Update(double elapsedTime) override;
@@ -59,8 +60,6 @@ private:
     void AppleEaten(Vector2D position);
     void SpawnApples();
     void ShowPlayAgain();
-
-    void RemoveAppleOnPosition(Vector2D position);
 
     std::unique_ptr<SpriteRenderer> CreateTileSpriteRenderer(std::shared_ptr<Sprite> sprite, int renderingOrder);
 };

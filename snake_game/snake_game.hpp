@@ -21,7 +21,8 @@ public:
 private:
     std::shared_ptr<Scene> mainScene;
 
-    Interface interface;
+    std::unique_ptr<Level> level;
+    std::unique_ptr<Interface> interface;
 
     const int SCREEN_WIDTH = 704;
     const int SCREEN_HEIGHT = 640;

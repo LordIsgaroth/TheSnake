@@ -9,7 +9,7 @@ Field::Field(Vector2D position, int tileSize, int width, int height)
     this->height = height;
 
     CreateGrass();
-    DefineFreePositions();
+    ReleaseAllPositions();
 }
 
 void Field::CreateGrass()
@@ -28,7 +28,7 @@ void Field::CreateGrass()
         fieldTiles.push_back(grass);
     }
 }
-void Field::DefineFreePositions()
+void Field::ReleaseAllPositions()
 {
     freeTilePositions.clear();
 
@@ -36,16 +36,6 @@ void Field::DefineFreePositions()
     { 
         freeTilePositions.push_back(position);
     }
-
-    // for (SnakeSegment* segment : snake->GetSegments())
-    // {
-    //     auto pos = std::find(freePositions.begin(), freePositions.end(), segment->position); 
-
-    //     if(pos != freePositions.end())
-    //     {
-    //         freePositions.erase(pos);
-    //     }
-    // }
 }
 
 std::unique_ptr<SpriteRenderer> Field::CreateTileSpriteRenderer(std::shared_ptr<Sprite> sprite, int renderingOrder)
@@ -55,10 +45,7 @@ std::unique_ptr<SpriteRenderer> Field::CreateTileSpriteRenderer(std::shared_ptr<
 
 void Field::TakePosition(Vector2D position)
 {
-    std::cout << "new apple position (x): " << position.X() << std::endl;
-    std::cout << "new apple position (y): " << position.Y() << std::endl;
-
-    auto pos = std::find(freeTilePositions.begin(), freeTilePositions.end(), position); 
+    auto pos = std::find_if(freeTilePositions.begin(), freeTilePositions.end(), [position](const Vector2D& freePosition) { return freePosition == position; } ); 
 
     if (pos != freeTilePositions.end())
     {
@@ -68,5 +55,10 @@ void Field::TakePosition(Vector2D position)
 
 void Field::ReleasePosition(Vector2D position)
 {
-    freeTilePositions.push_back(position);
+    auto pos = std::find_if(freeTilePositions.begin(), freeTilePositions.end(), [position](const Vector2D& freePosition) { return freePosition == position; } );
+
+    if (pos == freeTilePositions.end())
+    {
+        freeTilePositions.push_back(position);
+    }
 }

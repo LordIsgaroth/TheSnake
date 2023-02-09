@@ -17,6 +17,8 @@ public:
     void TakePosition(Vector2D position);
     void ReleasePosition(Vector2D position);
 
+    void ReleaseAllPositions();
+
     std::vector<Vector2D>& GetFreePositions()
     { 
         return freeTilePositions;

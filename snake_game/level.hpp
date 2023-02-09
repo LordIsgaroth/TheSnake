@@ -47,6 +47,7 @@ private:
 
     void LoadBorders();
     void LoadField();
+    void FreeSnakeTakenPosition(Vector2D prevTailPosition);
 
     void AppleEaten(Vector2D position);
     void SpawnApples();

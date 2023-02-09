@@ -30,11 +30,9 @@ SnakeSegment::SnakeSegment(const SnakeSegment& origin)
     name = "Segment";
     canCollide = true;
 
-    direction = origin.direction;
-    prevDirection = origin.prevDirection;
+    direction = Vector2D(origin.direction.X(), origin.direction.Y());
+    prevDirection = Vector2D(origin.prevDirection.X(), origin.prevDirection.Y());;
     spriteRenderer = std::make_unique<SpriteRenderer>(origin.GetSpriteRenderer());
-
-    direction = origin.direction;
 
     borders->width = spriteRenderer->GetRect().w;
     borders->height = spriteRenderer->GetRect().h;
@@ -132,35 +130,28 @@ void Snake::Destroy()
 
 void Snake::Move()
 {
-    if (isMoving)
+    if (!isMoving) return;
+    
+    direction = nextDirection;
+        
+    Vector2D tailPrevPosition = segments[segments.size() - 1]->position;
+
+    for (int i = segments.size() - 1; i > 0; i--)
     {
-        direction = nextDirection;
-
-        for (int i = segments.size() - 1; i > 0; i--)
-        {
-            segments[i]->position = segments[i - 1]->position;
-            segments[i]->prevDirection = segments[i]->direction;
-            segments[i]->direction = segments[i - 1]->direction;
-        }
-
-        segments[segments.size() - 1]->direction = segments[segments.size() - 2]->prevDirection;
-        position = Vector2D(position.X() + borders->width * direction.X(), position.Y() + borders->height * direction.Y());
+        segments[i]->position = segments[i - 1]->position;
+        segments[i]->prevDirection = segments[i]->direction;
+        segments[i]->direction = segments[i - 1]->direction;
     }
+
+    position = Vector2D(position.X() + borders->width * direction.X(), position.Y() + borders->height * direction.Y());
 
     for (SnakeSegment* segment : segments)
     {
         segment->SetSpriteByDirection();
         if(!segment->GetTextureRenderer().visible) segment->GetTextureRenderer().visible = true;
     }
-}
-
-void Snake::SetSpriteByDirection()
-{
-    if (direction == Vector2D::Up()) spriteRenderer->SetSprite(headSpriteSet.headUp);
-    else if (direction == Vector2D::Down()) spriteRenderer->SetSprite(headSpriteSet.headDown);
-    else if (direction == Vector2D::Right()) spriteRenderer->SetSprite(headSpriteSet.headRight);
-    else if (direction == Vector2D::Left()) spriteRenderer->SetSprite(headSpriteSet.headLeft);
-    else spriteRenderer->SetSprite(nullptr);
+    
+    OnSnakeMoved(tailPrevPosition);
 }
 
 void Snake::Grow()
@@ -175,6 +166,15 @@ void Snake::Grow()
     Engine::AddObject(newSegment);
 
     segments.insert(--segments.end(), newSegment.get());
+}
+
+void Snake::SetSpriteByDirection()
+{
+    if (direction == Vector2D::Up()) spriteRenderer->SetSprite(headSpriteSet.headUp);
+    else if (direction == Vector2D::Down()) spriteRenderer->SetSprite(headSpriteSet.headDown);
+    else if (direction == Vector2D::Right()) spriteRenderer->SetSprite(headSpriteSet.headRight);
+    else if (direction == Vector2D::Left()) spriteRenderer->SetSprite(headSpriteSet.headLeft);
+    else spriteRenderer->SetSprite(nullptr);
 }
 
 void Snake::Input(std::shared_ptr<SDL_Event> inputEvent)
@@ -245,11 +245,24 @@ void Snake::OnCollision(std::shared_ptr<Collision> collision)
     } 
 }
 
+Vector2D Snake::GetPrevTailPosition()
+{
+    SnakeSegment* tail = segments[segments.size() - 1];
+    Vector2D tailPosition = tail->position;
+    Vector2D tailPrevDirection = tail->prevDirection;
+
+    if (tailPrevDirection == Vector2D::Up()) return Vector2D(tailPosition.X(), tailPosition.Y() + borders->height);
+    else if (tailPrevDirection == Vector2D::Down()) return Vector2D(tailPosition.X(), tailPosition.Y() - borders->height);
+    else if (tailPrevDirection == Vector2D::Right()) return Vector2D(tailPosition.X() - borders->width, tailPosition.Y());
+    else if (tailPrevDirection == Vector2D::Left()) return Vector2D(tailPosition.X() + borders->width, tailPosition.Y());
+    else return tailPosition;
+}
+
 void Snake::Update(double elapsedTime)
 {
     if(!isMoving) return;
 
-        movementDuration += elapsedTime;
+    movementDuration += elapsedTime;
 
     if (movementDuration >= maxMovementDuration)
     {

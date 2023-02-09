@@ -1,5 +1,7 @@
 #pragma once
 
+#include <random>
+
 #include "my_little_engine/my_little_engine.hpp"
 #include "snake_game_objects.hpp"
 

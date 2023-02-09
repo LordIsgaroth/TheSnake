@@ -102,7 +102,13 @@ void Level::CreateAndLoadSnake()
     snake = std::make_shared<Snake>(std::move(snakeSpriteRenderer), snakePosition, Vector2D::Right());
     snake->OnAppleEaten.connect(boost::bind(&Level::AppleEaten, this, boost::placeholders::_1));
     snake->OnSnakeDead.connect(boost::bind(&Level::ShowPlayAgain, this));
+    snake->OnSnakeMoved.connect(boost::bind(&Level::FreeSnakeTakenPosition, this, boost::placeholders::_1));
     Engine::AddObject(snake);
+
+    for (const SnakeSegment* segment : snake->GetSegments())
+    {
+        field->TakePosition(segment->position);
+    }    
 }
 
 void Level::LoadBorders()
@@ -121,6 +127,26 @@ void Level::LoadField()
     }
 }
 
+void Level::FreeSnakeTakenPosition(Vector2D prevTailPosition)
+{
+    SnakeSegment* snakeTail = snake->GetSegments()[snake->GetSegments().size() - 1];
+
+    std::cout << "---" << std::endl;
+    std::cout << "Snake head position: " << snake->position.X() / tileSize << " " << snake->position.Y() / tileSize << std::endl;
+    std::cout << "Snake tail position: " << snakeTail->position.X() / tileSize << " " << snakeTail->position.Y() / tileSize << std::endl;
+    std::cout << "Snake tail prev position: " << snake->GetPrevTailPosition().X() / tileSize << " " << snake->GetPrevTailPosition().Y() / tileSize << std::endl; 
+    std::cout << "Snake tail direction: " << snakeTail->direction.X() << " " << snakeTail->direction.Y() << std::endl;
+    std::cout << "Snake tail prev direction: " << snakeTail->prevDirection.X() << " " << snakeTail->prevDirection.Y() << std::endl;
+    
+    field->ReleasePosition(prevTailPosition);
+    field->TakePosition(snake->position);
+    
+    std::cout << "Free positions: " << field->GetFreePositions().size() << std::endl;
+    std::cout << "Snake size: " << snake->GetSegments().size() << std::endl;
+    std::cout << "---" << std::endl;
+
+}
+
 void Level::ShowPlayAgain()
 {
     GameOver();
@@ -128,7 +154,7 @@ void Level::ShowPlayAgain()
 
 void Level::SpawnApples()
 {
-    while (appleStorage.CanContainApple())
+    while (appleStorage.CanContainApple() && field->GetFreePositions().size() > 0)
     {
         std::shared_ptr<Apple> newApple = appleSpawner->SpawnApple(field->GetFreePositions());
         appleStorage.AddApple(newApple);
@@ -139,18 +165,20 @@ void Level::SpawnApples()
 void Level::AppleEaten(Vector2D position)
 {
     appleStorage.RemoveAppleAtPosition(position);
-    field->ReleasePosition(position);
-   
+
     score++;
     ScoreChanged(score);
 
     SpawnApples();
+
 }
 
 void Level::Reload()
 {
     snake->Destroy();
     appleStorage.RemoveAllApples();
+    
+    field->ReleaseAllPositions();
 
     CreateAndLoadSnake();
 

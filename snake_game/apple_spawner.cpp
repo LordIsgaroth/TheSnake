@@ -28,9 +28,12 @@ void AppleSpawner::CreateApple(Vector2D& position)
 
 Vector2D AppleSpawner::GetRandomPosition(std::vector<Vector2D>& positions)
 {
-    std::srand(std::time(nullptr));
+    std::random_device randomDevice;
+    std::mt19937 generator(randomDevice());
 
-    int randomNumber = std::rand() % (positions.size() - 1);
+    std::uniform_int_distribution<> distribution(0, positions.size() - 1);
+    int randomNumber = distribution(generator);
+
     Vector2D newPosition = positions[randomNumber];
     
     return newPosition;

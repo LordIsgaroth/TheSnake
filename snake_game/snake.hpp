@@ -74,8 +74,6 @@ public:
     void Grow();
     void Destroy();
 
-    Vector2D GetPrevTailPosition();
-
     boost::signals2::signal<void(Vector2D)> OnAppleEaten;
     boost::signals2::signal<void()> OnSnakeDead;
     boost::signals2::signal<void(Vector2D)> OnSnakeMoved;

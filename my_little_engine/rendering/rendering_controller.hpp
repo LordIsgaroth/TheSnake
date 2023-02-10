@@ -9,8 +9,6 @@
 #include <map>
 #include <typeinfo>
 
-#include <iostream>
-
 #include "texture.hpp"
 #include "texture_renderer.hpp"
 #include "my_little_engine/objects/game_object.hpp"

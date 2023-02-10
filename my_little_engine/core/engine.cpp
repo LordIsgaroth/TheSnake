@@ -61,7 +61,6 @@ void Engine::LoadScene(std::shared_ptr<Scene> scene)
     for (auto record : scene->GameObjects())
     {
         if (record.second->HandlesInput()) eventHandler->AddInputEventListener(record.second);
-        //AddToRendering(record.second);
         if (record.second->IsDrawable()) renderingController->AddToRendering(record.second);
         AddCollideable(record.second);
     }    
@@ -127,8 +126,7 @@ void Engine::MainLoop()
     while(currentScene->Active())
     {
         elapsed_seconds = end - start;
-        //std::cout << elapsed_seconds.count() * 1000 << std::endl;
-
+      
         start = std::chrono::system_clock::now();
  
         AddNewObjects();
@@ -144,8 +142,6 @@ void Engine::MainLoop()
 
         end = std::chrono::system_clock::now();
     }
-
-    //std::cout << "End of main loop" << std::endl;
 }
 
 void Engine::UpdateAll(double elapsedTime)

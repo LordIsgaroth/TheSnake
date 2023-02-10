@@ -1,8 +1,5 @@
 #include "snake.hpp"
 
-//for testing - remove
-#include <iostream>
-
 bool SnakeSegment::spritesLoaded;
 SnakeHeadSprites SnakeSegment::headSpriteSet;
 SnakeSegmentSprites SnakeSegment::segmentSpriteSet;
@@ -226,8 +223,6 @@ void Snake::Input(std::shared_ptr<SDL_Event> inputEvent)
 
 void Snake::OnCollision(std::shared_ptr<Collision> collision)
 {
-    std::cout << name << " collides with " << collision->Other()->Name() << std::endl;
-
     if (collision->Other()->Name() == "Apple") 
     {
         Grow();
@@ -243,19 +238,6 @@ void Snake::OnCollision(std::shared_ptr<Collision> collision)
 
         OnSnakeDead();
     } 
-}
-
-Vector2D Snake::GetPrevTailPosition()
-{
-    SnakeSegment* tail = segments[segments.size() - 1];
-    Vector2D tailPosition = tail->position;
-    Vector2D tailPrevDirection = tail->prevDirection;
-
-    if (tailPrevDirection == Vector2D::Up()) return Vector2D(tailPosition.X(), tailPosition.Y() + borders->height);
-    else if (tailPrevDirection == Vector2D::Down()) return Vector2D(tailPosition.X(), tailPosition.Y() - borders->height);
-    else if (tailPrevDirection == Vector2D::Right()) return Vector2D(tailPosition.X() - borders->width, tailPosition.Y());
-    else if (tailPrevDirection == Vector2D::Left()) return Vector2D(tailPosition.X() + borders->width, tailPosition.Y());
-    else return tailPosition;
 }
 
 void Snake::Update(double elapsedTime)

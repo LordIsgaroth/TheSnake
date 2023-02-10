@@ -6,8 +6,6 @@
 #include <chrono>
 #include <SDL2/SDL.h>
 
-#include <iostream>
-
 #include "my_little_engine/rendering/rendering_controller.hpp"
 #include "my_little_engine/physics/collision_manager.hpp"
 #include "my_little_engine/events/event_handler.hpp"

@@ -25,9 +25,6 @@ void Interface::CreatePlayAgainButton(int tileSize, int fieldWidth, int fieldHei
 
     playAgainButton = std::make_shared<Button>("Play again", std::move(buttonSpriteRenderer));
 
-    std::cout << buttonSprite->GetSurface().w << std::endl;
-    std::cout << buttonSprite->GetSurface().h << std::endl;
-
     int posX = (tileSize * 2 + tileSize * fieldWidth - buttonSprite->GetSurface().w) / 2;
     int posY = (tileSize * 4 + tileSize * fieldHeight - buttonSprite->GetSurface().h / 2) / 2;
 

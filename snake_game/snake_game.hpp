@@ -4,8 +4,6 @@
 #include <memory>
 #include <vector>
 
-#include <iostream>
-
 #include "my_little_engine/my_little_engine.hpp"
 
 #include "level.hpp"

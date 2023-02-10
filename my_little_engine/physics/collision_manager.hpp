@@ -3,8 +3,6 @@
 #include <memory>
 #include <unordered_map>
 
-#include <iostream>
-
 #include "my_little_engine/objects/game_object.hpp"
 
 class CollisionManager

@@ -3,15 +3,6 @@
 #include "game_object.hpp"
 #include <boost/signals2.hpp>
 
-//testing
-#include <iostream>
-
-// class InterfaceObject : public GameObject
-// {
-    
-
-// };
-
 class Button : public GameObject
 {
 public:
@@ -29,6 +20,6 @@ public:
 protected:
     std::unique_ptr<SpriteRenderer> spriteRenderer;
 
-    //В дальнейшем вывести в какой-либо общий класс
+    //Separate to specific class
     bool PointInRect(Vector2D point, Vector2D rectPosition, const SDL_Rect& rect);  
 };

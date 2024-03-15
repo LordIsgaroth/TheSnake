@@ -4,7 +4,7 @@
 #include <vector>
 #include <unordered_map>
 
-#include "my_little_engine/core/engine.hpp"
+#include "core/engine.hpp"
 #include "game_object.hpp"
 
 class Engine;

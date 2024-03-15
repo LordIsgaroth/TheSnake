@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "my_little_engine/my_little_engine.hpp"
+#include "my_little_engine.hpp"
 
 #include "level.hpp"
 #include "interface.hpp"

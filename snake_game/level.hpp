@@ -7,7 +7,7 @@
 #include <boost/signals2.hpp>
 #include <boost/bind.hpp>
 
-#include "my_little_engine/my_little_engine.hpp"
+#include "my_little_engine.hpp"
 
 #include "tile_sprite_renderer.hpp"
 #include "snake.hpp"

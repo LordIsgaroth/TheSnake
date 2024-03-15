@@ -103,12 +103,13 @@ void Level::CreateAndLoadSnake()
     snake->OnAppleEaten.connect(boost::bind(&Level::AppleEaten, this, boost::placeholders::_1));
     snake->OnSnakeDead.connect(boost::bind(&Level::ShowPlayAgain, this));
     snake->OnSnakeMoved.connect(boost::bind(&Level::FreeSnakeTakenPosition, this, boost::placeholders::_1));
+
     Engine::AddObject(snake);
 
     for (const SnakeSegment* segment : snake->GetSegments())
     {
         field->TakePosition(segment->position);
-    }    
+    }
 }
 
 void Level::LoadBorders()
@@ -161,6 +162,9 @@ void Level::AppleEaten(Vector2D position)
 
 void Level::Reload()
 {
+    snake->OnAppleEaten.disconnect(boost::bind(&Level::AppleEaten, this, boost::placeholders::_1));
+    snake->OnSnakeDead.disconnect(boost::bind(&Level::ShowPlayAgain, this));
+    snake->OnSnakeMoved.disconnect(boost::bind(&Level::FreeSnakeTakenPosition, this, boost::placeholders::_1));
     snake->Destroy();
     appleStorage.RemoveAllApples();
     

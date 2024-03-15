@@ -1,7 +1,0 @@
-make --dry-run --keep-going --print-directory
-make: Entering directory '/home/jared_kane/Projects/Source/C++/TheSnake'
-g++ -o objs/game_controller.o -Wall -g -c game_controller.cpp -I./ -Imy_little_engine -Imy_little_engine/core -Imy_little_engine/common -Imy_little_engine/events -Imy_little_engine/objects -Imy_little_engine/physics -Imy_little_engine/rendering -I.
- 
-g++ -o the_snake ./objs/engine.o ./objs/event_handler.o ./objs/game_object.o ./objs/scene.o ./objs/collision.o ./objs/collision_manager.o ./objs/sprite.o ./objs/renderer.o ./objs/snake.o ./objs/the_snake.o ./objs/snake_game.o ./objs/game_controller.o ./objs/apple.o -lSDL2 -lSDL2_image
-make: Leaving directory '/home/jared_kane/Projects/Source/C++/TheSnake'
- 

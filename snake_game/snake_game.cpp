@@ -19,7 +19,6 @@ void SnakeGame::Load()
 
     Vector2D scoreLabelPosition(((2 * TILE_SIZE + FIELD_WIDTH * TILE_SIZE) / 2) - 150, 0);
     Vector2D gameOverLabelPosition(((2 * TILE_SIZE + FIELD_WIDTH * TILE_SIZE) / 2) - 200, 200);
-
     
     interface->CreateScoreLabel(scoreLabelPosition);
     interface->CreateGameOverLabel(gameOverLabelPosition);

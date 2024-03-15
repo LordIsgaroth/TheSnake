@@ -1,9 +1,10 @@
 #include <stdio.h>
 
-#include "snake_game/snake_game.hpp"
+#include "snake_game.hpp"
 
-int main()
+int main(int argc, char* args[])
 {
+    
     try
     {
         SnakeGame game;

@@ -4,13 +4,13 @@
 #include <memory>
 #include <vector>
 #include <chrono>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
-#include "my_little_engine/rendering/rendering_controller.hpp"
-#include "my_little_engine/physics/collision_manager.hpp"
-#include "my_little_engine/events/event_handler.hpp"
-#include "my_little_engine/objects/game_object.hpp"
-#include "my_little_engine/objects/scene.hpp"
+#include "rendering/rendering_controller.hpp"
+#include "physics/collision_manager.hpp"
+#include "events/event_handler.hpp"
+#include "objects/game_object.hpp"
+#include "objects/scene.hpp"
 
 class EventHandler;
 class Scene;

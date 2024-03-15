@@ -1,6 +1,6 @@
 #pragma once
 
-#include "my_little_engine/my_little_engine.hpp"
+#include "my_little_engine.hpp"
 
 class TileSpriteRenderer : public SpriteRenderer
 {

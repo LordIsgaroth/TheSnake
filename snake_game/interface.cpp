@@ -71,6 +71,6 @@ void Interface::HidePlayAgain()
 
 void Interface::PlayAgain()
 {
-    HidePlayAgain();
+    HidePlayAgain();    
     PlayAgainPressed();
 }

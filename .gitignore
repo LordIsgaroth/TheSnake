@@ -42,3 +42,7 @@ oldcode.txt
 massif.out.5473
 
 massif.out.9053
+
+.vscode/
+
+build/

@@ -2,9 +2,9 @@
 
 #include <vector>
 #include <memory>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
-#include "my_little_engine/core/engine.hpp"
+#include "core/engine.hpp"
 
 #include "event_subject.hpp"
 #include "input_listener.hpp"

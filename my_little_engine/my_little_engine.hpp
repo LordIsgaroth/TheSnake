@@ -1,9 +1,9 @@
 #pragma once
 
-#include "my_little_engine/core/engine.hpp"
-#include "my_little_engine/objects/scene.hpp"
-#include "my_little_engine/objects/game_object.hpp"
-#include "my_little_engine/objects/ui.hpp"
-#include "my_little_engine/common/IObserver.hpp"
-#include "my_little_engine/common/ISubject.hpp"
-#include "my_little_engine/common/vector.hpp"
+#include "core/engine.hpp"
+#include "objects/scene.hpp"
+#include "objects/game_object.hpp"
+#include "objects/ui.hpp"
+#include "common/IObserver.hpp"
+#include "common/ISubject.hpp"
+#include "common/vector.hpp"

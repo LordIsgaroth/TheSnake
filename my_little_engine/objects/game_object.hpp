@@ -3,10 +3,10 @@
 #include <memory>
 #include <string>
 
-#include "my_little_engine/rendering/texture_renderer.hpp"
-#include "my_little_engine/events/input_listener.hpp"
-#include "my_little_engine/physics/collision.hpp"
-#include "my_little_engine/common/vector.hpp"
+#include "rendering/texture_renderer.hpp"
+#include "events/input_listener.hpp"
+#include "physics/collision.hpp"
+#include "common/vector.hpp"
 
 class GameObject : public IInputListener
 {

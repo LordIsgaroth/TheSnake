@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "my_little_engine/common/IObserver.hpp"
+#include "common/IObserver.hpp"
 
 class IInputListener : public IObserver<std::shared_ptr<SDL_Event>>
 {

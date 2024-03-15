@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include "my_little_engine/objects/game_object.hpp"
+#include "objects/game_object.hpp"
 
 class GameObject;
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <SDL.h>
+#include <SDL_image.h>
 
 #include <string>
 #include <memory>
@@ -11,7 +11,7 @@
 
 #include "texture.hpp"
 #include "texture_renderer.hpp"
-#include "my_little_engine/objects/game_object.hpp"
+#include "objects/game_object.hpp"
 
 class RenderingController
 {
